@@ -10803,6 +10803,7 @@ article.article .content pre {
 article.article .content code {
   color: #5e81ac;
   padding: 0;
+  border-radius: 0;
   background: #eceff4;
   overflow-wrap: break-word;
 }
