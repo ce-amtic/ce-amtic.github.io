@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="generator" content="Hexo 4.2.0"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>强连通分量 - bn&#039; Blog</title><meta description="Tarjan陪伴强连通分量，生成树完成后思路才闪光。Euler跑过的七桥古塘让你，心驰神往……"><meta property="og:type" content="blog"><meta property="og:title" content="强连通分量"><meta property="og:url" content="https://big-news.cn/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/"><meta property="og:site_name" content="bn&#039; Blog"><meta property="og:description" content="Tarjan陪伴强连通分量，生成树完成后思路才闪光。Euler跑过的七桥古塘让你，心驰神往……"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://upl.big-news.cn/2019/07/16/5d2d54141cf79.jpg"><meta property="article:published_time" content="2019-02-07T13:15:00.000Z"><meta property="article:modified_time" content="2020-08-08T14:52:40.121Z"><meta property="article:author" content="big-news"><meta property="article:tag" content="算法"><meta property="article:tag" content="图论"><meta property="article:tag" content="强连通分量"><meta property="article:tag" content="缩点"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="https://upl.big-news.cn/2019/07/16/5d2d54141cf79.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://big-news.cn/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/"},"headline":"bn' Blog","image":["https://upl.big-news.cn/2019/07/16/5d2d54141cf79.jpg"],"datePublished":"2019-02-07T13:15:00.000Z","dateModified":"2020-08-08T14:52:40.121Z","author":{"@type":"Person","name":"big-news"},"description":"Tarjan陪伴强连通分量，生成树完成后思路才闪光。Euler跑过的七桥古塘让你，心驰神往……"}</script><link rel="canonical" href="https://big-news.cn/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/"><link rel="icon" href="/img/favicon.ico"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/zenburn.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.png" alt="bn&#039; Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">首页</a><a class="navbar-item" href="/archives">归档</a><a class="navbar-item" href="/tags">标签</a><a class="navbar-item" href="/categories">分类</a><a class="navbar-item" href="/friends.html">友链</a><a class="navbar-item" href="/about">关于</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="GitHub Page" href="https://ce-amtic.github.io/"><i class="fas fa-compass"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="thumbnail" src="https://upl.big-news.cn/2019/07/16/5d2d54141cf79.jpg" alt="强连通分量"></span></div><article class="card-content article" role="article"><div class="article-meta size-small is-uppercase level is-mobile"><div class="level-left"><time class="level-item" dateTime="2019-02-07T13:15:00.000Z" title="2019-02-07T13:15:00.000Z">2019-02-07</time><span class="level-item"><a class="link-muted" href="/categories/OI%E7%AC%94%E8%AE%B0/">OI笔记</a></span><span class="level-item">21 分钟 读完 (大约 3129 个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">强连通分量</h1><div class="content"><p>Tarjan陪伴强连通分量，<br>生成树完成后思路才闪光。<br>Euler跑过的七桥古塘<br>让你，心驰神往……</p>
+<a id="more"></a>
+
+<p>封面图来自<a href="https://source.unsplash.com/700x400/?computer,code,cpp">unsplash.com</a>。</p>
+<h1 id="一-定义"><a href="#一-定义" class="headerlink" title="一 定义"></a>一 定义</h1><h2 id="1-强连通"><a href="#1-强连通" class="headerlink" title="1 强连通"></a>1 强连通</h2><p>在有向图 $ G $ 中，选出 $ n $ 个点，使得这些点两两可达，则称这些点<strong>强连通</strong>。</p>
+<p>有向图 $ G $ 上强连通的的顶点，被称为 $ G $ 的<strong>强连通子图</strong>。<br>显然，一个有向环上的点一定是强连通的（或说强连通子图中一定存在一个环）。</p>
+<p>若 $ G $ 整体强连通，则称 $ G $ 为一个<strong>强连通图</strong>。</p>
+<h2 id="2-强连通分量"><a href="#2-强连通分量" class="headerlink" title="2 强连通分量"></a>2 强连通分量</h2><p>在非强连通图 $ G’ $ 中，极大强连通子图称为 $ G’ $ 的强连通分量（Strongly Connected Components，SCC）。注意<strong>极大</strong>的概念，它强调相对于自身无法继续扩大。</p>
+<p>如下图，SCC有 $ \begin{Bmatrix}1,2,3,4\end{Bmatrix} $ ， $ \begin{Bmatrix}5\end{Bmatrix} $ 和 $ \begin{Bmatrix}6\end{Bmatrix} $ 。其中强连通子图还有 $ \begin{Bmatrix}1,3,4\end{Bmatrix} $ ，但是它不“极大”（因为它还可以扩大为 $ \begin{Bmatrix}1,2,3,4\end{Bmatrix} $ ），所以不是SCC。</p>
+<p><img src="https://upl.big-news.cn/2019/07/16/5d2d541376a10.png" alt="1.2.1"></p>
+<hr>
+<h1 id="二-Tarjan算法"><a href="#二-Tarjan算法" class="headerlink" title="二 Tarjan算法"></a>二 Tarjan算法</h1><blockquote>
+<p>Robert Tarjan（1984~），美帝人，计算机科学家，以LCA、强连通分量等算法闻名。</p>
+</blockquote>
+<h2 id="1-dfs树"><a href="#1-dfs树" class="headerlink" title="1 dfs树"></a>1 dfs树</h2><p>学习tarjan的玄学算法，我们首先要了解dfs树，即把一张有向连通图转化为一棵搜索树。</p>
+<p>树上的一些定义：</p>
+<ul>
+<li>$ \text{dfn} $ （dfs number）：结点第一次被访问的时间（起点为 $ 1 $ ，每次搜索 $ +1 $ ）</li>
+<li>$ \text{low} $ ：结点所能到达的最小 $ \text{dfn} $ 值</li>
+<li>树边：dfs树上应有的边，又父节点指向子节点</li>
+<li>返祖边：dfs树上不应有的边，且该边由子辈节点指向父辈节点（注意这里不一定是父子节点）</li>
+<li>横叉边：dfs树上不应有的边，且该边连接的两个点无父子辈关系（注意横叉边一定由 $ \text{dfn} $ 值大的节点指向 $ \text{dfn} $ 值小的节点，否则它是树边）</li>
+</ul>
+<p>上图的dfs树，以 $ 1 $ 为起点。<br><img src="https://upl.big-news.cn/2019/07/16/5d2d541397a43.png" alt="2.1.1"><br>图中 $ 5 $ 节点的 $ \text{low} $ 值为 $ 5 $ 而不是 $ 4 $ ，是因为横插边 $ (5,6) $ 会被忽略，下面会讲。</p>
+<h2 id="2-处理思路"><a href="#2-处理思路" class="headerlink" title="2 处理思路"></a>2 处理思路</h2><p>SCC中一定存在若干个环，那么我们可以通过找环来判断是否找到了SCC。</p>
+<h3 id="2-1-怎么判断环的有无"><a href="#2-1-怎么判断环的有无" class="headerlink" title="2-1 怎么判断环的有无"></a>2-1 怎么判断环的有无</h3><p>当存在一个节点  $ u $  ，使得  $ \text{dfn}[u] = \text{low}[u] $  时，那么就发现了一个环。从定义看，这代表从当前节点出发能到达的最早的祖先是当前节点，也就是说递归“绕回来了”，那么就一定存在环。这个环也包括自环，这需要默认每个节点初始状态下都存在自环，即初始化 $ \text{low}[u] = \text{dfn}[u] $ 。</p>
+<p><strong>那么剩下的问题就是怎么计算</strong> $ \text{low}[u] $ <strong>。</strong><br>假设存在边 $ (u,v) $ ，那么这条边有以下三种可能。</p>
+<ol>
+<li>边 $ (u,v) $ 为树边。那么向下dfs节点 $ v $ ， $ \text{low}[u] $ 可由 $ \text{low}[v] $ 推得，即 $ \text{low}[u] = \text{low}[v] $ 。</li>
+<li>边 $ (u,v) $ 为返祖边。根据 $ \text{low} $ 的定义，直接更新 $ \text{low}[u] $ ，即 $ \text{low}[u] = \text{dfn}[v] $ 。此处也可以直接令 $ \text{low}[u] = \text{low}[v] $ ，因为 $ v $ 能到达的的祖先也可以被 $ u $ 到达，通过多条返祖边即可。</li>
+<li>边 $ (u,v) $ 为横叉边。此时分情况处理，详见<a href="https://big-news.cn/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/#2-3-%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%E6%A8%AA%E5%8F%89%E8%BE%B9">二.2-3</a>。</li>
+</ol>
+<h3 id="2-2-怎么维护SCC"><a href="#2-2-怎么维护SCC" class="headerlink" title="2-2 怎么维护SCC"></a>2-2 怎么维护SCC</h3><p>判环只能发现SCC，我们还需要维护SCC中的节点。</p>
+<p>考虑用一个栈（stack）来实现。<br>每次深搜时，把节点的编号入栈。回溯时，仅当某节点处出现环，且子树都检索完毕（也就是说子树中所有不在环上的点都已经 入/出栈 完成），此时出栈至该节点为止。那么此时该节点以上的所有栈内元素均可以互达，均在一个环上，均属同一个SCC。</p>
+<h3 id="2-3-怎么处理横叉边"><a href="#2-3-怎么处理横叉边" class="headerlink" title="2-3 怎么处理横叉边"></a>2-3 怎么处理横叉边</h3><p>假设当前节点为 $ u $ ，有一条到 $ v $ 的横叉边 $ (u,v) $ 。<br><strong>如果从</strong> $ v $ <strong>处出发，能直接或间接地到达</strong> $ u,v $ <strong>的公共祖先（不一定最近），那么这条横叉边应该被重视</strong>，因为这样就会出现环。反之，这条横叉边就应该被忽略。</p>
+<p>假设存在一条返祖边 $ (v,a) $ ， $ a $ 为 $ v $ 能回到的最远祖先。<br>那么当 $ u $ 在以 $ a $ 为根的子树中时，横叉边被重视，反之被忽略。</p>
+<p><strong>再看上述维护方法：</strong><br>当 $ u $ 不在以 $ a $ 为根的子树中，当检索到 $ u $ 时，因为横叉边一定从后访问的节点指向先访问的节点，那么 $ v $ 一定被检索过。 $ a $ 是 $ v $ 的祖先，那么子树 $ a $ 一定已经检索完成。因为存在返祖边 $ (v,a) $ ，所以此时存在从 $ a $ 出发的环，那么子树 $ a $ 必然已经出栈，此时 $ v $ 不在栈内。</p>
+<p>同理可知，<strong>若 $ u $ 在以 $ a $ 为根的子树中，则此时 $ v $ 一定在栈内。</strong>于是我们可以知道，当且仅当 $ v $ 在栈内时，横叉边 $ (u,v) $ 应被重视，需要更新 $ \text{low}[u] = \text{low}[v] $ ，回答了上文<a href="https://big-news.cn/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/#2-1-%E6%80%8E%E4%B9%88%E5%88%A4%E6%96%AD%E7%8E%AF%E7%9A%84%E6%9C%89%E6%97%A0">二.2-1</a>中留下的问题。</p>
+<h2 id="3-流程"><a href="#3-流程" class="headerlink" title="3 流程"></a>3 流程</h2><p>手推对于上图的 tarjan 算法。代码见<a href="https://big-news.cn/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/#4-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0">二.4</a>。</p>
+<p><strong>Step 1</strong><br>扫描到节点 $ 1 $ ，节点入栈。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 2</strong><br>访问边 $ (1,2) $ ，扫描到节点 $ 2 $ ，节点入栈。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 3</strong><br>访问边 $ (2,4) $ ，扫描到节点 $ 4 $ ，节点入栈。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 4</strong><br>访问边 $ (4,6) $ ，扫描到节点 $ 6 $ ，节点入栈。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>6</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 5</strong><br>节点 $ 6 $ 无出度，且存在自环（ $ dfn[6]=low[6] $ ），出栈至节点 $ 6 $ ，回溯至节点 $ 4 $ 。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>发现强连通分量 $ {6} $ </p>
+</blockquote>
+<p><strong>Step 6</strong><br>发现返祖边 $ (4,1) $ ，更新 $ 4 $ 的 $ \text{low} $ 值，不出栈并回溯至节点 $ 2 $ 。</p>
+<p> $ 2 $ 的 $ \text{low} $ 值更新。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>n/a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td><strong>1</strong></td>
+<td>n/a</td>
+<td><strong>1</strong></td>
+<td>n/a</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 7</strong><br>发现边 $ (2,5) $ ，扫描至节点 $ 5 $ ，入栈。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>1</td>
+<td>n/a</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>5</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 8</strong><br>发现横叉边 $ (5,6) $ ，此时 $ 6 $ 不在栈内，忽略该横叉边。出栈至节点 $ 5 $ ，回溯至节点 $ 2 $ 。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>n/a</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>1</td>
+<td>n/a</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>发现强连通分量 $ {5} $ </p>
+</blockquote>
+<p><strong>Step 9</strong><br>回溯至节点 $ 1 $ ，扫描边 $ (1,3) $ ，节点 $ 3 $ 入栈。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>6</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>1</td>
+<td>6</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Step 10</strong><br>发现横叉边  $ (3,4) $  ，此时  $ 4 $  在栈内，用  $ 4 $  的  $ \text{low} $  值更新  $ 3 $  的  $ \text{low} $  值。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>6</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>1</td>
+<td><strong>1</strong></td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>3</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>Final</strong><br>回溯至节点 $ 1 $ ，出栈至栈空，算法结束。</p>
+<table>
+<thead>
+<tr>
+<th>cde</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dfn</td>
+<td>1</td>
+<td>2</td>
+<td>6</td>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>low</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>stack</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>发现强连通分量 $ {1,2,3,4} $ </p>
+</blockquote>
+<h2 id="4-代码实现"><a href="#4-代码实现" class="headerlink" title="4 代码实现"></a>4 代码实现</h2><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> CP=<span class="number">1e3</span>+<span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> dfn[CP],low[CP],idx=<span class="number">0</span>,stk[CP],top=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">bool</span> ins[CP]; <span class="comment">// 是否在栈中</span></span><br><span class="line"><span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tarjan</span><span class="params">(<span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    dfn[cur] = low[cur] = ++idx; <span class="comment">//设置初始值</span></span><br><span class="line">    stk[++top] = cur; ins[cur] = <span class="literal">true</span>; <span class="comment">//节点入栈</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=hd[cur]; k; k=E[k].nxt)&#123; <span class="comment">//遍历边表</span></span><br><span class="line">        <span class="keyword">int</span> to=E[k].to; <span class="comment">//边的终点        </span></span><br><span class="line">        <span class="keyword">if</span>(!dfn[to])&#123; <span class="comment">//未被访问，说明这是树边</span></span><br><span class="line">            tarjan(to); <span class="comment">//深搜</span></span><br><span class="line">            low[cur] = min(low[cur], low[to]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(ins[to]) <span class="comment">//已经访问且在栈内，说明这是返祖边或需要重视的横叉边</span></span><br><span class="line">            low[cur] = min(low[cur], low[to]); <span class="comment">//此处写成low[cur] = min(low[cur], dfn[to])也没有问题</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(dfn[cur] == low[cur])&#123; <span class="comment">//发现环</span></span><br><span class="line">        ans++; <span class="comment">//计数</span></span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> pos=stk[top--];</span><br><span class="line">            ins[pos] = <span class="literal">false</span>; <span class="comment">//标记去除            </span></span><br><span class="line">            <span class="keyword">if</span>(pos == cur) <span class="keyword">break</span>; <span class="comment">//出栈至当前节点</span></span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">scc</span><span class="params">()</span></span>&#123; <span class="comment">//主求解函数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="keyword">if</span>(!dfn[i]) tarjan(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="三-缩点"><a href="#三-缩点" class="headerlink" title="三 缩点"></a>三 缩点</h1><h2 id="1-模型"><a href="#1-模型" class="headerlink" title="1 模型"></a>1 模型</h2><p>给定一张有向图 $ G_0 $ ，不保证无环，图上的节点有点权（正权，注意无法处理负环），要求找一条从起点到终点的路径，使得经过节点的点权和存在最大值。对于每条边，可以走多次。对于每个节点，点权仅计算一次。</p>
+<p>怎么解决呢？</p>
+<p>先考虑无环时的情况，那么只需要一遍DP（记忆化搜索）就可以解决问题。<br>再考虑环。对于任意一个环，如果走这个环，那么一定要全走才能获得最大价值，也就是一条环的价值可以被看作一个点的价值。一条环一定是强连通的，那么我们只需要求出 $ G_0 $ 的所有的强连通子图，分别统计它们的点权（累加环上点权和），并重新建图连边。<br>于是我们会得到一个有向无环图（Directed Acyclic Graph，DAG）。借用无环时的解决方案即可解决问题。</p>
+<h2 id="2-代码实现"><a href="#2-代码实现" class="headerlink" title="2 代码实现"></a>2 代码实现</h2><p>边表</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">fs</span>&#123;</span></span><br><span class="line">  <span class="keyword">public</span>:</span><br><span class="line">      <span class="keyword">int</span> to,nxt;</span><br><span class="line">&#125;E[CON];</span><br><span class="line"><span class="keyword">int</span> hd[CON],cnt=<span class="number">0</span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">E_add</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">    E[++cnt].to=y;</span><br><span class="line">    E[cnt].nxt=hd[x];</span><br><span class="line">    hd[x]=cnt;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">E_init</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(hd,<span class="number">0</span>,<span class="keyword">sizeof</span>(hd));</span><br><span class="line">    <span class="built_in">memset</span>(E,<span class="number">0</span>,<span class="keyword">sizeof</span>(E));</span><br><span class="line">    cnt=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>算法</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> dfn[CON],low[CON],idx=<span class="number">0</span>,stk[CON],top=<span class="number">0</span>,belong[CON];</span><br><span class="line"><span class="keyword">bool</span> ins[CON];</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">tarjan</span><span class="params">(<span class="keyword">int</span> cur)</span></span>&#123;</span><br><span class="line">    dfn[cur] = low[cur] = ++idx;</span><br><span class="line">    stk[++top] = cur; ins[cur] = <span class="literal">true</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=hd[cur]; k; k=E[k].nxt) &#123;</span><br><span class="line">        <span class="keyword">int</span> to=E[k].to;    </span><br><span class="line">        <span class="keyword">if</span>(!dfn[to])&#123;</span><br><span class="line">            tarjan(to);</span><br><span class="line">            low[cur] = min(low[cur], low[to]); </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(ins[to]) low[cur] = min(low[cur], low[to]);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(dfn[cur] == low[cur])&#123; <span class="comment">//出现环，则定义cur为当前环的根（因为它先被扫描到）</span></span><br><span class="line">        <span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="literal">true</span>)&#123; </span><br><span class="line">            <span class="keyword">int</span> pos = stk[top--]; ins[pos] = <span class="literal">false</span>;</span><br><span class="line">            sum += c[pos];</span><br><span class="line">            c[pos] = <span class="number">0</span>; <span class="comment">//这样不是根的节点c值一定为0</span></span><br><span class="line">            belong[pos] = cur; <span class="comment">//染色，即记录环的根</span></span><br><span class="line">            <span class="keyword">if</span>(pos==cur) <span class="keyword">break</span>;</span><br><span class="line">        &#125;        </span><br><span class="line">        c[cur] = sum; <span class="comment">//将环上点的权值累加入根的权值</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">scc</span><span class="params">()</span></span>&#123; <span class="comment">//主求解函数</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="keyword">if</span>(!dfn[i]) tarjan(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//dp</span></span><br><span class="line"><span class="keyword">int</span> f[CON]; <span class="comment">//f[i]为从i出发的最优解 </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dp</span><span class="params">(<span class="keyword">int</span> cur)</span></span>&#123; <span class="comment">//记忆化搜索</span></span><br><span class="line">    <span class="keyword">if</span>(f[cur]) <span class="keyword">return</span> f[cur];</span><br><span class="line">    f[cur] = c[cur]; <span class="comment">//初始化    </span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=hd[cur]; k; k=E[k].nxt)</span><br><span class="line">        f[cur] = max(f[cur], dp(E[k].to)+c[cur]); <span class="comment">//转移方程</span></span><br><span class="line">    <span class="keyword">return</span> f[cur];<span class="comment">//返回解</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">solve</span><span class="params">()</span></span>&#123;</span><br><span class="line">    E_init(); <span class="comment">//边表初始化</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)</span><br><span class="line">        <span class="keyword">if</span>(belong[x[i]] != belong[y[i]]) <span class="comment">//不在一个环上，避免连出自环边</span></span><br><span class="line">            E_add(belong[x[i]], belong[y[i]]); <span class="comment">//将两个强连通子图的根连边。原图中x[i]-&gt;y[i]存在边</span></span><br><span class="line">           </span><br><span class="line">    <span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=n;i++) <span class="comment">//枚举起点</span></span><br><span class="line">        <span class="keyword">if</span>(c[i]) ans=max(ans, dp(i)); <span class="comment">//是根，更新答案</span></span><br><span class="line">            </span><br><span class="line">    <span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-推论"><a href="#3-推论" class="headerlink" title="3 推论"></a>3 推论</h2><blockquote>
+<p>设一有向联通图缩点后得到图 $ G’ $ ，且在 $ G’ $ 中，入度为 $ 0 $ 的点（DAG的起点）有 $ x $ 个，出度为 $ 0 $ 的点（DAG的终点）有 $ y $ 个。</p>
+</blockquote>
+<ol>
+<li>图 $ G’ $ 必为一个DAG。</li>
+<li>选出最少的点，使得从这些点出发，可以到达整个图。则这个最小值一定为 $ x $ 。（必要性：不从起点出发那么起点永远无法到达。 最优性：考虑任意一个非起点的点，从它出发一定比从它的起点出发覆盖的节点少。）</li>
+<li>选出最少的点，使得从任意点出发，可以到达这些点。则这个最小值一定为 $ y $ 。（必要性：终点本身无法到达任何点，那么不选中终点显然是不合法的。 最优性：终点既然必定选中，且选中所有终点一定合法，那么不需要再选中其它点。）</li>
+<li>添加最少的边，使得 $ G’ $ 成为一个强连通图，则这个最小值一定为 $ \max x,y $ 。（考虑终点向起点对应连边。）</li>
+</ol>
+<p> $$  - - - - \mathcal{End} - - - -   $$ </p>
+<p><code>最近更新: 2019-4-9 梳理了部分不清楚的描述。</code></p>
+</div><div class="article-tags size-small mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%9B%BE%E8%AE%BA/">图论</a><a class="link-muted mr-2" rel="tag" href="/tags/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/">强连通分量</a><a class="link-muted mr-2" rel="tag" href="/tags/%E7%BC%A9%E7%82%B9/">缩点</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2019/02/12/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">拓扑排序</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2019/02/04/%E4%BA%8C%E5%88%86%E5%9B%BE%E5%8C%B9%E9%85%8D/"><span class="level-item">二分图匹配</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">评论</h3><div class="content" id="valine-thread"></div><script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js"></script><script>new Valine({
+            el: '#valine-thread' ,
+            appId: "J8OJ7MUCd2S0T59f6kSUn4E7-gzGzoHsz",
+            appKey: "GToPzNfPvMfduDLYX58Pi03F",
+            placeholder: "说些什么...",
+            avatar: "mm",
+            
+            meta: ["nick","mail","link"],
+            pageSize: 10,
+            lang: "zh-CN",
+            
+            highlight: true,
+            
+            
+            
+            
+            
+            requiredFields: [],
+        });</script></div></div></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1"><div class="card widget"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="big-news"></figure><p class="title is-size-4 is-block line-height-inherit">big-news</p><p class="is-size-6 is-block">echo.</p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">120</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">10</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">81</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://big-news.cn/about/" target="_blank" rel="noopener">关于</a></div><div class="level is-mobile"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="RSS" href="https://big-news.cn/atom.xml"><i class="fas fa-rss"></i></a></div></div></div><div class="card widget"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile is-mobile" href="https://loj.ac/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Libre OJ</span></span><span class="level-right"><span class="level-item tag">loj.ac</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://oi-wiki.org/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">OI Wiki</span></span><span class="level-right"><span class="level-item tag">oi-wiki.org</span></span></a></li><li><a class="level is-mobile is-mobile" href="http://www.cplusplus.com/reference/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Reference</span></span><span class="level-right"><span class="level-item tag">www.cplusplus.com</span></span></a></li><li><a class="level is-mobile is-mobile" href="https://csacademy.com/app/graph_editor/" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Graph Editor</span></span><span class="level-right"><span class="level-item tag">csacademy.com</span></span></a></li></ul></div></div></div><div class="column-right-shadow is-hidden-widescreen"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3"><div class="card widget"><div class="card-content"><h3 class="menu-label">阅读推荐</h3><article class="media"><a class="media-left" href="/2019/03/29/OI%E6%A8%A1%E6%9D%BF%E6%A2%B3%E7%90%86/"><p class="image is-64x64"><img class="thumbnail" src="https://upl.big-news.cn/2019/08/09/photo-1489173910031-3df3560eee9b.jpg" alt="OI模板梳理"></p></a><div class="media-content size-small"><p><time dateTime="2019-03-29T12:45:00.000Z">2019-03-29</time></p><p class="title is-6"><a class="link-muted" href="/2019/03/29/OI%E6%A8%A1%E6%9D%BF%E6%A2%B3%E7%90%86/">OI模板梳理</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/OI%E7%AC%94%E8%AE%B0/">OI笔记</a></p></div></article><article class="media"><a class="media-left" href="/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/"><p class="image is-64x64"><img class="thumbnail" src="https://upl.big-news.cn/2019/07/16/5d2d54141cf79.jpg" alt="强连通分量"></p></a><div class="media-content size-small"><p><time dateTime="2019-02-07T13:15:00.000Z">2019-02-07</time></p><p class="title is-6"><a class="link-muted" href="/2019/02/07/%E5%BC%BA%E8%BF%9E%E9%80%9A%E5%88%86%E9%87%8F/">强连通分量</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/OI%E7%AC%94%E8%AE%B0/">OI笔记</a></p></div></article><article class="media"><a class="media-left" href="/2019/07/18/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/"><p class="image is-64x64"><img class="thumbnail" src="https://upl.big-news.cn/2019/08/12/photo-1532256791400-f02a086ca4bd.jpg" alt="树链剖分"></p></a><div class="media-content size-small"><p><time dateTime="2019-07-18T12:20:00.000Z">2019-07-18</time></p><p class="title is-6"><a class="link-muted" href="/2019/07/18/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/">树链剖分</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/OI%E7%AC%94%E8%AE%B0/">OI笔记</a></p></div></article><article class="media"><a class="media-left" href="/2020/01/24/%E9%99%A4%E5%A4%95%E9%97%B2%E6%89%AF/"><p class="image is-64x64"><img class="thumbnail" src="https://upl.big-news.cn/2020/01/24/karina-vorozheeva-63frv9titrm-unsplash.jpg" alt="除夕闲扯"></p></a><div class="media-content size-small"><p><time dateTime="2020-01-23T22:47:00.000Z">2020-01-24</time></p><p class="title is-6"><a class="link-muted" href="/2020/01/24/%E9%99%A4%E5%A4%95%E9%97%B2%E6%89%AF/">除夕闲扯</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/%E6%9D%82%E8%B0%88/">杂谈</a></p></div></article><article class="media"><a class="media-left" href="/2020/08/07/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6%E5%86%8D%E5%9F%BA%E7%A1%80/"><p class="image is-64x64"><img class="thumbnail" src="https://upl.big-news.cn/2020/08/08/photo-1518133910546-b6c2fb7d79e3.jpg" alt="组合数学再基础"></p></a><div class="media-content size-small"><p><time dateTime="2020-08-07T06:00:00.000Z">2020-08-07</time></p><p class="title is-6"><a class="link-muted" href="/2020/08/07/%E7%BB%84%E5%90%88%E6%95%B0%E5%AD%A6%E5%86%8D%E5%9F%BA%E7%A1%80/">组合数学再基础</a></p><p class="is-uppercase"><a class="link-muted" href="/categories/OI%E7%AC%94%E8%AE%B0/">OI笔记</a></p></div></article></div></div><div class="card widget" id="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">目录</h3><ul class="menu-list"><li><a class="is-flex" href="#一-定义"><span class="nonedisplay">1</span><span>一 定义</span></a><ul class="menu-list"><li><a class="is-flex" href="#1-强连通"><span class="nonedisplay">1.1</span><span>1 强连通</span></a></li><li><a class="is-flex" href="#2-强连通分量"><span class="nonedisplay">1.2</span><span>2 强连通分量</span></a></li></ul></li><li><a class="is-flex" href="#二-Tarjan算法"><span class="nonedisplay">2</span><span>二 Tarjan算法</span></a><ul class="menu-list"><li><a class="is-flex" href="#1-dfs树"><span class="nonedisplay">2.1</span><span>1 dfs树</span></a></li><li><a class="is-flex" href="#2-处理思路"><span class="nonedisplay">2.2</span><span>2 处理思路</span></a><ul class="menu-list"><li><a class="is-flex" href="#2-1-怎么判断环的有无"><span class="nonedisplay">2.2.1</span><span>2-1 怎么判断环的有无</span></a></li><li><a class="is-flex" href="#2-2-怎么维护SCC"><span class="nonedisplay">2.2.2</span><span>2-2 怎么维护SCC</span></a></li><li><a class="is-flex" href="#2-3-怎么处理横叉边"><span class="nonedisplay">2.2.3</span><span>2-3 怎么处理横叉边</span></a></li></ul></li><li><a class="is-flex" href="#3-流程"><span class="nonedisplay">2.3</span><span>3 流程</span></a></li><li><a class="is-flex" href="#4-代码实现"><span class="nonedisplay">2.4</span><span>4 代码实现</span></a></li></ul></li><li><a class="is-flex" href="#三-缩点"><span class="nonedisplay">3</span><span>三 缩点</span></a><ul class="menu-list"><li><a class="is-flex" href="#1-模型"><span class="nonedisplay">3.1</span><span>1 模型</span></a></li><li><a class="is-flex" href="#2-代码实现"><span class="nonedisplay">3.2</span><span>2 代码实现</span></a></li><li><a class="is-flex" href="#3-推论"><span class="nonedisplay">3.3</span><span>3 推论</span></a></li></ul></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.png" alt="bn&#039; Blog" height="28"></a><p class="size-small"><span>&copy; 2020 big-news</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="size-small"><a class="link-muted" href="https://big-news.cn/port/index.html" target="_blank">Port</a>  |  <a class="link-muted" href="http://beian.miit.gov.cn/" target="_blank">鲁ICP备19035721号-1</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="fab fa-creative-commons-nc"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Share Alike" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"><i class="fab fa-creative-commons-sa"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            site: {
+                url: 'https://big-news.cn',
+                external_link: {"enable":true,"exclude":[]}
+            },
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/x-mathjax-config">MathJax.Hub.Config({
+            'HTML-CSS': {
+                matchFontHeight: false
+            },
+            SVG: {
+                matchFontHeight: false
+            },
+            CommonHTML: {
+                matchFontHeight: false
+            },
+            tex2jax: {
+                inlineMath: [
+                    ['$','$'],
+                    ['\\(','\\)']
+                ]
+            }
+        });</script><script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
