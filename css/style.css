@@ -1835,8 +1835,8 @@ a.list-item {
   color: #363636;
 }
 .menu-list a.is-active {
-  background-color: #3273dc;
-  color: #fff;
+  background-color: #eef3fc;
+  color: #3273dc;
 }
 .menu-list li ul {
   border-left: 1px solid #dbdbdb;
@@ -10244,9 +10244,6 @@ html {
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
-.nonedisplay {
-  display: none;
-}
 body {
   min-height: 100%;
   display: flex;
@@ -10803,8 +10800,7 @@ article.article .content pre {
 article.article .content code {
   color: #5e81ac;
   padding: 0;
-  border-radius: 0;
-  background: #eceff4;
+  background: transparent;
   overflow-wrap: break-word;
 }
 article.article .content blockquote.pullquote {
