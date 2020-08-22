@@ -11413,6 +11413,9 @@ figure.highlight .section {
     padding: 1.5rem 1rem;
   }
 }
+.nonedisplay {
+  display: none;
+}
 body {
   counter-reset: card;
 }
