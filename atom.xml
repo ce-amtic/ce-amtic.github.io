@@ -279,11 +279,11 @@
       <category term="OI笔记" scheme="https://big-news.cn/categories/OI%E7%AC%94%E8%AE%B0/"/>
     
     
-      <category term="字符串" scheme="https://big-news.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
-    
       <category term="KMP" scheme="https://big-news.cn/tags/KMP/"/>
     
       <category term="AC自动机" scheme="https://big-news.cn/tags/AC%E8%87%AA%E5%8A%A8%E6%9C%BA/"/>
+    
+      <category term="字符串" scheme="https://big-news.cn/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
     
   </entry>
   
