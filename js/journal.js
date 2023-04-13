@@ -1,5 +1,4 @@
 // headerlink
-
 $("a.headerlink").each(function () {
     var $a = $(this);
     $a.addClass("processed");

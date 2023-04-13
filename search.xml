@@ -1,213 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/post/helloworld/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span></code></pre>
 
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="hljs bash">$ hexo server</code></pre>
 
-<!DOCTYPE html>
-<html lang="en">
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="hljs bash">$ hexo generate</code></pre>
 
-<head>
-    <title>template 的构建 - ce_amtic&#39;s</title>
-<meta charset="utf-8">
-<meta name="X-UA-Compatible" content="IE=edge">
-<meta name="author" content="ce_amtic">
-<meta name="description" content="template 是处理 hexo 问题的 markdown。本文主要介绍它的 -1 种离线构建方法，并给出了一些应用。对于任意一个 template，我们可以认为其不存在的项全部等于 0，然后将其看作一个无穷的数列。考虑系数的变化，那么 218105633 次变化之后就是十六进制 0x0d00，这就是原根带给我骄傲的资本。">
-<meta name="keywords" content="">
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="hljs bash">$ hexo deploy</code></pre>
 
-<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
-
-    <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <meta name="theme-color" content="#ffffff">
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?23391966">
-
-<link rel="icon" href="/img/favicon.ico">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.2.0/styles/atom-one-light.css" crossorigin="anonymous">
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora|Montserrat|Anonymous+Pro:400|Material+Icons">
-
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
-<body>
-<div id="top"></div>
-
-<div id="app">
-<div class="single-column-drawer-container" ref="drawer"
-     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
-    <div class="drawer-content">
-        <div class="drawer-menu">
-            <a class="a-block drawer-menu-item false" href="https://ce-amtic.github.io">
-                Home
-            </a>
-
-            
-                
-                    <a class="a-block drawer-menu-item false"
-                       href="/search">
-                        Search
-                    </a>
-                
-                    <a class="a-block drawer-menu-item false"
-                       href="/archives">
-                        Archive
-                    </a>
-                
-                    <a class="a-block drawer-menu-item false"
-                       href="/tags">
-                        Tags
-                    </a>
-                
-                    <a class="a-block drawer-menu-item false"
-                       href="/about">
-                        About
-                    </a>
-                
-            
-        </div>
-    </div>
-</div>
-<transition name="fade">
-    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
-</transition>
-<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
-    <div ref="navBackground" class="nav-background"></div>
-    <div class="container container-narrow nav-content">
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
-            <i class="material-icons">
-                menu
-            </i>
-        </button>
-        <a ref="navTitle" class="navbar-brand" href="/">
-            ce_amtic&#39;s
-        </a>
-    </div>
-</nav>
-<div class="single-column-header-container" ref="pageHead"
-     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
-    <a href="/">
-        <div class="single-column-header-title">ce_amtic&#39;s</div>
-        <div class="single-column-header-subtitle"></div>
-    </a>
-</div>
-
-<div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head false" href="/">
-        <div class="nav-title">
-            ce-amtic's.
-        </div>
-        <div class="nav-subtitle">
-            隻言片語<br>於此匯聚
-        </div>
-    </a>
-
-    <div class="nav-link-list">
-        
-            
-                <a class="a-block nav-link-item false"
-                   href="/search">
-                    Search
-                </a>
-            
-                <a class="a-block nav-link-item false"
-                   href="/archives">
-                    Archive
-                </a>
-            
-                <a class="a-block nav-link-item false"
-                   href="/tags">
-                    Tags
-                </a>
-            
-                <a class="a-block nav-link-item false"
-                   href="/about">
-                    About
-                </a>
-            
-        
-    </div>
-
-    
-    <div class="nav-footer">
-        Built with <a href="https://hexo.io/" target="_blank">Hexo</a><br>
-        
-        Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-        
-        &copy; 2023 <a href="https://ce-amtic.github.io">ce_amtic</a>
-    </div>
-</div>
-
-<div ref="extraContainer" class="extra-container">
-    <div class="pagination">
-        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
-            <i class="material-icons pagination-action-icon">
-                keyboard_arrow_up
-            </i>
-        </a>
-
-        
-    </div>
-</div>
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        showProcessingMessages: false,
-        messageStyle: "none",
-        extensions: ["tex2jax.js"],
-        jax: ["input/TeX", "output/HTML-CSS"],
-        tex2jax: {
-            inlineMath:  [ ["$", "$"] ],
-            displayMath: [ ["$$","$$"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
-            ignoreClass:"comment-content"
-        },
-        "HTML-CSS": {
-            availableFonts: ["STIX","TeX"],
-            showMathMenu: true
-        }
-    });
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-</script>
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-
-
-
-<div ref="streamContainer" class="stream-container">
-    <div class="post-list-container post-list-container-shadow">
-        <div class="post">
-            <div class="post-head-wrapper-text-only"
-                 style="background-image: url('')">
-                <div class="post-title">
-                    template 的构建
-                    <div class="post-meta">
-                        <time datetime="2020-12-18T03:33:00.000Z" itemprop="datePublished">
-                            2020-12-18 11:33
-                        </time>&nbsp;
-                        
-    
-                        
-                        
-                        <i class="material-icons" style="">label</i>
-                        
-                        <a href='/tags/exmaple/'>exmaple</a>
-                        
-                        
-                    </div>
-                </div>
-            </div>
-    
-            <div class="post-body-wrapper">
-                <div class="post-body">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E5%B9%82%E7%BA%A7%E6%95%B0%E4%B8%8E%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">形式幂级数与生成函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E5%B9%82%E7%BA%A7%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">形式幂级数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">生成函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.</span> <span class="toc-text">卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%98%E6%B3%95%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.1.</span> <span class="toc-text">乘法卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E9%A1%B9%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.2.</span> <span class="toc-text">二项卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.3.</span> <span class="toc-text">狄利克雷卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2"><span class="toc-number">2.4.</span> <span class="toc-text">离散傅里叶变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%95%B0%E8%AE%BA%E5%8F%98%E6%8D%A2"><span class="toc-number">2.5.</span> <span class="toc-text">快速数论变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E6%B2%83%E5%B0%94%E4%BB%80%E5%8F%98%E6%8D%A2"><span class="toc-number">2.6.</span> <span class="toc-text">离散沃尔什变换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%BE%AE%E7%A7%AF%E5%88%86"><span class="toc-number">3.</span> <span class="toc-text">3 微积分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%98%E6%B3%95%E9%80%86"><span class="toc-number">4.</span> <span class="toc-text">乘法逆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AF%B9%E8%BF%90%E7%AE%97"><span class="toc-number">5.</span> <span class="toc-text">指对运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%B0%E5%8B%92%E5%B1%95%E5%BC%80"><span class="toc-number">5.1.</span> <span class="toc-text">泰勒展开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BA%A6%E5%85%8B%E5%8A%B3%E6%9E%97%E5%85%AC%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">麦克劳林公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0%E5%92%8C%E5%AF%B9%E6%95%B0%E5%87%BD%E6%95%B0"><span class="toc-number">5.3.</span> <span class="toc-text">指数函数和对数函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="toc-number">5.4.</span> <span class="toc-text">牛顿迭代法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">6 应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%81%93%E6%A0%97%E9%A2%98"><span class="toc-number">6.1.</span> <span class="toc-text">一道栗题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%88%E4%B8%80%E9%81%93%E6%A0%97%E9%A2%98"><span class="toc-number">6.2.</span> <span class="toc-text">又一道栗题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="toc-number">7.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">7.1.</span> <span class="toc-text">参考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE"><span class="toc-number">7.2.</span> <span class="toc-text">相关题目</span></a></li></ol></li></ol>
-                    <h2 id="形式幂级数与生成函数"><a href="#形式幂级数与生成函数" class="headerlink" title="形式幂级数与生成函数"></a>形式幂级数与生成函数</h2><h3 id="形式幂级数"><a href="#形式幂级数" class="headerlink" title="形式幂级数"></a>形式幂级数</h3><p>设 $z$ 是未定元，我们定义一个形式幂级数是一个无穷级数：</p>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>template 的构建</title>
+    <url>/post/template/</url>
+    <content><![CDATA[<h2 id="形式幂级数与生成函数"><a href="#形式幂级数与生成函数" class="headerlink" title="形式幂级数与生成函数"></a>形式幂级数与生成函数</h2><h3 id="形式幂级数"><a href="#形式幂级数" class="headerlink" title="形式幂级数"></a>形式幂级数</h3><p>设 $z$ 是未定元，我们定义一个形式幂级数是一个无穷级数：</p>
 <p>$$ A(z)&#x3D;a_0+a_1z^1+a_2z^2+…+a_nz^n+…&#x3D;\sum\limits_{i\ge 0} a_iz^i $$</p>
 <p>其中 $\langle a_0,a_1,a_2,…\rangle$ 是一个无穷的实系数序列。</p>
 <p>在这里，我们并不关心 $z$ 是否代入了某个值，它如同一个“占位符”，并不参与我们的运算。</p>
@@ -555,76 +369,15 @@
 <h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li>《生成函数的运算与组合计数问题》金策，IOI中国国家候选队论文2015</li>
 <li>《再探快速傅里叶变换》毛啸，IOI中国国家候选队论文2016</li>
-<li><a target="_blank" rel="noopener" href="https://rqy.moe/Math/gf_correct/">《浅谈 OI 中常用的一些生成函数运算的合法与正确性》</a>，rpy’s Blog</li>
+<li><a href="https://rqy.moe/Math/gf_correct/">《浅谈 OI 中常用的一些生成函数运算的合法与正确性》</a>，rpy’s Blog</li>
 </ul>
 <h3 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h3><ol>
-<li><a target="_blank" rel="noopener" href="https://loj.ac/p/2271">「SDOI2017」遗忘的集合</a></li>
-<li><a target="_blank" rel="noopener" href="http://codeforces.com/problemset/problem/923/E">「CF923E」Perpetual Subtraction</a></li>
+<li><a href="https://loj.ac/p/2271">「SDOI2017」遗忘的集合</a></li>
+<li><a href="http://codeforces.com/problemset/problem/923/E">「CF923E」Perpetual Subtraction</a></li>
 </ol>
-
-                </div>
-            </div>
-    
-            
-<nav class="post-pagination">
-    
-    <span class="page-number"></span>
-    
-    <a class="older-posts" href="/post/helloworld/">
-        Next post<br>Hello World
-    </a>
-    
-</nav>
-
-
-    
-            
-
-<div class="post-comment-wrapper">
-    <div id="disqus_thread"></div>
-</div>
-
-
-
-        </div>
-    </div>
-    <div class="single-column-footer">
-    Built with <a href="https://hexo.io/" target="_blank">Hexo</a><br>
-    
-    Theme <a href="https://github.com/SumiMakito/hexo-theme-journal/" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
-    
-    &copy; 2023 <a href="https://ce-amtic.github.io">ce_amtic</a>
-</div>
-</div>
-
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.4/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@14.2.1/dist/smooth-scroll.polyfills.min.js" crossorigin="anonymous"></script>
-<script src="/js/journal.min.js?1403857"></script>
-
-
-
-
-<script>
-    var disqus_shortname = 'cablogs-1';
-    var disqus_config = function () {
-        this.page.url = 'https://ce-amtic.github.io/post/template/';
-        this.page.identifier = '/post/template/';
-    };
-    (function () {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.body || d.head).appendChild(s);
-    })();
-</script>
-
-
-
-</body>
-</html>
+]]></content>
+      <tags>
+        <tag>exmaple</tag>
+      </tags>
+  </entry>
+</search>

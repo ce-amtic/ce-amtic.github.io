@@ -580,6 +580,30 @@ a {
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
             background: $front-container-background;
           }
+          .search-result-wrapper {
+            flex-grow: 1;
+            border: 0px;
+            width: 100%;            
+
+            @media screen and (max-width: $single-column-max-width) {
+              padding: 15px 20px;
+            }
+          }
+          .search-result-wrapper.no-result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $color-subtitle;
+          }
+          .search-result-list{
+            flex-grow: 1;
+            border: 0px;
+            width: 100%;            
+
+            @media screen and (max-width: $single-column-max-width) {
+              padding: 15px 20px;
+            }
+          }
           .post-item-info-wrapper {
             flex-grow: 1;
 
@@ -587,6 +611,17 @@ a {
               width: 100%;
               padding: 15px 20px;
             }
+
+            .post-item-searchbox {
+              flex-grow: 1;
+              border: 0px;
+              width: 100%;              
+
+              @media screen and (max-width: $single-column-max-width) {
+                padding: 15px 20px;
+              }
+            }
+
             .post-item-title {
               font-size: $post-title-size;
               font-weight: 600;
