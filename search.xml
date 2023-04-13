@@ -78,7 +78,7 @@
 <p>其中 $|x|$ 代表 $x$ 在二进制下为 1 的位数。可以证明，这些变换满足与 DFT 同样的性质，即点值的乘积是卷积结果的点值。</p>
 <p>对于异或的变换，还有一个重要的柿子是 $\mathcal{F}(\mathcal{F}(f))_i&#x3D;n·f_i$，可以通过代入化简来证明。</p>
 <p>这些变换都可以通过类似 FFT 的方法在 $O(n\log n)$ 的时间内得到。代码可以参考模板梳理。</p>
-<h2 id="3-微积分"><a href="#3-微积分" class="headerlink" title="3 微积分"></a>3 微积分</h2><p>形式幂级数的微分定义为逐项微分，即：</p>
+<h2 id="微积分"><a href="#微积分" class="headerlink" title="微积分"></a>微积分</h2><p>形式幂级数的微分定义为逐项微分，即：</p>
 <p>$$\dfrac{\text d}{\text dz} \left(\sum\limits_{i\ge 0} a_iz^i \right)&#x3D;\sum\limits_{i\ge 0} (i+1)a_{i+1}z^i$$</p>
 <p>同样的，形式幂级数的积分定义为逐项积分。我们可以定义一个形式幂级数的定积分为：</p>
 <p>$$\int \left(\sum\limits_{i\ge 0}a_iz^i \right)\text dz&#x3D;\sum\limits_{i&gt;0}\dfrac{a_{i-1}}{i}z^i$$</p>
