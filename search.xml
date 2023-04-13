@@ -122,7 +122,7 @@
 <p>设 $B(z)&#x3D;\exp A(z)$，那么有 $\ln B(z)-A(z)&#x3D;0$。设 $G(B(z))&#x3D;\ln B(z)-A(z)$ 是一个以 $B(z)$ 为变元的形式幂级数，$B_0(z)&#x3D;\exp A(z)\text{ }\text{mod }z^n$ 是已知的近似解，那么可以如下倍增（迭代）：</p>
 <p>$$\begin{align} B(z)&amp;\equiv B_0(z)-\dfrac{\ln B_0(z)-A(z)}{1&#x2F;B_0(z)}\text{ }(\text{mod } z^{2n})\newline    &amp;\equiv B_0(z)(1-\ln B_0(z)+A(z))\text{ }(\text{mod } z^{2n})\end{align}$$</p>
 <p>依此迭代，复杂度 $T(n)&#x3D;T(n&#x2F;2)+O(n\log n)&#x3D;O(n\log n)$，实现可以在代码梳理中找到。</p>
-<h2 id="6-应用"><a href="#6-应用" class="headerlink" title="6 应用"></a>6 应用</h2><h3 id="一道栗题"><a href="#一道栗题" class="headerlink" title="一道栗题"></a>一道栗题</h3><article class="message is-primary" style="font-size:inherit"><div class="message-body">
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="一道栗题"><a href="#一道栗题" class="headerlink" title="一道栗题"></a>一道栗题</h3><article class="message is-primary" style="font-size:inherit"><div class="message-body">
 <p>请构造一个序列 $a_1,a_2,…,a_k$，满足 $\forall i\in[1, k] a_i\in[1, n]$，使得对这个序列做无限背包计数后得到的序列的前 $n$ 项在模 $P$ 意义下是 $f_1,f_2,…,f_n$，其中 $P$ 是一个给定的质数。序列的长度没有限制，可以证明解总存在且唯一。</p>
 <p>$n\le 2^{18},10^6\le p\le 2^{30}$</p>
 </div></article>
