@@ -2,21 +2,12 @@ $color-accent: #9f563a;
 $back-container-background: #fcfcfc;
 $front-container-background: #ffffff;
 
-/*@font-face{
-  font-family: FiraCode-Regular;
-  src: url(../fonts/FiraCode-Regular.ttf);
-}
-@font-face{
-  font-family: NotoSerifSC;
-  src: url(../fonts/NotoSerifSC-Regular.otf);
-}*/
-
-$default-font-list: "Noto Serif SC", "Noto Serif", "Source Han Sans CN",
-  "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", serif;
+$default-font-list: "Noto Serif", "Noto Serif SC", "Source Han Sans CN",
+  "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
 $mono-font-list: "Fira Code", "Cascadia Code", consolas, monospace;
 $sans-preferred-font-list: "Montserrat", "Roboto", "Source Sans Pro",
   "Helvetica", "Arial", $default-font-list;
-//$default-font-list: "Cousine", Monaco, Menlo, "Source Code Pro", sans-serif;
+//$default-font-list: "Cousine", Monaco, Menlo, "Source Code Pro", ;
 //$sans-preferred-font-list: "Cousine", Monaco, Menlo, "Source Code Pro", sans-serif;
 
 $side-container-width: 25%; //280px;
@@ -315,6 +306,7 @@ a {
     width: $single-column-drawer-width;
     height: 100vh;
     z-index: 1800;
+    font-family: $sans-preferred-font-list;
     transition: all 0.3s ease-in-out;
     .drawer-content {
       background: white;
@@ -392,6 +384,7 @@ a {
   $nav-item-active-background-alpha: 0.03;
   $nav-item-active-color-darken: 20%;
   .nav-head {
+    font-family: $default-font-list;
     padding: 30px 28px 30px 20px;
     cursor: hand;
     cursor: pointer;
@@ -871,6 +864,8 @@ a {
         }
         .toc {
           float: right;
+          position: relative;
+          z-index: 100;
           border-radius: 5px;
           background: rgba($color-accent, 0.05);
           padding: 30px;

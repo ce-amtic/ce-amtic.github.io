@@ -7,10 +7,7 @@
 
 
 
-TO-DO List:
+To-Do（有生之年）:
 
 - Night Mode (for theme Journal.)
 
-Known Bugs:
-
-- Math renders blocks out links from ToC
