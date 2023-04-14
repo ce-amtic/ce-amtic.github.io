@@ -4,3 +4,13 @@
 国内镜像：(dead)
 
 主题（自用修改）：https://github.com/ce-amtic/hexo-theme-journal
+
+
+
+TO-DO List:
+
+- Night Mode (for theme Journal.)
+
+Known Bugs:
+
+- Math renders blocks out links from ToC

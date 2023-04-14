@@ -17,6 +17,9 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
 ]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
   </entry>
   <entry>
     <title>template 的构建</title>
@@ -376,6 +379,9 @@
 <li><a href="http://codeforces.com/problemset/problem/923/E">「CF923E」Perpetual Subtraction</a></li>
 </ol>
 ]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
       <tags>
         <tag>exmaple</tag>
       </tags>
