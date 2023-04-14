@@ -2,21 +2,18 @@ $color-accent: #9f563a;
 $back-container-background: #fcfcfc;
 $front-container-background: #ffffff;
 
-@font-face{
+/*@font-face{
   font-family: FiraCode-Regular;
   src: url(../fonts/FiraCode-Regular.ttf);
 }
 @font-face{
   font-family: NotoSerifSC;
   src: url(../fonts/NotoSerifSC-Regular.otf);
-}
+}*/
 
-$default-font-list: "NotoSerifSC",
-  "Noto Sans CJK SC","Source Han Sans CN",
-  "Source Han Sans SC","PingFang SC","Hiragino Sans GB",
-  "Microsoft Yahei","WenQuanYi Micro Hei","Droid Sans Fallback",
-  sans-serif;
-$mono-font-list: "FiraCode-Regular", "Cascadia Code", consolas, monospace;
+$default-font-list: "Noto Serif SC", "Noto Serif", "Source Han Sans CN",
+  "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", serif;
+$mono-font-list: "Fira Code", "Cascadia Code", consolas, monospace;
 $sans-preferred-font-list: "Montserrat", "Roboto", "Source Sans Pro",
   "Helvetica", "Arial", $default-font-list;
 //$default-font-list: "Cousine", Monaco, Menlo, "Source Code Pro", sans-serif;
