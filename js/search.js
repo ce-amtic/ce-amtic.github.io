@@ -143,7 +143,7 @@ class LocalSearch {
         let resultItem = '';
   
         url = new URL(url, location.origin);
-        url.searchParams.append('highlight', keywords.join(' '));
+        // url.searchParams.append('highlight', keywords.join(' '));
   
         if (slicesOfTitle.length !== 0) {
           resultItem += `<li><a href="${url.href}" class="search-result-title">${this.highlightKeyword(title, slicesOfTitle[0])}</a>`;
