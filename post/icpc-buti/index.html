@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ICPC 补题 - ce_amtic&#39;s</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="ce_amtic">
+<meta name="description" content="我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。我是神必，其实就是是伸臂了。那么我为什么会是沈比，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，我怎么会是沈璧呢？但事实就是这样，小编也感到非常惊讶。
+EC Final 西安B
+考虑一个子串的合法划分形如：$[…]A|ABC|AB[…]$。
+考虑枚举两道竖线的位置 $i,j$，那么 $AB$ ...">
+<meta name="keywords" content="">
+
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
+
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?7799125">
+
+<link rel="icon" href="/img/favicon.ico">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/atom-one-light.min.css" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto+Serif|Noto+Serif+SC|Fira+Code|Montserrat|Material+Icons">
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+<div id="top"></div>
+
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="/">
+                Home
+            </a>
+
+            
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/search">
+                        Search
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/categories">
+                        Categories
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/tags">
+                        Tags
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/archives">
+                        Archive
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/about">
+                        About
+                    </a>
+                
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            ce_amtic&#39;s
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">ce_amtic&#39;s</div>
+        <div class="single-column-header-subtitle"></div>
+    </a>
+</div>
+
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            ce-amtic's.
+        </div>
+        <div class="nav-subtitle">
+            眩しくて、知らなくて、<br>恐ろしくて ...
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+            
+                <a class="a-block nav-link-item false"
+                   href="/search">
+                    Search
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/categories">
+                    Categories
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/tags">
+                    Tags
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/archives">
+                    Archive
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/about">
+                    About
+                </a>
+            
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        Built with <a href="https://hexo.io/" target="_blank">Hexo</a><br>
+        
+        Theme <a href="https://github.com/ce-amtic/hexo-theme-journal" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2023 <a target="_blank" rel="noopener" href="https://github.com/ce-amtic/ce-amtic.github.io/">ce_amtic</a>
+    </div>
+</div>
+
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        showProcessingMessages: false,
+        messageStyle: "none",
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+            inlineMath:  [ ["$", "$"] ],
+            displayMath: [ ["$$","$$"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            ignoreClass:"comment-content"
+        },
+        "HTML-CSS": {
+            availableFonts: ["STIX","TeX"],
+            showMathMenu: true
+        }
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
+                <div class="post-title">
+                    ICPC 补题
+                    <div class="post-meta">
+                        <time datetime="2022-11-09T03:32:25.000Z" itemprop="datePublished">
+                            2022-11-09 11:32
+                        </time>&nbsp;
+                        
+                        
+                        <i class="material-icons" style="">folder</i>
+                        
+                        <a href='/categories/CP-笔记/'>CP 笔记</a>
+                        
+                        
+    
+                        
+                        
+                        <i class="material-icons" style="">label</i>
+                        
+                        <a href='/tags/ICPC/'>ICPC</a>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#EC-Final-%E8%A5%BF%E5%AE%89"><span class="toc-number">1.</span> <span class="toc-text">EC Final 西安</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ICPC-%E6%9D%AD%E5%B7%9E"><span class="toc-number">2.</span> <span class="toc-text">ICPC 杭州</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CCPC-%E7%BB%B5%E9%98%B3"><span class="toc-number">3.</span> <span class="toc-text">CCPC 绵阳</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#CCPC-%E5%B9%BF%E5%B7%9E-jly%E9%A2%98"><span class="toc-number">4.</span> <span class="toc-text">CCPC 广州 jly题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%B9%BF%E8%B5%9B-23"><span class="toc-number">5.</span> <span class="toc-text">鹿赛 23</span></a></li></ol>
+                    <p>我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。<br>我是神必，其实就是是伸臂了。那么我为什么会是沈比，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，我怎么会是沈璧呢？但事实就是这样，小编也感到非常惊讶。</p>
+<h4 id="EC-Final-西安"><a href="#EC-Final-西安" class="headerlink" title="EC Final 西安"></a>EC Final 西安</h4><p><strong>B</strong></p>
+<p>考虑一个子串的合法划分形如：$[…]A|ABC|AB[…]$。</p>
+<p>考虑枚举两道竖线的位置 $i,j$，那么 $AB$ 是 $s[i:],s[j:]$ 的公共前缀。</p>
+<p>考虑如果 $len&#x3D;|AB|$ 确定，那么 $AB$ 可以唯一确定，此时的贡献是 $\sum_{k&#x3D;1}^{len-1}[s[i:i+k-1]&#x3D;s[i-k:i-1]]$。</p>
+<p>显然 $len$ 是连续取值的，$2\le len\le LCP(s[i:], s[j:])$。</p>
+<p>任意两个后缀的 LCP 可以 $O(n^2)$ DP，或者 z 函数。</p>
+<p>定义一个 $c[i,l]&#x3D;[s[i:i+l-1]&#x3D;s[i-l:i-1]]$，那么 $i,j$ 的贡献实际上就是 $c$ 数组的二阶前缀和。</p>
+<h4 id="ICPC-杭州"><a href="#ICPC-杭州" class="headerlink" title="ICPC 杭州"></a>ICPC 杭州</h4><p><strong>A</strong></p>
+<p>给出 $H, n, m$，求一个 $s,d\in \mathbb R$ 使得 $H+ns+\frac {n(n+1)} 2d \text{ mod }m$ 最小。</p>
+<p>把 $d$ 写成 $2k+t(t&#x3D;0 \text{ or }1)$ 的形式，然后发现 $\frac {n(n+1)} 2 d&#x3D;\frac {n(n+1)} 2t+ n(n+1)k$ ，后一项提一个 $(n+1)k$ 之后可以与 $s$ 合并。</p>
+<p>也就是 $d$ 只取 0 或 1。两种问题本质上没有区别，那么考虑使 $H+ns\text{ mod }m$ 最小。</p>
+<p>考虑 $ns\text{ mod }m$ 的所有取值是 $k(n,m),0\le k&lt; m&#x2F;(n,m)$。</p>
+<p>记 $B &#x3D; m-H$，显然 $ns\ge B$ 才是有效的，且我们要找到最小的 $ns$ 使得 $ns&#x3D;k(n,m)\ge B$。</p>
+<p>显然 $k&#x3D;\lceil B&#x2F;(n,m)\rceil$，剩下的问题是解同余方程 $ns\equiv (n,m)k\text{ (mod }m)$，exgcd 即可。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;y)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(!b) <span class="hljs-keyword">return</span> x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>, a;
+    <span class="hljs-type">int</span> g = <span class="hljs-built_in">exgcd</span>(b, y, a % b, x);
+    <span class="hljs-keyword">return</span> y -= (a / b) * x, g;
+&#125;</code></pre>
+
+<h4 id="CCPC-绵阳"><a href="#CCPC-绵阳" class="headerlink" title="CCPC 绵阳"></a>CCPC 绵阳</h4><p><strong>A</strong></p>
+<p>博弈 DP，有待复盘：</p>
+<p><a target="_blank" rel="noopener" href="https://codeforces.com/gym/104065/problem/A">https://codeforces.com/gym/104065/problem/A</a></p>
+<p><a target="_blank" rel="noopener" href="https://atcoder.jp/contests/abc195/tasks/abc195_e">https://atcoder.jp/contests/abc195/tasks/abc195_e</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2964">https://www.luogu.com.cn/problem/P2964</a></p>
+<h4 id="CCPC-广州-jly题"><a href="#CCPC-广州-jly题" class="headerlink" title="CCPC 广州 jly题"></a>CCPC 广州 jly题</h4><p><strong>M</strong></p>
+<p>设长度为 $K$ 的序列 $a$，使 $0\le a_i\le m$，且 $\sum\limits_{1\le i&lt;j\le n} a_i \text{ XOR } a_j&#x3D;n$，求 $a$ 的个数。</p>
+<p>数位 DP，首先要卡 $m$ 的限制那么从高位向低位做，设 $f[i,j,k]$ 表示考虑高 $i$ 位，现有 $j$ 个数字卡了上界，第 $0\sim i$ 位（未确定的位）两两异或的贡献之和应等于 $2^k$ 的方案数。</p>
+<p>先看一下 $k$ 的界，首先 $k\le (K&#x2F;2)^2$，因为更大的情况是无法表示的。</p>
+<p>那么看下能不能转移，考虑 $f[i,j,k]$ 应该往哪里转移。</p>
+<p>如果 $m$ 的 $i+1$ 位为 0，那么这种情况是简单的，因为高 $i$ 位卡上界的数字此时依然卡上界。枚举不卡上界的数字有 $j_1$ 个为 1（$0\le j_1\le K -j$），转移是：</p>
+<p>$$f[i,j,k]\binom{j-K}{j_1}\to f[i+1,j,2k-j_1(K-j_1)]$$</p>
+<p>注意这里 $0\le 2k-j_1(K-j_1)\le(K&#x2F;2)^2$。</p>
+<p>然后如果 $m$ 的 $i+1$ 位为 1，分别枚举 $0\le j_1\le K-j$ 和 $0\le j_2\le j$ 表示没卡上界和卡上界的数字，分别选了多少个 1，转移是：</p>
+<p>$$ f[i,j,k]\binom{K-j}{j_1}\binom{j}{j_2}\to f[i+1,j_2,2k-(j_1+j_2)(K-j_1-j_2)] $$</p>
+<p>状态数 $O(\dfrac{K^3\log n} 4)$，转移至多  $O(K^2)$，这样是 $O(\dfrac{K^5\log n} 4)$，可过。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; <span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL; <span class="hljs-type">const</span> <span class="hljs-type">int</span> P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number">20</span>], f[<span class="hljs-number">2</span>][<span class="hljs-number">20</span>][<span class="hljs-number">400</span>];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getub</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-type">int</span> i = <span class="hljs-number">50</span>;
+    <span class="hljs-keyword">while</span>(i &amp;&amp; !(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i)) &amp;&amp; !(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i))) i--;
+    <span class="hljs-keyword">return</span> i;
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;_in.in&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, stdin);
+    C[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= <span class="hljs-number">18</span>; i++)&#123;
+        C[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= i; j++) C[i][j] = (C[i - <span class="hljs-number">1</span>][j] + C[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) % P;
+    &#125;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld%lld%lld&quot;</span>, &amp;n, &amp;m, &amp;K), ub = <span class="hljs-built_in">getub</span>();
+    f[<span class="hljs-number">0</span>][K][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>; <span class="hljs-type">int</span> B = (K / <span class="hljs-number">2</span>) * (K - K / <span class="hljs-number">2</span>), ans = <span class="hljs-number">0</span>; 
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= ub; i++)&#123;
+        <span class="hljs-type">int</span> u = (i &amp; <span class="hljs-number">1</span>) ^ <span class="hljs-number">1</span>, p = i &amp; <span class="hljs-number">1</span>, cb = ub - i; <span class="hljs-built_in">memset</span>(f[u], <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(f[u]));
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt;= B; k++)&#123;
+                <span class="hljs-type">int</span> sk = <span class="hljs-number">2</span> * k + !!(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb));
+                <span class="hljs-keyword">if</span>(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb))&#123;
+                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] * C[j][j2]-&gt; f[u][j2][su - (j1 + j2) * (k - j1 - j2)]</span>
+                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j2 = <span class="hljs-number">0</span>; j2 &lt;= j; j2++)&#123;
+                        <span class="hljs-type">int</span> cnt = (j1 + j2) * (K - j1 - j2); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
+                        f[u][j2][sk - cnt] = ((LL)C[K - j][j1] * C[j][j2] % P * f[p][j][k] + f[u][j2][sk - cnt]) % P;
+                    &#125;
+                &#125;
+                <span class="hljs-keyword">else</span>&#123;
+                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] -&gt; f[u][j][su - j1 * (k - j1)]</span>
+                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++)&#123;
+                        <span class="hljs-type">int</span> cnt = j1 * (K - j1); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
+                        f[u][j][sk - cnt] = ((LL)C[K - j][j1] * f[p][j][k] + f[u][j][sk - cnt]) % P;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    ub = ub &amp; <span class="hljs-number">1</span>, ub ^= <span class="hljs-number">1</span>; <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++) ans = (ans + f[ub][j][<span class="hljs-number">0</span>]) % P;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h4 id="鹿赛-23"><a href="#鹿赛-23" class="headerlink" title="鹿赛 23"></a>鹿赛 23</h4><p><strong>HDU 6900</strong></p>
+<p>没米恰，咕了</p>
+
+                </div>
+            </div>
+    
+            
+<nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/post/template/">
+        Next post<br>template 的构建
+    </a>
+    
+</nav>
+
+
+    
+            
+
+<div class="post-comment-wrapper-giscus">
+    <div class="giscus"></div>
+</div>
+
+
+
+        </div>
+    </div>
+    <div class="single-column-footer">
+    Built with <a href="https://hexo.io/" target="_blank">Hexo</a><br>
+    
+    Theme <a href="https://github.com/ce-amtic/hexo-theme-journal" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2023 <a href="https://ce-amtic.github.io">ce_amtic</a>
+</div>
+</div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/14.2.1/smooth-scroll.min.js" crossorigin="anonymous"></script>
+<script src="/js/journal.min.js?17338383"></script>
+
+
+
+
+<script src="https://giscus.app/client.js"
+        
+        data-repo="ce-amtic/ce-amtic.github.io"
+        
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNjgzNTYwMTE="
+        
+        data-category="General"
+        
+        data-category-id="DIC_kwDOCgjoq84CVvut"
+        
+        data-mapping="pathname"
+        
+        data-reactions-enabled="1"
+        
+        data-emit-metadata="0"
+        
+        data-theme="light"
+        
+        data-lang="en"
+        
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+</body>
+</html>
