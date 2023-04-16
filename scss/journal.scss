@@ -25,7 +25,7 @@ $color-text-list: (
   dark: #fcfcfc
 );
 $color-title: darken($color-accent, 15%);
-$color-text-secondary: desaturate($color-accent, 50%);
+$color-text-secondary: desaturate($color-accent, 75%);
 $back-container-background: map-get($back-container-background-list, $theme);
 $front-container-background: map-get($front-container-background-list, $theme);
 $color-text: map-get($color-text-list, $theme);
@@ -177,12 +177,21 @@ a {
 }
 
 .material-icons{
-  color: rgba($color-text-secondary, 0.45);
+  color: desaturate($color-text-secondary, 25%);
   &:hover {
     color: $color-accent;
   }
   &.md-16 { 
     font-size: 16px; 
+    color: rgba($color-text-secondary, 0.55);  
+    &:hover {
+      color: $color-accent;
+    }
+  }
+  &.no-hover {
+    &:hover{
+      color: $color-text-secondary;
+    }
   }
 }
 .copy-button {
