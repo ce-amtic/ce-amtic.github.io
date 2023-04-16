@@ -557,7 +557,7 @@ a {
       cursor: hand;
       cursor: pointer;
       transition: all 0.2s linear;
-      color: $color-text;
+      color: rgba($color-text, 0.75);
       &:hover {
         border-right: 2px solid
           rgba($color-accent, $nav-item-hover-indicator-alpha);
@@ -690,9 +690,6 @@ a {
       .post-item-wrapper {
         cursor: hand;
         cursor: pointer;
-        * {
-          color: $color-text;
-        }
         .post-item {
           margin: 0 28px 0 35px;
           padding: 30px 0;
