@@ -3,7 +3,6 @@ $(function() {
     var snippets = document.querySelectorAll('code');
     var copyButton = `<button class="copy-button tooltipped" aria-label="Copy to clipboard""><i class="material-icons md-16">content_copy</i></button>`;
     snippets.forEach(snippet => {
-        console.log(1);
         var parent = snippet.parentNode;
         parent.firstChild.insertAdjacentHTML('beforebegin', copyButton);
     });
