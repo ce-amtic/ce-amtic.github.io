@@ -1,182 +1,236 @@
-<?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>Border 的四种求法</title>
-    <url>/post/four-ways-to-spell-border/</url>
-    <content><![CDATA[<p>“我问你，border 有四种求法*，你知道么？”</p>
-<p>*Border 的四种求法：指毛估，哈希，KMP 和 runs，其中最后一种求法极其罕见。</p>
-<span id="more"></span>
 
-<h3 id="Peroid-amp-Border"><a href="#Peroid-amp-Border" class="headerlink" title="Peroid &amp; Border"></a>Peroid &amp; Border</h3><ul>
-<li>（Border）我们定义串 $s$ 的一个非空严格前缀 $s[:k]$ 是 $s$ 的 border，当且仅当 $s[:k]&#x3D;s[|s|-k+1:]$。注意这里 $k\in[1,|s|)$。</li>
-</ul>
-<p>Border 具有一个优良的性质：$s$ 的一个前缀在 $s$ 中的全部出现位置，即是其在 $s$ 的失配树上的子树中的所有节点。而实际上，失配树上一个节点的祖先，即是这个节点的最长 border 所代指的前缀。</p>
-<p>这样我们可以利用这个性质解决一系列单模式匹配问题，唯一的需求是快速建立失配树的结构。</p>
-<p>这可以用 KMP 算法来解决：维护当前匹配的最长 border $p$，考虑扩展出一个字符 $c$ 之后，只需要验证 $p$ 到根的这一段路径上，有没有一个节点的下一个字符是 $c$。我们暴力跳失配树，容易发现每条树边只会被经过 $O(1)$ 次，因此总复杂度是均摊 $O(n)$。</p>
-<p>注意这里的 border 针对的是同一个串而言，当然我们也可以在不同串之间定义 border，这就出现了 AC 自动机（多模式匹配）和 KMP 自动机（可回撤匹配）等一系列结构。</p>
-<p>Border 在扩展 KMP 算法中还体现了另一个应用，因为不是特别有启发性所以这里跳过。</p>
-<ul>
-<li>（周期）我们定义一个整数 $r\in [1,|s|]$ 是串 $s$ 的周期，当且仅当 $\forall i\in[1,|s|-r]$，满足 $s[i]&#x3D;s[i+r]$。我们称一个串所有周期中最小的那个为 $s$ 的最小周期，记作 $per(s)$。</li>
-</ul>
-<p>接下来证明一个结论：“$s[:k]$ 是 $s$ 的 border”等价于“$|s|-k$ 是 $s$ 的周期”。</p>
-<p>考虑先证充分性，可以发现 $2k\le |s|$ 的情况是 trivial 的。我们考虑 $2k &gt; |s|$，此时设 $s&#x3D;XA$，其中 $|A|&#x3D;k$ 是 $s$ 的 border，可以发现 $X$ 必然是 $A$ 的严格前缀，那么去掉 $X$ 之后，可以转化为同样的问题，最后只会剩下 $X$ 的一段前缀。于是充分性得证，不难发现必要性也同理。</p>
-<p>这意味着，一个串的所有周期和它的所有 border 是等价的集合。</p>
-<p>关于周期，我们知道一些重要的结论：</p>
-<ul>
-<li>（Weak Periodicity Lemma）如果 $p,q$ 都是 $s$ 的周期，且满足 $p+q\le |s|$，那么 $(p,q)$ 也是 $s$ 的周期。</li>
-<li>（Periodicity Lemma）如果 $p,q$ 都是 $s$ 的周期，且满足 $p+q-(p,q)\le |s|$，那么 $(p,q)$ 也是 $s$ 的周期。</li>
-</ul>
-<p>这意味这周期的出现是极其规律的。或者换个角度讲，border 的出现也是非常规律的！</p>
-<p>可以发现如下规律：</p>
-<ul>
-<li>对于串 $a,b$，满足 $2|a|\ge b$，则 $a$ 在 $b$ 中的匹配位置构成一个公差为 $per(a)$ 的等差数列。</li>
-<li>对于串 $s$，$s$ 的所有长度大于等于 $\frac{|s|}{2}$ 的 border 构成一个等差数列。</li>
-<li>对于串 $s$，$s$ 的所有 border 排序后形成 $\log |s|$ 段等差数列。</li>
-</ul>
-<p>对于第一和第二个结论，可以通过 WPL 简单证明；而第三个结论只需再利用 “border 的 border 还是 border”这个性质即可证明。</p>
-<h3 id="Runs-amp-Lyndon-Factorize"><a href="#Runs-amp-Lyndon-Factorize" class="headerlink" title="Runs &amp; Lyndon Factorize"></a>Runs &amp; Lyndon Factorize</h3><p>我们考虑从另一个角度理解周期，引入 runs 的概念：</p>
-<ul>
-<li>（Runs）我们定义一个三元组 $(l,r,p)$ 是 $s$ 的一个 run，当且仅当 $per(s[l:r])&#x3D;p$，且 $2p\le r-l+1$，且 $s[l:r]$ 是极长的一段最小周期为 $p$ 的串。特别的，实数 $\frac{r-l+1}{p}$ 称作一个 run 的指数。</li>
-</ul>
-<p>可以发现这个东西和周期联系密切，它的本质即是对极长严格周期串（即满足 $2per(s)\le |s|$）按照它们的最小周期分类。</p>
-<ul>
-<li>（The Runs Theorem）记 $\rho(n)$ 表示长为 $n$ 的串至多含有的 run 的数量，$\sigma(n)$ 表示长为 $n$ 的串所有 run 的指数和的最大值，那么有 $\rho(n)&lt;n,\sigma(n)\le 3n-3$。</li>
-</ul>
-<p>这意味着我们可以求出一个串的所有 run，考虑怎么求。</p>
-<ul>
-<li>（Lyndon 串）设 $&lt;_\iota$ 是比较运算符，其中 $\iota&#x3D;0&#x2F;1$，分别对应两种相反的比较，这里令 $&lt;_0\Leftrightarrow&lt;,&lt;_1\Leftrightarrow &gt;$。我们称 $s$ 是关于 $&lt;_\iota$ 的 Lyndon 串，当且仅当 $\forall i\in [2,|s|]$，满足 $s&lt;_\iota s[i:|s|]$。</li>
-<li>（Lyndon 分解）称 $a_1a_2…a_n&#x3D;s$ 是 $s$ 关于 $&lt;_\iota$ 的 Lyndon 分解，当且仅当所有 $a_i$ 均是关于 $&lt;_\iota$ 的 Lyndon 串，且 $a_i\not&lt;_\iota a_{i+1}$。可以证明，一个串的 Lyndon 分解存在且唯一。</li>
-<li>（Lyndon Root）称 $\lambda&#x3D;s[l_\lambda:r_\lambda]$ 是一个 run $u&#x3D;(l,r,p)$ 关于 $&lt;_\iota$ 的 Lyndon Root，当且仅当 $[l_\lambda:r_\lambda]\subseteq [l,r]$，且 $\lambda$ 是一个 Lyndon 串。</li>
-</ul>
-<p>考虑反过来求每个 Lyndon Root。</p>
-<p>我们把串 Lyndon 分解，然后枚举一个 $i$，设 $ed[i]$ 是这一段 Lyndon 分解的边界，那么以 $i$ 开头的 Lyndon 子串的右端点不会超过 $ed[i]$，一段 Lyndon Root 也必然是 $s[i:ed[i]]$ 的子串。</p>
-<p>我们从这里开始，二分哈希找到包含 $s[i:ed[i]]$ 的极长循环子串 $s[l:r]$。如果这段子串合法（满足 runs 的定义），那么就找到了一个 run。显然一个 $s[l:r]$ 可能被统计多次，我们应当取周期最小的那一次。</p>
-<p>如果对 $\iota&#x3D;0&#x2F;1$ 均做一遍这样的操作，我们就可以得到所有的 run。</p>
-<p>我们发现依赖 runs 具有的优良性质，可以解决一系列周期相关的问题以及 border 相关的问题。这种方法比 SAM 等常见处理办法更加简洁，在时间和空间上可以获得进一步的优化。</p>
-<p>但是这也是有局限的，因为 runs 无法表出非严格周期串，否则复杂度就错了。</p>
-<h3 id="一道栗题"><a href="#一道栗题" class="headerlink" title="一道栗题"></a>一道栗题</h3><article class="message is-primary" style="font-size:inherit"><div class="message-body">
 
-<p>给定一个仅包含小写拉丁字母的字符串 $s$。有 $q$ 次询问，每次询问形如 $(l,r)$，表示询问 $s[l:r]$ 这一段子串是否可以被表示成 $s[l:r]&#x3D;X^kX’$ 的形式，其中 $X$ 是任意字符串，$X’$ 是 $X$ 的可空前缀，$k\ge 2$。</p>
-<p>对于每次询问，如果这样的 $X$ 存在，输出最短的 $X$ 的长度；否则，输出 $-1$。</p>
-<p>全部数据满足 $|s|,q\le 10^6$，TL &#x3D; 2s(-O2) &#x2F; ML &#x3D; 128Mb。</p>
-</div></article>
+<!DOCTYPE html>
+<html lang="en">
 
-<p>显然求 $per(s[l:r])$ 等价于求 $s[l:r]$ 的最长 border，直接 KMP 即可 $O(q|s|)$。</p>
-<p>求出 $s$ 的 runs，那么每次询问相当于矩形取 $\min$，直接离线二维数点即可，复杂度 $O((|s|+q)\log |s|)$。</p>
-<p>需要特别说明的是，如果没有 $k\ge 2$ 的限制，那么本题相当于<a href="https://www.luogu.com.cn/problem/P4482">「BJWC2018」Border 的四种求法</a>，解法也不再这样简单。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li>《The Runs Theorem and Lyndon Tree》杨骏昭、徐翊轩、陈孙立，WC2019 讲稿</li>
-</ul>
-<p>相关题目：</p>
-<ol>
-<li>暂无来源</li>
-</ol>
-]]></content>
-      <categories>
-        <category>CP 笔记</category>
-      </categories>
-      <tags>
-        <tag>OI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ICPC 补题</title>
-    <url>/post/icpc-buti/</url>
-    <content><![CDATA[<p>我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。<br>我是神必，其实就是是伸臂了。那么我为什么会是沈比，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，我怎么会是沈璧呢？但事实就是这样，小编也感到非常惊讶。</p>
-<h4 id="EC-Final-西安"><a href="#EC-Final-西安" class="headerlink" title="EC Final 西安"></a>EC Final 西安</h4><p><strong>B</strong></p>
-<p>考虑一个子串的合法划分形如：$[…]A|ABC|AB[…]$。</p>
-<p>考虑枚举两道竖线的位置 $i,j$，那么 $AB$ 是 $s[i:],s[j:]$ 的公共前缀。</p>
-<p>考虑如果 $len&#x3D;|AB|$ 确定，那么 $AB$ 可以唯一确定，此时的贡献是 $\sum_{k&#x3D;1}^{len-1}[s[i:i+k-1]&#x3D;s[i-k:i-1]]$。</p>
-<p>显然 $len$ 是连续取值的，$2\le len\le LCP(s[i:], s[j:])$。</p>
-<p>任意两个后缀的 LCP 可以 $O(n^2)$ DP，或者 z 函数。</p>
-<p>定义一个 $c[i,l]&#x3D;[s[i:i+l-1]&#x3D;s[i-l:i-1]]$，那么 $i,j$ 的贡献实际上就是 $c$ 数组的二阶前缀和。</p>
-<h4 id="ICPC-杭州"><a href="#ICPC-杭州" class="headerlink" title="ICPC 杭州"></a>ICPC 杭州</h4><p><strong>A</strong></p>
-<p>给出 $H, n, m$，求一个 $s,d\in \mathbb R$ 使得 $H+ns+\frac {n(n+1)} 2d \text{ mod }m$ 最小。</p>
-<p>把 $d$ 写成 $2k+t(t&#x3D;0 \text{ or }1)$ 的形式，然后发现 $\frac {n(n+1)} 2 d&#x3D;\frac {n(n+1)} 2t+ n(n+1)k$ ，后一项提一个 $(n+1)k$ 之后可以与 $s$ 合并。</p>
-<p>也就是 $d$ 只取 0 或 1。两种问题本质上没有区别，那么考虑使 $H+ns\text{ mod }m$ 最小。</p>
-<p>考虑 $ns\text{ mod }m$ 的所有取值是 $k(n,m),0\le k&lt; m&#x2F;(n,m)$。</p>
-<p>记 $B &#x3D; m-H$，显然 $ns\ge B$ 才是有效的，且我们要找到最小的 $ns$ 使得 $ns&#x3D;k(n,m)\ge B$。</p>
-<p>显然 $k&#x3D;\lceil B&#x2F;(n,m)\rceil$，剩下的问题是解同余方程 $ns\equiv (n,m)k\text{ (mod }m)$，exgcd 即可。</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;y)</span></span>&#123;
-    <span class="hljs-keyword">if</span>(!b) <span class="hljs-keyword">return</span> x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>, a;
-    <span class="hljs-type">int</span> g = <span class="hljs-built_in">exgcd</span>(b, y, a % b, x);
-    <span class="hljs-keyword">return</span> y -= (a / b) * x, g;
-&#125;</code></pre>
+<head>
+    <title>Mathjax 的构建 - ce_amtic&#39;s</title>
+<meta charset="utf-8">
+<meta name="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="ce_amtic">
+<meta name="description" content="Mathjax 是处理 Latex 问题的 JS Render。本文主要介绍它的 0 种在线构建方法，并给出了一些应用。">
+<meta name="keywords" content="">
 
-<h4 id="CCPC-绵阳"><a href="#CCPC-绵阳" class="headerlink" title="CCPC 绵阳"></a>CCPC 绵阳</h4><p><strong>A</strong></p>
-<p>博弈 DP，有待复盘：</p>
-<p><a href="https://codeforces.com/gym/104065/problem/A">https://codeforces.com/gym/104065/problem/A</a></p>
-<p><a href="https://atcoder.jp/contests/abc195/tasks/abc195_e">https://atcoder.jp/contests/abc195/tasks/abc195_e</a></p>
-<p><a href="https://www.luogu.com.cn/problem/P2964">https://www.luogu.com.cn/problem/P2964</a></p>
-<h4 id="CCPC-广州-jly题"><a href="#CCPC-广州-jly题" class="headerlink" title="CCPC 广州 jly题"></a>CCPC 广州 jly题</h4><p><strong>M</strong></p>
-<p>设长度为 $K$ 的序列 $a$，使 $0\le a_i\le m$，且 $\sum\limits_{1\le i&lt;j\le n} a_i \text{ XOR } a_j&#x3D;n$，求 $a$ 的个数。</p>
-<p>数位 DP，首先要卡 $m$ 的限制那么从高位向低位做，设 $f[i,j,k]$ 表示考虑高 $i$ 位，现有 $j$ 个数字卡了上界，第 $0\sim i$ 位（未确定的位）两两异或的贡献之和应等于 $2^k$ 的方案数。</p>
-<p>先看一下 $k$ 的界，首先 $k\le (K&#x2F;2)^2$，因为更大的情况是无法表示的。</p>
-<p>那么看下能不能转移，考虑 $f[i,j,k]$ 应该往哪里转移。</p>
-<p>如果 $m$ 的 $i+1$ 位为 0，那么这种情况是简单的，因为高 $i$ 位卡上界的数字此时依然卡上界。枚举不卡上界的数字有 $j_1$ 个为 1（$0\le j_1\le K -j$），转移是：</p>
-<p>$$f[i,j,k]\binom{j-K}{j_1}\to f[i+1,j,2k-j_1(K-j_1)]$$</p>
-<p>注意这里 $0\le 2k-j_1(K-j_1)\le(K&#x2F;2)^2$。</p>
-<p>然后如果 $m$ 的 $i+1$ 位为 1，分别枚举 $0\le j_1\le K-j$ 和 $0\le j_2\le j$ 表示没卡上界和卡上界的数字，分别选了多少个 1，转移是：</p>
-<p>$$ f[i,j,k]\binom{K-j}{j_1}\binom{j}{j_2}\to f[i+1,j_2,2k-(j_1+j_2)(K-j_1-j_2)] $$</p>
-<p>状态数 $O(\dfrac{K^3\log n} 4)$，转移至多  $O(K^2)$，这样是 $O(\dfrac{K^5\log n} 4)$，可过。</p>
-<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; <span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL; <span class="hljs-type">const</span> <span class="hljs-type">int</span> P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
-LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number">20</span>], f[<span class="hljs-number">2</span>][<span class="hljs-number">20</span>][<span class="hljs-number">400</span>];
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getub</span><span class="hljs-params">()</span></span>&#123;
-    <span class="hljs-type">int</span> i = <span class="hljs-number">50</span>;
-    <span class="hljs-keyword">while</span>(i &amp;&amp; !(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i)) &amp;&amp; !(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i))) i--;
-    <span class="hljs-keyword">return</span> i;
-&#125;
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
-    <span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;_in.in&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, stdin);
-    C[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= <span class="hljs-number">18</span>; i++)&#123;
-        C[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= i; j++) C[i][j] = (C[i - <span class="hljs-number">1</span>][j] + C[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) % P;
-    &#125;
-    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld%lld%lld&quot;</span>, &amp;n, &amp;m, &amp;K), ub = <span class="hljs-built_in">getub</span>();
-    f[<span class="hljs-number">0</span>][K][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>; <span class="hljs-type">int</span> B = (K / <span class="hljs-number">2</span>) * (K - K / <span class="hljs-number">2</span>), ans = <span class="hljs-number">0</span>; 
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= ub; i++)&#123;
-        <span class="hljs-type">int</span> u = (i &amp; <span class="hljs-number">1</span>) ^ <span class="hljs-number">1</span>, p = i &amp; <span class="hljs-number">1</span>, cb = ub - i; <span class="hljs-built_in">memset</span>(f[u], <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(f[u]));
-        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++)&#123;
-            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt;= B; k++)&#123;
-                <span class="hljs-type">int</span> sk = <span class="hljs-number">2</span> * k + !!(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb));
-                <span class="hljs-keyword">if</span>(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb))&#123;
-                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] * C[j][j2]-&gt; f[u][j2][su - (j1 + j2) * (k - j1 - j2)]</span>
-                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j2 = <span class="hljs-number">0</span>; j2 &lt;= j; j2++)&#123;
-                        <span class="hljs-type">int</span> cnt = (j1 + j2) * (K - j1 - j2); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
-                        f[u][j2][sk - cnt] = ((LL)C[K - j][j1] * C[j][j2] % P * f[p][j][k] + f[u][j2][sk - cnt]) % P;
-                    &#125;
-                &#125;
-                <span class="hljs-keyword">else</span>&#123;
-                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] -&gt; f[u][j][su - j1 * (k - j1)]</span>
-                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++)&#123;
-                        <span class="hljs-type">int</span> cnt = j1 * (K - j1); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
-                        f[u][j][sk - cnt] = ((LL)C[K - j][j1] * f[p][j][k] + f[u][j][sk - cnt]) % P;
-                    &#125;
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-    ub = ub &amp; <span class="hljs-number">1</span>, ub ^= <span class="hljs-number">1</span>; <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++) ans = (ans + f[ub][j][<span class="hljs-number">0</span>]) % P;
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
+<link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
 
-<h4 id="鹿赛-23"><a href="#鹿赛-23" class="headerlink" title="鹿赛 23"></a>鹿赛 23</h4><p><strong>HDU 6900</strong></p>
-<p>没米恰，咕了</p>
-]]></content>
-      <categories>
-        <category>CP 笔记</category>
-      </categories>
-      <tags>
-        <tag>ICPC</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mathjax 的构建</title>
-    <url>/post/notes-on-polynomial/</url>
-    <content><![CDATA[<h2 id="形式幂级数与生成函数"><a href="#形式幂级数与生成函数" class="headerlink" title="形式幂级数与生成函数"></a>形式幂级数与生成函数</h2><h3 id="形式幂级数"><a href="#形式幂级数" class="headerlink" title="形式幂级数"></a>形式幂级数</h3><p>设 $z$ 是未定元，我们定义一个形式幂级数是一个无穷级数：</p>
+    <meta charset="utf-8">
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <meta name="theme-color" content="#ffffff">
+    
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/journal.css?48657624">
+
+<link rel="icon" href="/img/favicon.ico">
+
+
+<link id="hljsThemeLight" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/atom-one-light.min.css" crossorigin="anonymous">
+<link disabled id="hljsThemeDark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://fonts.loli.net/css?family=Noto+Serif|Noto+Serif+SC|Fira+Code|Montserrat">
+<link rel="stylesheet" href="https://fonts.loli.net/icon?family=Material+Icons">
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+<div id="top"></div>
+
+<div id="app">
+<div class="single-column-drawer-container" ref="drawer"
+     v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
+    <div class="drawer-content">
+        <div class="drawer-menu">
+            <a class="a-block drawer-menu-item false" href="/">
+                Home
+            </a>
+
+            
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/search">
+                        Search
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/categories">
+                        Categories
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/tags">
+                        Tags
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/archives">
+                        Archive
+                    </a>
+                
+                    <a class="a-block drawer-menu-item false"
+                       href="/about">
+                        About
+                    </a>
+                
+            
+        </div>
+    </div>
+</div>
+<transition name="fade">
+    <div v-bind:class="{ 'single-column-drawer-mask': mounted }" v-if="isDrawerOpen" v-on:click="toggleDrawer"></div>
+</transition>
+<nav ref="navBar" class="navbar sticky-top navbar-light single-column-nav-container">
+    <div ref="navBackground" class="nav-background"></div>
+    <div class="container container-narrow nav-content">
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" v-on:click="toggleDrawer">
+            <i class="material-icons">
+                menu
+            </i>
+        </button>
+        <a ref="navTitle" class="navbar-brand" href="/">
+            ce_amtic&#39;s
+        </a>
+    </div>
+</nav>
+<div class="single-column-header-container" ref="pageHead"
+     v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }">
+    <a href="/">
+        <div class="single-column-header-title">ce_amtic&#39;s</div>
+        <div class="single-column-header-subtitle"></div>
+    </a>
+</div>
+
+<div ref="sideContainer" class="side-container">
+    <a class="a-block nav-head false" href="/">
+        <div class="nav-title">
+            ce-amtic's.
+        </div>
+        <div class="nav-subtitle">
+            眩しくて、知らなくて、<br>恐ろしくて ...
+        </div>
+    </a>
+
+    <div class="nav-link-list">
+        
+            
+                <a class="a-block nav-link-item false"
+                   href="/search">
+                    Search
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/categories">
+                    Categories
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/tags">
+                    Tags
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/archives">
+                    Archive
+                </a>
+            
+                <a class="a-block nav-link-item false"
+                   href="/about">
+                    About
+                </a>
+            
+        
+    </div>
+
+    
+    <div class="nav-footer">
+        <!--button class="nav-footer-button" type="button" v-if="localStorage.theme === 'dark'" v-on:click="toggleDark">
+            Light Mode
+        </button>
+        <button class="nav-footer-button" type="button" v-else v-on:click="toggleDark">
+            Dark Mode
+        </button><br-->
+        Built with <a href="https://hexo.io/" target="_blank">Hexo</a><br>
+        
+        Theme <a href="https://github.com/ce-amtic/hexo-theme-journal" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+        
+        &copy; 2023 <a target="_blank" rel="noopener" href="https://github.com/ce-amtic/ce-amtic.github.io/">ce_amtic</a>
+    </div>
+</div>
+
+<div ref="extraContainer" class="extra-container">
+    <div class="pagination">
+        <a id="globalBackToTop" class="pagination-action animated-visibility" href="#top" :class="{ invisible: scrollY == 0 }">
+            <i class="material-icons pagination-action-icon">
+                keyboard_arrow_up
+            </i>
+        </a>
+
+        
+    </div>
+</div>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        showProcessingMessages: false,
+        messageStyle: "none",
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+            inlineMath:  [ ["$", "$"] ],
+            displayMath: [ ["$$","$$"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            ignoreClass:"comment-content"
+        },
+        "HTML-CSS": {
+            availableFonts: ["STIX","TeX"],
+            showMathMenu: true
+        }
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+<div ref="streamContainer" class="stream-container">
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
+                <div class="post-title">
+                    Mathjax 的构建
+                    <div class="post-meta">
+                        <time datetime="2020-12-18T03:33:00.000Z" itemprop="datePublished">
+                            2020-12-18 11:33
+                        </time>&nbsp;
+                        
+                        
+                        <i class="material-icons no-hover" style="">folder</i>
+                        
+                        <a href='/categories/CP-笔记/'>CP 笔记</a>
+                        
+                        
+    
+                        
+                        
+                        <i class="material-icons no-hover" style="">label</i>
+                        
+                        <a href='/tags/OI/'>OI</a>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E5%B9%82%E7%BA%A7%E6%95%B0%E4%B8%8E%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="toc-number">1.</span> <span class="toc-text">形式幂级数与生成函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%A2%E5%BC%8F%E5%B9%82%E7%BA%A7%E6%95%B0"><span class="toc-number">1.1.</span> <span class="toc-text">形式幂级数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">生成函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.</span> <span class="toc-text">卷积</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B9%98%E6%B3%95%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.1.</span> <span class="toc-text">乘法卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E9%A1%B9%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.2.</span> <span class="toc-text">二项卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%8D%B7%E7%A7%AF"><span class="toc-number">2.3.</span> <span class="toc-text">狄利克雷卷积</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2"><span class="toc-number">2.4.</span> <span class="toc-text">离散傅里叶变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%95%B0%E8%AE%BA%E5%8F%98%E6%8D%A2"><span class="toc-number">2.5.</span> <span class="toc-text">快速数论变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A6%BB%E6%95%A3%E6%B2%83%E5%B0%94%E4%BB%80%E5%8F%98%E6%8D%A2"><span class="toc-number">2.6.</span> <span class="toc-text">离散沃尔什变换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AE%E7%A7%AF%E5%88%86"><span class="toc-number">3.</span> <span class="toc-text">微积分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%98%E6%B3%95%E9%80%86"><span class="toc-number">4.</span> <span class="toc-text">乘法逆</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E5%AF%B9%E8%BF%90%E7%AE%97"><span class="toc-number">5.</span> <span class="toc-text">指对运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%B0%E5%8B%92%E5%B1%95%E5%BC%80"><span class="toc-number">5.1.</span> <span class="toc-text">泰勒展开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%BA%A6%E5%85%8B%E5%8A%B3%E6%9E%97%E5%85%AC%E5%BC%8F"><span class="toc-number">5.2.</span> <span class="toc-text">麦克劳林公式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E6%95%B0%E5%87%BD%E6%95%B0%E5%92%8C%E5%AF%B9%E6%95%B0%E5%87%BD%E6%95%B0"><span class="toc-number">5.3.</span> <span class="toc-text">指数函数和对数函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%9B%E9%A1%BF%E8%BF%AD%E4%BB%A3%E6%B3%95"><span class="toc-number">5.4.</span> <span class="toc-text">牛顿迭代法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-number">6.</span> <span class="toc-text">应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E9%81%93%E6%A0%97%E9%A2%98"><span class="toc-number">6.1.</span> <span class="toc-text">一道栗题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%88%E4%B8%80%E9%81%93%E6%A0%97%E9%A2%98"><span class="toc-number">6.2.</span> <span class="toc-text">又一道栗题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%82%E9%A1%B9"><span class="toc-number">7.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">7.1.</span> <span class="toc-text">参考</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%A2%98%E7%9B%AE"><span class="toc-number">7.2.</span> <span class="toc-text">相关题目</span></a></li></ol></li></ol>
+                    <h2 id="形式幂级数与生成函数"><a href="#形式幂级数与生成函数" class="headerlink" title="形式幂级数与生成函数"></a>形式幂级数与生成函数</h2><h3 id="形式幂级数"><a href="#形式幂级数" class="headerlink" title="形式幂级数"></a>形式幂级数</h3><p>设 $z$ 是未定元，我们定义一个形式幂级数是一个无穷级数：</p>
 <p>$$ A(z)&#x3D;a_0+a_1z^1+a_2z^2+…+a_nz^n+…&#x3D;\sum\limits_{i\ge 0} a_iz^i $$</p>
 <p>其中 $\langle a_0,a_1,a_2,…\rangle$ 是一个无穷的实系数序列。</p>
 <p>在这里，我们并不关心 $z$ 是否代入了某个值，它如同一个“占位符”，并不参与我们的运算。</p>
@@ -524,89 +578,103 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
 <h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li>《生成函数的运算与组合计数问题》金策，IOI中国国家候选队论文2015</li>
 <li>《再探快速傅里叶变换》毛啸，IOI中国国家候选队论文2016</li>
-<li><a href="https://rqy.moe/Math/gf_correct/">《浅谈 OI 中常用的一些生成函数运算的合法与正确性》</a>，rpy’s Blog</li>
+<li><a target="_blank" rel="noopener" href="https://rqy.moe/Math/gf_correct/">《浅谈 OI 中常用的一些生成函数运算的合法与正确性》</a>，rpy’s Blog</li>
 </ul>
 <h3 id="相关题目"><a href="#相关题目" class="headerlink" title="相关题目"></a>相关题目</h3><ol>
-<li><a href="https://loj.ac/p/2271">「SDOI2017」遗忘的集合</a></li>
-<li><a href="http://codeforces.com/problemset/problem/923/E">「CF923E」Perpetual Subtraction</a></li>
+<li><a target="_blank" rel="noopener" href="https://loj.ac/p/2271">「SDOI2017」遗忘的集合</a></li>
+<li><a target="_blank" rel="noopener" href="http://codeforces.com/problemset/problem/923/E">「CF923E」Perpetual Subtraction</a></li>
 </ol>
-]]></content>
-      <categories>
-        <category>CP 笔记</category>
-      </categories>
-      <tags>
-        <tag>OI</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>template 的构建</title>
-    <url>/post/template/</url>
-    <content><![CDATA[<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><p>在 <a href="https://github.com/ce-amtic/hexo-theme-journal">Jounal</a> 主题下，一个完整的 markdown 表头形如：</p>
-<pre><code class="hljs yml"><span class="hljs-meta">---</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">&lt;title&gt;</span>
-<span class="hljs-attr">date:</span> <span class="hljs-number">1970-1</span><span class="hljs-number">-1</span> <span class="hljs-number">00</span><span class="hljs-string">:00:00</span>
-<span class="hljs-attr">intro:</span> <span class="hljs-string">&lt;intro&gt;</span> <span class="hljs-comment"># or use &quot;&lt;intro&gt;&quot; for spaced sentences</span>
-<span class="hljs-attr">featured_image:</span> <span class="hljs-string">img/69941255.png</span> <span class="hljs-comment"># or use `https://...` instead</span>
-<span class="hljs-attr">category:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat1&gt;</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat2&gt;</span>
-<span class="hljs-attr">tags:</span> 
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag1&gt;</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag2&gt;</span>
-<span class="hljs-attr">toc:</span> <span class="hljs-literal">true</span>  <span class="hljs-comment"># to use Table of Contents</span>
-<span class="hljs-attr">math:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># to use Mathjax Render for math formula</span>
-<span class="hljs-meta">---</span></code></pre>
 
-<h3 id="Markdown-Features"><a href="#Markdown-Features" class="headerlink" title="Markdown Features"></a>Markdown Features</h3><p><em>italicized text &#x2F; 斜体</em></p>
-<p><strong>bold text &#x2F; 粗体</strong></p>
-<p><a href="https://www.w3schools.com/">This is a Link &#x2F; 这是一条链接</a></p>
-<blockquote>
-<p><strong>This is title &#x2F; 这里是标题</strong></p>
-<div class="plain-text">
-<p>This is plain text. &#x2F; 这里是普通文本。</p>
+                </div>
+            </div>
+    
+            
+<nav class="post-pagination">
+    
+    <a class="newer-posts" href="/post/four-ways-to-spell-border/">
+        Previous post<br>Border 的四种求法
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/post/template/">
+        Next post<br>template 的构建
+    </a>
+    
+</nav>
+
+
+    
+            
+
+<div class="post-comment-wrapper-giscus">
+    <div class="giscus"></div>
 </div>
-</blockquote>
 
-<pre><code class="hljs html">&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;
-**This is title / 这里是标题**
-&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;plain-text&quot;</span>&gt;</span>&#123;% endraw %&#125;
-This is plain text. / 这里是普通文本。
-&#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&#123;% endraw %&#125;
-&#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;</code></pre>
 
-<blockquote>
-<p>To quote some paras<br>这是一段引述<br>des asijdasu</p>
-</blockquote>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> Write the press release</li>
-<li><input disabled="" type="checkbox"> Update the website</li>
-<li><input disabled="" type="checkbox"> Contact the media</li>
-</ul>
-<ol>
-<li>First item</li>
-<li>Second item</li>
-<li>Third item</li>
-</ol>
-<ul>
-<li>First item</li>
-<li>Second item</li>
-<li>Third item</li>
-</ul>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Map_commune_FR_insee_code_47104.png" alt="This is a demo picture"></p>
-<h3 id="Math-Render"><a href="#Math-Render" class="headerlink" title="Math Render"></a>Math Render</h3><p><strong>Single Line Equations</strong></p>
-<p>$$ |X&#x2F;G|&#x3D;\dfrac{1}{|G|}\sum\limits_{g\in G}|S|^{\chi(g)} $$</p>
-<pre><code class="hljs tex"><span class="hljs-built_in">$</span><span class="hljs-built_in">$</span>|X/G|=<span class="hljs-keyword">\dfrac</span>&#123;1&#125;&#123;|G|&#125;<span class="hljs-keyword">\sum</span><span class="hljs-keyword">\limits</span><span class="hljs-built_in">_</span>&#123;g<span class="hljs-keyword">\in</span> G&#125;|S|<span class="hljs-built_in">^</span>&#123;<span class="hljs-keyword">\chi</span>(g)&#125;<span class="hljs-built_in">$</span><span class="hljs-built_in">$</span></code></pre>
 
-<p><strong>Inline Equations</strong></p>
-<p>设 $X\subseteq \mathcal{C}$ 是某个染色集合， $G$ 是作用在 $X$ 上的置换群，我们记 $X&#x2F;G$ 为在 $G$ 作用下 $X$ 的轨道集合，即 $X&#x2F;G&#x3D;\begin{Bmatrix} gc\text{ | } c\in X, g\in G\end{Bmatrix}$。</p>
-<pre><code class="hljs markdown">设 $X\subseteq \mathcal&#123;C&#125;$ 是某个染色集合， $G$ 是作用在 $X$ 上的置换群，
-我们记 $X/G$ 为在 $G$ 作用下 $X$ 的轨道集合，即 $X/G=\begin&#123;Bmatrix&#125; gc\text&#123; | &#125; c\in X, g\in G\end&#123;Bmatrix&#125;$。</code></pre>
+        </div>
+    </div>
+    <div class="single-column-footer">
+    <!--button class="nav-footer-button" type="button" v-if="localStorage.theme === 'dark'" v-on:click="toggleDark">
+        Light Mode
+    </button>
+    <button class="nav-footer-button" type="button" v-else v-on:click="toggleDark">
+        Dark Mode
+    </button><br-->
+    Built with <a href="https://hexo.io/" target="_blank">Hexo</a><br>
+    
+    Theme <a href="https://github.com/ce-amtic/hexo-theme-journal" target="_blank" rel="noreferrer noopener">Journal.</a> by <a href="https://mak1t0.cc/" target="_blank" rel="noreferrer noopener">Makito</a><br>
+    
+    &copy; 2023 <a href="https://ce-amtic.github.io">ce_amtic</a>
+</div>
+</div>
 
-<hr>
-<p>更多有关 LaTeX 的细节，请<a href="https://shuyumo2003.github.io/LaTeX-syntax.html">参考</a>。</p>
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
-  </entry>
-</search>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/14.2.1/smooth-scroll.min.js" crossorigin="anonymous"></script>
+<script src="/js/journal.min.js?4921225"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="/js/clipboard.js"></script>
+<script src="/js/darkmode.js"></script>
+
+
+
+
+<script id="myGiscusApp"></script>
+<script data-theme="preferred_color_scheme"
+        src="https://giscus.app/client.js"
+        
+        data-repo="ce-amtic/ce-amtic.github.io"
+        
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNjgzNTYwMTE="
+        
+        data-category="General"
+        
+        data-category-id="DIC_kwDOCgjoq84CVvut"
+        
+        data-mapping="pathname"
+        
+        data-reactions-enabled="1"
+        
+        data-emit-metadata="0"
+        
+        data-theme="light"
+        
+        data-lang="en"
+        
+        data-input-position="top"
+        data-strict="1"
+        crossorigin="anonymous"
+        async>
+</script>
+
+
+
+</body>
+</html>
