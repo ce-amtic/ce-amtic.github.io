@@ -1,4 +1,4 @@
-function updataTheme() {
+function updateTheme() {
     let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     let light = document.querySelector('#hljsThemeLight');
     let dark = document.querySelector('#hljsThemeDark');
@@ -12,4 +12,4 @@ function updataTheme() {
     }
 }
 
-window.addEventListener('DOMContentLoaded', updataTheme);
+window.addEventListener('DOMContentLoaded', updateTheme);

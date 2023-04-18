@@ -9,5 +9,3 @@
 
 To-Do（有生之年）:
 
-- Night Mode (for theme Journal.)
-
