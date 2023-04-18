@@ -1,42 +1,53 @@
-$theme: 'light';
+:root {
+  --color-accent: hsl(17, 47%, 43%);
+  --color-accent-transparent-1: rgba(161, 87, 58, 0.1);
+  --color-accent-transparent-6: rgba(161, 87, 58, 0.6);
+  --color-accent-transparent-7: rgba(161, 87, 58, 0.7);
+  --color-accent-transparent-02: rgba(161, 87, 58, 0.02);
+  --color-accent-transparent-03: rgba(161, 87, 58, 0.03);
+  --color-accent-transparent-05: rgba(161, 87, 58, 0.05);
+  --color-accent-transparent-07: rgba(161, 87, 58, 0.07);
+  --color-accent-darken-1: hsl(17, 47%, 38%);
+  --color-accent-darken-2: hsl(17, 47%, 33%);
+  --color-accent-darken-3: hsl(17, 47%, 23%);
 
-$color-accent-list: (
-  light: #9f563a,
-  dark: #c5876f
-);
-$color-accent: map-get($color-accent-list, $theme);
-$dark-accent: darken($color-accent, 10%);
-$deep-dark-accent: darken($color-accent, 50%);
-@if lightness($color-accent) <10% {
-  $dark-accent: $color-accent;
-  $deep-dark-accent: $color-accent;
+  --color-text: #000;
+  --color-text-secondary: hsl(0, 0%, 37%);
+  --color-text-tertiary: hsl(0, 0%, 53%);
+  --color-text-transparent: rgba(135, 135, 135, 0.55);
+
+  --back-container-background: #fcfcfc;
+  --front-container-background: #fff;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-accent: hsl(17, 43%, 60%);
+    --color-accent-transparent-1: rgba(197, 134, 109, 0.1);
+    --color-accent-transparent-6: rgba(197, 134, 109, 0.6);
+    --color-accent-transparent-7: rgba(197, 134, 109, 0.7);
+    --color-accent-transparent-02: rgba(197, 134, 109, 0.02);
+    --color-accent-transparent-03: rgba(197, 134, 109, 0.03);
+    --color-accent-transparent-05: rgba(197, 134, 109, 0.05);
+    --color-accent-transparent-07: rgba(197, 134, 109, 0.07);
+    --color-accent-darken-1: hsl(17, 43%, 38%);
+    --color-accent-darken-2: hsl(17, 43%, 48%);
+    --color-accent-darken-3: hsl(17, 43%, 56%);
 
-$back-container-background-list: (
-  light: #fcfcfc,
-  dark: #000000
-);
-$front-container-background-list: (
-  light: #ffffff,
-  dark: #191919
-);
-$color-text-list: (
-  light: $deep-dark-accent,
-  dark: #fcfcfc
-);
-$color-title: darken($color-accent, 15%);
-$color-text-secondary: desaturate($color-accent, 75%);
-$back-container-background: map-get($back-container-background-list, $theme);
-$front-container-background: map-get($front-container-background-list, $theme);
-$color-text: map-get($color-text-list, $theme);
+    --color-text: hsl(0, 0%, 83%);
+    --color-text-secondary: hsl(0, 0%, 70%);
+    --color-text-tertiary: hsl(0, 0%, 54%);
+    --color-text-transparent: rgba(179, 179, 179, 0.55);
+
+    --back-container-background: #0f0f0f;
+    --front-container-background: #191919;
+  }
+}
 
 $default-font-list: "Noto Serif", "Noto Serif SC", "Source Han Sans CN",
   "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", sans-serif;
 $mono-font-list: "Fira Code", "Cascadia Code", consolas, monospace;
 $sans-preferred-font-list: "Montserrat", "Roboto", "Source Sans Pro",
   "Helvetica", "Arial", $default-font-list;
-//$default-font-list: "Cousine", Monaco, Menlo, "Source Code Pro", ;
-//$sans-preferred-font-list: "Cousine", Monaco, Menlo, "Source Code Pro", sans-serif;
 
 $side-container-width: 25%; //280px;
 $extra-container-width: 64px;
@@ -74,7 +85,7 @@ $h-diff: 3px;
 }
 
 body {
-  background: $back-container-background;
+  background: var(--back-container-background);
   padding: 0;
   margin: 0;
   font-family: $default-font-list;
@@ -84,7 +95,7 @@ body {
 }
 
 * {
-  color: $color-text;
+  color: var(--color-text);
   line-height: 1.5em;
   word-wrap: break-word;
 }
@@ -115,19 +126,31 @@ h6 {
 
 textarea,
 select,
-input,
 button {
   outline: none !important;
+}
+
+input{
+  background-color: inherit;
 }
 
 button {
   cursor: hand;
   cursor: pointer;
 }
+.nav-footer-button {
+  color: var(--color-text-secondary);
+  background-color: inherit;
+  border: none;
+  padding: 0;
+  &:hover {
+    color: var(--color-accent-darken-1);
+  }
+}
 
 code {
-  color: $dark-accent;
-  background: rgba($color-accent, 0.07) !important;
+  color: var(--color-accent-darken-1);
+  background: var(--color-accent-transparent-07) !important;
   padding: 2px 5px;
   border-radius: 3px;
   font-family: $mono-font-list;
@@ -135,8 +158,8 @@ code {
 
 pre {
   position: relative;
-  background: rgba($color-accent, 0.07) !important;
-  color: $dark-accent;
+  background: var(--color-accent-transparent-07) !important;
+  color: var(--color-accent-darken-1);
   padding: 12px 15px;
   border-radius: 5px;
   font-family: $mono-font-list;
@@ -152,21 +175,21 @@ pre {
 
 blockquote {
   padding: 10px 20px;
-  border-left: 3px solid rgba($color-accent, 0.7);
-  color: $dark-accent;
-  background: rgba($color-accent, 0.05);
+  border-left: 3px solid var(--color-accent-transparent-7);
+  color: var(--color-accent-darken-1);
+  background: var(--color-accent-transparent-07);
   p {
     margin-bottom: 0;
   }
   * {
-    color: $dark-accent;
+    color: var(--color-accent-darken-1);
   }
 }
 
 a {
-  color: $color-accent;
+  color: var(--color-accent);
   &:hover {
-    color: darken($color-accent, 10%);
+    color: var(--color-accent-darken-1);
     text-underline-position: under;
   }
   @media screen and (max-width: $single-column-max-width) {
@@ -177,20 +200,20 @@ a {
 }
 
 .material-icons{
-  color: desaturate($color-text-secondary, 25%);
+  color: var(--color-text-tertiary);
   &:hover {
-    color: $color-accent;
+    color: var(--color-accent-darken-1);
   }
   &.md-16 { 
     font-size: 16px; 
-    color: rgba($color-text-secondary, 0.55);  
+    color: var(--color-text-transparent);
     &:hover {
-      color: $color-accent;
+      color: var(--color-accent-darken-1);
     }
   }
   &.no-hover {
     &:hover{
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
     }
   }
 }
@@ -351,6 +374,7 @@ a {
     * {
       font-family: $sans-preferred-font-list;
       transition: opacity 0.5s ease-in-out;
+      background-color: var(--back-container-background);
     }
     button {
       padding: 0;
@@ -363,6 +387,7 @@ a {
     .navbar-brand {
       opacity: 0;
       text-align: left;
+      color: var(--color-text);
       padding-left: 24px !important;
     }
     .nav-dropdown-toggle {
@@ -419,7 +444,7 @@ a {
     text-align: center;
     * {
       font-family: $sans-preferred-font-list;
-      color: $deep-dark-accent;
+      color: var(--color-text);
     }
     .single-column-header-title {
       font-size: $single-column-nav-title-size;
@@ -443,7 +468,7 @@ a {
     font-family: $sans-preferred-font-list;
     transition: all 0.3s ease-in-out;
     .drawer-content {
-      background: white;
+      background: var(--back-container-background);
       height: 100%;
       width: 100%;
       padding: 50px 0 80px 0;
@@ -454,8 +479,6 @@ a {
         justify-items: center;
         justify-content: center;
         flex-direction: column;
-        $drawer-menu-item-active-background-alpha: 0.1;
-        $drawer-menu-item-active-color-darken: 30%;
         .drawer-menu-item {
           font-size: $single-column-nav-link-size;
           margin-bottom: 10px;
@@ -464,14 +487,11 @@ a {
           cursor: hand;
           cursor: pointer;
           transition: all 0.2s linear;
-          color: $deep-dark-accent;
+          color: var(--color-text-secondary);
           &.active {
-            border-right: 2px solid $color-accent;
-            background: rgba(
-              $color-accent,
-              $drawer-menu-item-active-background-alpha
-            );
-            color: darken($color-accent, $drawer-menu-item-active-color-darken);
+            border-right: 2px solid var(--color-accent);
+            background: var(--color-accent-transparent-1);
+            color: var(--color-accent-darken-2);
           }
         }
       }
@@ -512,11 +532,6 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  $nav-item-hover-background-alpha: 0.02;
-  $nav-item-hover-indicator-alpha: 0.6;
-  $nav-item-hover-color-darken: 30%;
-  $nav-item-active-background-alpha: 0.03;
-  $nav-item-active-color-darken: 20%;
   .nav-head {
     font-family: $default-font-list;
     padding: 30px 28px 30px 20px;
@@ -525,26 +540,31 @@ a {
     margin-bottom: 10px;
     transition: all 0.2s linear;
     .nav-title {
-      color: $color-title;
+      color: var(--color-accent-darken-2);
+        // var(--color-title);
       font-size: $nav-title-size;
       line-height: $nav-title-size * 1.4;
     }
     border-right: 2px solid transparent;
     .nav-subtitle {
-      color: $color-text-secondary;
+      color: var(--color-text-tertiary);
       margin-top: 8px;
       font-size: $nav-subtitle-size;
     }
     &:hover {
-      border-right: 2px solid
-        rgba($color-accent, $nav-item-hover-indicator-alpha);
-      background: rgba($color-accent, $nav-item-hover-background-alpha);
-      color: darken($color-accent, $nav-item-hover-color-darken);
+      border-right: 2px solid var(--color-accent-transparent-6);
+        // rgba($color-accent, $nav-item-hover-indicator-alpha);
+      background: var(--color-accent-transparent-02);
+        // rgba($color-accent, $nav-item-hover-background-alpha);
+      color: var(--color-accent-darken-3);
+        // darken($color-accent, $nav-item-hover-color-darken);
     }
     &.active {
-      border-right: 2px solid $color-accent;
-      background: rgba($color-accent, $nav-item-active-background-alpha);
-      color: darken($color-accent, $nav-item-active-color-darken);
+      border-right: 2px solid var(--color-accent);
+      background: var(--color-accent-transparent-03);
+        // rgba($color-accent, $nav-item-active-background-alpha);
+      color: var(--color-accent-darken-2);
+        // darken($color-accent, $nav-item-active-color-darken);
     }
   }
   .nav-link-list {
@@ -557,23 +577,28 @@ a {
       cursor: hand;
       cursor: pointer;
       transition: all 0.2s linear;
-      color: rgba($color-text, 0.75);
+      color: var(--color-text-secondary);
       &:hover {
-        border-right: 2px solid
-          rgba($color-accent, $nav-item-hover-indicator-alpha);
-        background: rgba($color-accent, $nav-item-hover-background-alpha);
-        color: darken($color-accent, $nav-item-hover-color-darken);
+        border-right: 2px solid var(--color-accent-transparent-6);
+          // rgba($color-accent, $nav-item-hover-indicator-alpha);
+        background: var(--color-accent-transparent-02); 
+          // rgba($color-accent, $nav-item-hover-background-alpha);
+        color: var(--color-accent-darken-3);
+          // darken($color-accent, $nav-item-hover-color-darken);
       }
       &.active {
-        border-right: 2px solid $color-accent;
-        background: rgba($color-accent, $nav-item-active-background-alpha);
-        color: darken($color-accent, $nav-item-active-color-darken);
+        border-right: 2px solid var(--color-accent);
+        background: var(--color-accent-transparent-03);
+          // rgba($color-accent, $nav-item-active-background-alpha);
+        color: var(--color-accent-darken-2);
+          // darken($color-accent, $nav-item-active-color-darken);
       }
     }
   }
   .nav-footer {
     padding: 20px 30px 0 20px;
     font-size: $nav-footer-size;
+    color: var(--color-text-secondary);
   }
   @media screen and (max-width: $single-column-max-width) {
     display: none;
@@ -637,7 +662,7 @@ a {
       &:hover {
         text-decoration: none;
         * {
-          color: $dark-accent;
+          color: var(--color-accent-darken-1);
         }
       }
     }
@@ -677,7 +702,7 @@ a {
     width: 100%;
     min-height: 100vh;
     padding: 20px 0 20px 0;
-    background: $front-container-background;
+    background: var(--front-container-background);
     box-shadow: 0 0 16px rgba(0, 0, 0, 0.12);
 
     @media screen and (max-width: $single-column-max-width) {
@@ -702,7 +727,7 @@ a {
             margin: 0 0 15px 0;
             padding: 0;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-            background: $front-container-background;
+            background: var(--front-container-background);
           }
           .search-result-wrapper {
             flex-grow: 1;
@@ -717,7 +742,7 @@ a {
             display: flex;
             justify-content: center;
             align-items: center;
-            color: $color-text-secondary;
+            color: var(--color-text-secondary);
           }
           .search-result-list{
             flex-grow: 1;
@@ -739,7 +764,11 @@ a {
             .post-item-searchbox {
               flex-grow: 1;
               border: 0px;
-              width: 100%;              
+              width: 100%;
+              outline: none;
+              &:focus {
+                outline: none;
+              }
 
               @media screen and (max-width: $single-column-max-width) {
                 padding: 15px 20px;
@@ -827,11 +856,11 @@ a {
           background: rgba(0, 0, 0, 0.03);
           .post-item-title {
             text-decoration: underline;
-            text-decoration-style: 2px solid $color-accent;
+            text-decoration-style: 2px solid var(--color-accent);
             text-underline-position: under;
           }
           * {
-            color: $dark-accent;
+            color: var(--color-accent-darken-1);
           }
 
           @media screen and (max-width: $single-column-max-width) {
@@ -872,7 +901,7 @@ a {
     text-align: center;
     width: 100%;
     opacity: 0.3;
-    color: $deep-dark-accent;
+    color: var(--color-accent-darken-2);
     font-family: $default-font-list;
     font-size: 13px;
     padding: 15px;
@@ -1001,14 +1030,14 @@ a {
           position: relative;
           z-index: 100;
           border-radius: 5px;
-          background: rgba($color-accent, 0.05);
+          background: var(--color-accent-transparent-05);
           padding: 30px;
           margin-left: 30px;
           margin-bottom: 30px;
           &,
           * {
             list-style: none;
-            color: $color-title;
+            color: var(--color-accent);
             font-size: $toc-size;
             width: fit-content;
           }
@@ -1019,7 +1048,7 @@ a {
           @media screen and (max-width: $single-column-max-width) {
             &,
             * {
-              color: $color-title;
+              color: var(--color-accent);
               font-size: $single-column-toc-size;
             }
           }
@@ -1124,7 +1153,7 @@ a {
         &:hover {
           text-decoration: none;
           * {
-            color: $dark-accent;
+            color: var(--color-accent-darken-1);
           }
         }
       }
@@ -1133,6 +1162,7 @@ a {
 
   .single-column-footer {
     display: none;
+    color: var(--color-text-secondary);
 
     @media screen and (max-width: $single-column-max-width) {
       display: block !important;
