@@ -22,14 +22,14 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-accent: hsl(17, 43%, 60%);
-    --color-accent-transparent-1: rgba(197, 134, 109, 0.1);
-    --color-accent-transparent-6: rgba(197, 134, 109, 0.6);
-    --color-accent-transparent-7: rgba(197, 134, 109, 0.7);
-    --color-accent-transparent-02: rgba(197, 134, 109, 0.02);
-    --color-accent-transparent-03: rgba(197, 134, 109, 0.03);
-    --color-accent-transparent-05: rgba(197, 134, 109, 0.05);
-    --color-accent-transparent-07: rgba(197, 134, 109, 0.07);
-    --color-accent-darken-1: hsl(17, 43%, 38%);
+    --color-accent-transparent-1: rgba(197, 134, 109, 0.14);
+    --color-accent-transparent-6: rgba(197, 134, 109, 0.64);
+    --color-accent-transparent-7: rgba(197, 134, 109, 0.74);
+    --color-accent-transparent-02: rgba(197, 134, 109, 0.04);
+    --color-accent-transparent-03: rgba(197, 134, 109, 0.07);
+    --color-accent-transparent-05: rgba(197, 134, 109, 0.09);
+    --color-accent-transparent-07: rgba(197, 134, 109, 0.11);
+    --color-accent-darken-1: hsl(17, 43%, 40%);
     --color-accent-darken-2: hsl(17, 43%, 48%);
     --color-accent-darken-3: hsl(17, 43%, 56%);
 
@@ -38,8 +38,8 @@
     --color-text-tertiary: hsl(0, 0%, 54%);
     --color-text-transparent: rgba(179, 179, 179, 0.55);
 
-    --back-container-background: #0f0f0f;
-    --front-container-background: #191919;
+    --back-container-background: #191919;
+    --front-container-background: #242424;
   }
 }
 
@@ -1035,7 +1035,7 @@ a {
           overflow: hidden;
           clear: both;
           display: block;
-          margin: auto;         
+          margin: auto; 
         }
         @media screen and (max-width: $single-column-max-width) {
           font-size: $single-column-post-body-size;
