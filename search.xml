@@ -546,7 +546,7 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
 <pre><code class="hljs yml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">&lt;title&gt;</span>
 <span class="hljs-attr">date:</span> <span class="hljs-number">1970-1</span><span class="hljs-number">-1</span> <span class="hljs-number">00</span><span class="hljs-string">:00:00</span>
-<span class="hljs-attr">intro:</span> <span class="hljs-string">&lt;intro&gt;</span> <span class="hljs-comment"># or use &quot;&lt;intro&gt;&quot; for spaced sentences</span>
+<span class="hljs-attr">intro:</span> <span class="hljs-string">&lt;intro&gt;</span>                   <span class="hljs-comment"># or use &quot;&lt;intro&gt;&quot; for spaced sentences</span>
 <span class="hljs-attr">featured_image:</span> <span class="hljs-string">img/69941255.png</span> <span class="hljs-comment"># or use `https://...` instead</span>
 <span class="hljs-attr">category:</span>
 <span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat1&gt;</span>
@@ -554,8 +554,9 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
 <span class="hljs-attr">tags:</span> 
 <span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag1&gt;</span>
 <span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag2&gt;</span>
-<span class="hljs-attr">toc:</span> <span class="hljs-literal">true</span>  <span class="hljs-comment"># to use Table of Contents</span>
-<span class="hljs-attr">math:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># to use Mathjax Render for math formula</span>
+<span class="hljs-attr">toc:</span> <span class="hljs-literal">true</span>                        <span class="hljs-comment"># to use Table of Contents</span>
+<span class="hljs-attr">math:</span> <span class="hljs-literal">true</span>                       <span class="hljs-comment"># to use Mathjax Render for math formula</span>
+<span class="hljs-attr">no_comments:</span> <span class="hljs-literal">false</span>               <span class="hljs-comment"># to disable comment plugins</span>
 <span class="hljs-meta">---</span></code></pre>
 
 <h3 id="Markdown-Features"><a href="#Markdown-Features" class="headerlink" title="Markdown Features"></a>Markdown Features</h3><p><em>italicized text &#x2F; 斜体</em></p>
