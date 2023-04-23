@@ -195,6 +195,9 @@ blockquote {
   }
   .plain-text {
     color: var(--color-text) !important;
+    * {
+      color: var(--color-text) !important;
+    }
   }
 }
 

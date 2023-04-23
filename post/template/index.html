@@ -22,7 +22,7 @@
     
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?10823130">
+<link rel="stylesheet" href="/css/journal.css?10218612">
 
 <link rel="icon" href="/img/favicon.ico">
 
@@ -226,8 +226,7 @@
             <div class="post-body-wrapper">
                 <div class="post-body">
                     <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Configuration"><span class="toc-number">1.</span> <span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Markdown-Features"><span class="toc-number">2.</span> <span class="toc-text">Markdown Features</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Math-Render"><span class="toc-number">3.</span> <span class="toc-text">Math Render</span></a></li></ol>
-                    <h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><p>在 <a target="_blank" rel="noopener" href="https://github.com/ce-amtic/hexo-theme-journal">Jounal</a> 主题下，一个完整的 markdown 表头形如：</p>
-<pre><code class="hljs yml"><span class="hljs-meta">---</span>
+                    <h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><pre><code class="hljs yml"><span class="hljs-meta">---</span>
 <span class="hljs-attr">title:</span> <span class="hljs-string">&lt;title&gt;</span>
 <span class="hljs-attr">date:</span> <span class="hljs-number">1970-1</span><span class="hljs-number">-1</span> <span class="hljs-number">00</span><span class="hljs-string">:00:00</span>
 <span class="hljs-attr">intro:</span> <span class="hljs-string">&lt;intro&gt;</span>                   <span class="hljs-comment"># or use &quot;&lt;intro&gt;&quot; for spaced sentences</span>
@@ -243,26 +242,23 @@
 <span class="hljs-attr">no_comments:</span> <span class="hljs-literal">false</span>               <span class="hljs-comment"># to disable comment plugins</span>
 <span class="hljs-meta">---</span></code></pre>
 
-<h3 id="Markdown-Features"><a href="#Markdown-Features" class="headerlink" title="Markdown Features"></a>Markdown Features</h3><p><em>italicized text &#x2F; 斜体</em></p>
-<p><strong>bold text &#x2F; 粗体</strong></p>
-<p><a target="_blank" rel="noopener" href="https://www.w3schools.com/">This is a Link &#x2F; 这是一条链接</a></p>
-<blockquote>
+<h3 id="Markdown-Features"><a href="#Markdown-Features" class="headerlink" title="Markdown Features"></a>Markdown Features</h3><blockquote>
 <p><strong>This is title &#x2F; 这里是标题</strong></p>
 <div class="plain-text">
-<p>This is plain text. &#x2F; 这里是普通文本。</p>
+<p>This is plain text. &#x2F; 这里是普通文本。<br>这里是针对于普通文本的<strong>强调</strong>。</p>
 </div>
 </blockquote>
 
+<p>使用如下的代码插入自定义引用框：</p>
 <pre><code class="hljs html">&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;
 **This is title / 这里是标题**
 &#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;plain-text&quot;</span>&gt;</span>&#123;% endraw %&#125;
 This is plain text. / 这里是普通文本。
+这里是针对于普通文本的**强调**。
 &#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&#123;% endraw %&#125;
 &#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;</code></pre>
 
-<blockquote>
-<p>To quote some paras<br>这是一段引述<br>des asijdasu</p>
-</blockquote>
+<p><img src="https://images.unsplash.com/photo-1679931974874-77efab50038e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=760&q=80" alt="This is a demo picture"></p>
 <ul>
 <li><input checked="" disabled="" type="checkbox"> Write the press release</li>
 <li><input disabled="" type="checkbox"> Update the website</li>
@@ -271,23 +267,12 @@ This is plain text. / 这里是普通文本。
 <ol>
 <li>First item</li>
 <li>Second item</li>
-<li>Third item</li>
 </ol>
-<ul>
-<li>First item</li>
-<li>Second item</li>
-<li>Third item</li>
-</ul>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/f/f3/Map_commune_FR_insee_code_47104.png" alt="This is a demo picture"></p>
+<p>查机科花素询深场呀<strong>装导</strong>。 习先认取连满物备采立完，指果<em>山际海</em>6题以杏。 根参众里同府又商务容，单没管放被在再交参对，<strong>人装束政二枣今利</strong>。 切半严切入放小改边，活次称证表造革正，去面B<em>众能证4</em>。 严果周指：<a href="">非段风</a>，广样儿道备些前，品适询人A需争。 已太极前技复府维求低，习感史结完也色方，线解肃但六却的坚。</p>
 <h3 id="Math-Render"><a href="#Math-Render" class="headerlink" title="Math Render"></a>Math Render</h3><p><strong>Single Line Equations</strong></p>
 <p>$$ |X&#x2F;G|&#x3D;\dfrac{1}{|G|}\sum\limits_{g\in G}|S|^{\chi(g)} $$</p>
-<pre><code class="hljs tex"><span class="hljs-built_in">$</span><span class="hljs-built_in">$</span>|X/G|=<span class="hljs-keyword">\dfrac</span>&#123;1&#125;&#123;|G|&#125;<span class="hljs-keyword">\sum</span><span class="hljs-keyword">\limits</span><span class="hljs-built_in">_</span>&#123;g<span class="hljs-keyword">\in</span> G&#125;|S|<span class="hljs-built_in">^</span>&#123;<span class="hljs-keyword">\chi</span>(g)&#125;<span class="hljs-built_in">$</span><span class="hljs-built_in">$</span></code></pre>
-
 <p><strong>Inline Equations</strong></p>
 <p>设 $X\subseteq \mathcal{C}$ 是某个染色集合， $G$ 是作用在 $X$ 上的置换群，我们记 $X&#x2F;G$ 为在 $G$ 作用下 $X$ 的轨道集合，即 $X&#x2F;G&#x3D;\begin{Bmatrix} gc\text{ | } c\in X, g\in G\end{Bmatrix}$。</p>
-<pre><code class="hljs markdown">设 $X\subseteq \mathcal&#123;C&#125;$ 是某个染色集合， $G$ 是作用在 $X$ 上的置换群，
-我们记 $X/G$ 为在 $G$ 作用下 $X$ 的轨道集合，即 $X/G=\begin&#123;Bmatrix&#125; gc\text&#123; | &#125; c\in X, g\in G\end&#123;Bmatrix&#125;$。</code></pre>
-
 <hr>
 <p>更多有关 LaTeX 的细节，请<a target="_blank" rel="noopener" href="https://shuyumo2003.github.io/LaTeX-syntax.html">参考</a>。</p>
 
@@ -338,7 +323,7 @@ This is plain text. / 这里是普通文本。
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/14.2.1/smooth-scroll.min.js" crossorigin="anonymous"></script>
-<script src="/js/journal.min.js?44425102"></script>
+<script src="/js/journal.min.js?98140495"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="/js/clipboard.js"></script>
 <script src="/js/darkmode.js"></script>
