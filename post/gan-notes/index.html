@@ -4,11 +4,11 @@
 <html lang="en">
 
 <head>
-    <title>Archive: 2021/3 - ce_amtic&#39;s</title>
+    <title>GAN 学习笔记 - ce_amtic&#39;s</title>
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="ce_amtic">
-<meta name="description" content="A Blog Powered By Hexo">
+<meta name="description" content="欢迎来到 GAN 世界动物园！">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -22,7 +22,7 @@
     
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?59121439">
+<link rel="stylesheet" href="/css/journal.css?8110115">
 
 <link rel="icon" href="/img/favicon.ico">
 
@@ -67,7 +67,7 @@
                         Tags
                     </a>
                 
-                    <a class="a-block drawer-menu-item active"
+                    <a class="a-block drawer-menu-item false"
                        href="/archives">
                         Archive
                     </a>
@@ -133,7 +133,7 @@
                     Tags
                 </a>
             
-                <a class="a-block nav-link-item active"
+                <a class="a-block nav-link-item false"
                    href="/archives">
                     Archive
                 </a>
@@ -171,51 +171,103 @@
         </a>
 
         
-        
-
-        
-
-        
-        
     </div>
 </div>
 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        showProcessingMessages: false,
+        messageStyle: "none",
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+            inlineMath:  [ ["$", "$"] ],
+            displayMath: [ ["$$","$$"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre','code','a'],
+            ignoreClass:"comment-content"
+        },
+        "HTML-CSS": {
+            availableFonts: ["STIX","TeX"],
+            showMathMenu: true
+        }
+    });
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+</script>
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+
+
+
 <div ref="streamContainer" class="stream-container">
     <div class="post-list-container post-list-container-shadow">
-        
-        
-        <div class="post-item-wrapper post-item-wrapper-no-hover">
-            <div class="post-item post-item-no-gaps">
-                <div class="post-item-info-wrapper">
-                    <div class="post-item-title  post-item-title-small">
+        <div class="post">
+            <div class="post-head-wrapper-text-only"
+                 style="background-image: url('')">
+                <div class="post-title">
+                    GAN 学习笔记
+                    <div class="post-meta">
+                        <time datetime="2023-12-08T16:00:00.000Z" itemprop="datePublished">
+                            2023-12-09 00:00
+                        </time>&nbsp;
                         
-                        <a href="/archives/2021">2021</a> / 03
                         
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-
-        <a href="/post/four-ways-to-spell-border/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-gaps">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Border 的四种求法
-                        </div>
-                        <div class="post-item-meta">
-                            2021-03-10
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </a>
-
-        
-    </div>
+                        <i class="material-icons no-hover" style="">folder</i>
+                        
+                        <a href='/categories/机器学习/'>机器学习</a>
+                        
+                        
     
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Network-as-Genertor"><span class="toc-number">1.</span> <span class="toc-text">Network as Genertor</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ideas"><span class="toc-number">2.</span> <span class="toc-text">Ideas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Details"><span class="toc-number">3.</span> <span class="toc-text">Details</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Features"><span class="toc-number">4.</span> <span class="toc-text">Features</span></a></li></ol>
+                    <h3 id="Network-as-Genertor"><a href="#Network-as-Genertor" class="headerlink" title="Network as Genertor"></a>Network as Genertor</h3><p>普通的 nerul network 读入一个向量，输出是一个确定的向量。如果加入一个 distribution 当作参数，那么输出也会成为一个 distribution。</p>
+<p>为什么？考虑现实生活的随机性：一个事件有多种可能的结果，他们都是可能发生的，但又不会同时发生。</p>
+<h3 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h3><p>训练两个部分：generator 和 discriminator (also nerul nerwork function)。</p>
+<p>图片可以被视作巨大高维向量，然后作为 network 的输入。</p>
+<ul>
+<li>(discriminator) 输入一张图片，输出一个数值项 scaler，表示定真的程度，数值越大越好。</li>
+</ul>
+<p>对抗的思路是，让 generator 和 discriminator 进行对抗迭代，discriminator 负责找出 gen 输出和参考值之间的差异。</p>
+<h3 id="Details"><a href="#Details" class="headerlink" title="Details"></a>Details</h3><p>Discriminator 的训练可以看作分类问题，也可以看成逻辑回归（regression）等等。</p>
+<p>Generator 的训练目标很简答：使 Discriminator 的输出值越大越好。</p>
+<p>在实际处理中，将 Generator 和 Discriminator 拼接起来，视为一个更大的 network；这个network 中有一个 hidden layer，它的输出即是 Generator 的输出，不过在这里将其视为输出“维数很高”的一层。</p>
+<p>整个 network 以一个向量作为输入，并输出一个分数。向量即是某个 distribution 的采样，分数即是 discriminator 的输出。</p>
+<p>Discriminator，也就是整个神经网络的最后几层的参数是不应调整的。所有调参都应对应着 Generator 所在的层。</p>
+<p>训练 Generator 的方法：Gradient Ascent</p>
+<h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>理论上，给定两个不同的向量，GAN 会生成两张不同的图片。如果在这两个向量对应的高维区间上做插值（interpolation），则会看到这两张图片的平滑过渡。</p>
 
+                </div>
+            </div>
+    
+            
+<nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/post/icpc-buti/">
+        Next post<br>ICPC 补题
+    </a>
+    
+</nav>
+
+
+    
+            
+
+<div class="post-comment-wrapper-giscus">
+    <div class="giscus"></div>
+</div>
+
+
+
+        </div>
+    </div>
     <div class="single-column-footer">
     <!--button class="nav-footer-button" type="button" v-if="localStorage.theme === 'dark'" v-on:click="toggleDark">
         Light Mode
@@ -239,10 +291,41 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/14.2.1/smooth-scroll.min.js" crossorigin="anonymous"></script>
-<script src="/js/journal.min.js?417413"></script>
+<script src="/js/journal.min.js?5587544"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="/js/clipboard.js"></script>
 <script src="/js/darkmode.js"></script>
+
+
+
+
+<script id="myGiscusApp"></script>
+<script data-theme="preferred_color_scheme"
+        src="https://giscus.app/client.js"
+        
+        data-repo="ce-amtic/ce-amtic.github.io"
+        
+        data-repo-id="MDEwOlJlcG9zaXRvcnkxNjgzNTYwMTE="
+        
+        data-category="General"
+        
+        data-category-id="DIC_kwDOCgjoq84CVvut"
+        
+        data-mapping="pathname"
+        
+        data-reactions-enabled="1"
+        
+        data-emit-metadata="0"
+        
+        data-theme="light"
+        
+        data-lang="en"
+        
+        data-input-position="top"
+        data-strict="1"
+        crossorigin="anonymous"
+        async>
+</script>
 
 
 

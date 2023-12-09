@@ -6,7 +6,7 @@
   <link href="https://ce-amtic.github.io/atom.xml" rel="self"/>
   
   <link href="https://ce-amtic.github.io/"/>
-  <updated>2023-04-19T15:14:49.991Z</updated>
+  <updated>2023-12-09T08:36:52.184Z</updated>
   <id>https://ce-amtic.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>GAN 学习笔记</title>
+    <link href="https://ce-amtic.github.io/post/gan-notes/"/>
+    <id>https://ce-amtic.github.io/post/gan-notes/</id>
+    <published>2023-12-08T16:00:00.000Z</published>
+    <updated>2023-12-09T08:36:52.184Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Network-as-Genertor"><a href="#Network-as-Genertor" class="headerlink" title="Network as Genertor"></a>Network as Genertor</h3><p>普通的 nerul network 读入一个向量，输出是一个确定的向量。如果加入一个 distribution 当作参数，那么输出也会成为一个 distribution。</p><p>为什么？考虑现实生活的随机性：一个事件有多种可能的结果，他们都是可能发生的，但又不会同时发生。</p><h3 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h3><p>训练两个部分：generator 和 discriminator (also nerul nerwork function)。</p><p>图片可以被视作巨大高维向量，然后作为 network 的输入。</p><ul><li>(discriminator) 输入一张图片，输出一个数值项 scaler，表示定真的程度，数值越大越好。</li></ul><p>对抗的思路是，让 generator 和 discriminator 进行对抗迭代，discriminator 负责找出 gen 输出和参考值之间的差异。</p><h3 id="Details"><a href="#Details" class="headerlink" title="Details"></a>Details</h3><p>Discriminator 的训练可以看作分类问题，也可以看成逻辑回归（regression）等等。</p><p>Generator 的训练目标很简答：使 Discriminator 的输出值越大越好。</p><p>在实际处理中，将 Generator 和 Discriminator 拼接起来，视为一个更大的 network；这个network 中有一个 hidden layer，它的输出即是 Generator 的输出，不过在这里将其视为输出“维数很高”的一层。</p><p>整个 network 以一个向量作为输入，并输出一个分数。向量即是某个 distribution 的采样，分数即是 discriminator 的输出。</p><p>Discriminator，也就是整个神经网络的最后几层的参数是不应调整的。所有调参都应对应着 Generator 所在的层。</p><p>训练 Generator 的方法：Gradient Ascent</p><h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>理论上，给定两个不同的向量，GAN 会生成两张不同的图片。如果在这两个向量对应的高维区间上做插值（interpolation），则会看到这两张图片的平滑过渡。</p>]]></content>
+    
+    
+    <summary type="html">欢迎来到 GAN 世界动物园！</summary>
+    
+    
+    
+    <category term="机器学习" scheme="https://ce-amtic.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>ICPC 补题</title>
