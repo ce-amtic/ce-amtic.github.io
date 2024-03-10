@@ -175,23 +175,100 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
       </tags>
   </entry>
   <entry>
-    <title>ML Notes</title>
-    <url>/post/ml-notes/</url>
-    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
-<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
-<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
-<p>Basics:</p>
-<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
-<p>Gradient: </p>
-<p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
-<p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
+    <title>GAN 学习笔记</title>
+    <url>/post/gan-notes/</url>
+    <content><![CDATA[<h3 id="Network-as-Genertor"><a href="#Network-as-Genertor" class="headerlink" title="Network as Genertor"></a>Network as Genertor</h3><p>普通的 neural network 读入一个向量，输出是一个确定的向量。如果加入一个 distribution 当作参数，那么输出也会成为一个 distribution。</p>
+<p>为什么？考虑现实生活的随机性：一个事件有多种可能的结果，他们都是可能发生的，但又不会同时发生。</p>
+<h3 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h3><p>训练两个部分：generator 和 discriminator (also neural nerwork function)。图片可以被视作巨大高维向量，然后作为 network 的输入。</p>
+<blockquote>
+<p><strong>discriminator</strong> </p>
+<div class="plain-text">
+<p>输入一张图片，输出一个数值项 scaler，表示定真的程度，数值越大越好。</p>
+</div>
+</blockquote>
+
+<p>对抗的思路是，让 generator 和 discriminator 进行对抗迭代，discriminator 负责找出 gen 输出和参考值之间的差异。</p>
+<p>Discriminator 的训练可以看作分类问题，也可以看成逻辑回归（regression）等等。Generator 的训练目标很简答：使 Discriminator 的输出值越大越好。</p>
+<p>在实际处理中，将 Generator 和 Discriminator 拼接起来，视为一个更大的 network；这个network 中有一个 hidden layer，它的输出即是 Generator 的输出，不过在这里将其视为输出“维数很高”的一层。</p>
+<p>整个 network 以一个向量作为输入，并输出一个分数。向量即是某个 distribution 的采样，分数即是 discriminator 的输出。Discriminator，也就是整个神经网络的最后几层的参数是不应调整的。所有调参都应对应着 Generator 所在的层。</p>
+<h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>理论上，给定两个不同的向量，GAN 会生成两张不同的图片。如果在这两个向量对应的高维区间上做插值（interpolation），则会看到这两张图片的平滑过渡。</p>
+<h3 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h3><p>对于 Generator 的训练形式化为：</p>
+<p>$$ G^\text * &#x3D; arg\min_G Div(P_G, P_{Data})$$</p>
+<p>其中 $P_G$ 是输出的分布，$P_{data}$ 是训练集（参考值）的分布，$Div$ 表示 Divergence 即两个分布之间的距离。Divergance 的计算公式有 KL Divergence, JS Divergence 等等，但是这些并不方便计算，因为我们不知道 $P_G$ 和 $P_{data}$ 的具体分布。GAN 的解决思路是：Sample is good enough，即 $P_G,P_{data}$ 的一个采样是容易获得的；在此基础上， Discriminator 会基于这些采样给出 Divergence 的预测值。</p>
+<p>形式化地，Discriminator $D$ 的训练为：</p>
+<p>$$\begin{align}D^\text * &#x3D; arg \max_D V(D, G), \text {where }V(D, G)&#x3D;E_{y\in P_{data}}(\log D(y))+E_{y\in P_G}(\log (1-D(y))) \end{align}$$</p>
+<p>注意到 $V(D,G)$ 即是交叉熵的<strong>相反数</strong>，反比于数据的无序程度；也就是这里将其视为了一个二元逻辑回归问题，并把参考值标为 1，越接近 1 表示效果越好。</p>
+<p>GAN 的理论是：最大的交叉熵跟 JS Divergence 有很高的相关性，于是可以有：</p>
+<p>$$ G^\text * &#x3D; arg\min_G \max_D V(G,D)$$</p>
 ]]></content>
       <categories>
-        <category>Notes</category>
+        <category>机器学习</category>
       </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
+  </entry>
+  <entry>
+    <title>template 的构建</title>
+    <url>/post/template/</url>
+    <content><![CDATA[<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><pre><code class="hljs yml"><span class="hljs-meta">---</span>
+<span class="hljs-attr">title:</span> <span class="hljs-string">&lt;title&gt;</span>
+<span class="hljs-attr">date:</span> <span class="hljs-number">1970-1</span><span class="hljs-number">-1</span> <span class="hljs-number">00</span><span class="hljs-string">:00:00</span>
+<span class="hljs-attr">intro:</span> <span class="hljs-string">&lt;intro&gt;</span>                   <span class="hljs-comment"># or use &quot;&lt;intro&gt;&quot; for spaced sentences</span>
+<span class="hljs-attr">featured_image:</span> <span class="hljs-string">img/69941255.png</span> <span class="hljs-comment"># or use `https://...` instead</span>
+<span class="hljs-attr">category:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat1&gt;</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat2&gt;</span>
+<span class="hljs-attr">tags:</span> 
+<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag1&gt;</span>
+<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag2&gt;</span>
+<span class="hljs-attr">toc:</span> <span class="hljs-literal">true</span>                        <span class="hljs-comment"># to use Table of Contents</span>
+<span class="hljs-attr">math:</span> <span class="hljs-literal">true</span>                       <span class="hljs-comment"># to use Mathjax Render for math formula</span>
+<span class="hljs-attr">no_comments:</span> <span class="hljs-literal">false</span>               <span class="hljs-comment"># to disable comment plugins</span>
+<span class="hljs-meta">---</span></code></pre>
+
+<h3 id="Markdown-Features"><a href="#Markdown-Features" class="headerlink" title="Markdown Features"></a>Markdown Features</h3><blockquote>
+<p><strong>This is title &#x2F; 这里是标题</strong></p>
+<div class="plain-text">
+<p>This is plain text. &#x2F; 这里是普通文本。<br>这里是针对于普通文本的<strong>强调</strong>。</p>
+</div>
+</blockquote>
+
+<p>使用如下的代码插入自定义引用框：</p>
+<pre><code class="hljs html">&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;
+**This is title / 这里是标题**
+&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;plain-text&quot;</span>&gt;</span>&#123;% endraw %&#125;
+This is plain text. / 这里是普通文本。
+这里是针对于普通文本的**强调**。
+&#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&#123;% endraw %&#125;
+&#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;</code></pre>
+
+<p><img src="https://images.unsplash.com/photo-1679931974874-77efab50038e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=760&q=80" alt="This is a demo picture"></p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Write the press release</li>
+<li><input disabled="" type="checkbox"> Update the website</li>
+<li><input disabled="" type="checkbox"> Contact the media</li>
+</ul>
+<ol>
+<li>First item<ul>
+<li>111</li>
+<li>222</li>
+</ul>
+</li>
+<li>Second item</li>
+</ol>
+<ul>
+<li>111</li>
+<li>222</li>
+</ul>
+<p>查机科花素询深场呀<strong>装导</strong>。 习先认取连满物备采立完，指果<em>山际海</em>6题以杏。 根参众里同府又商务容，单没管放被在再交参对，<strong>人装束政二枣今利</strong>。 切半严切入放小改边，活次称证表造革正，去面B<em>众能证4</em>。 严果周指：<a href="">非段风</a>，广样儿道备些前，品适询人A需争。 已太极前技复府维求低，习感史结完也色方，线解肃但六却的坚。</p>
+<h3 id="Math-Render"><a href="#Math-Render" class="headerlink" title="Math Render"></a>Math Render</h3><p><strong>Single Line Equations</strong></p>
+<p>$$ |X&#x2F;G|&#x3D;\dfrac{1}{|G|}\sum\limits_{g\in G}|S|^{\chi(g)} $$</p>
+<p><strong>Inline Equations</strong></p>
+<p>设 $X\subseteq \mathcal{C}$ 是某个染色集合， $G$ 是作用在 $X$ 上的置换群，我们记 $X&#x2F;G$ 为在 $G$ 作用下 $X$ 的轨道集合，即 $X&#x2F;G&#x3D;\begin{Bmatrix} gc\text{ | } c\in X, g\in G\end{Bmatrix}$。</p>
+<hr>
+<p>更多有关 LaTeX 的细节，请<a href="https://shuyumo2003.github.io/LaTeX-syntax.html">参考</a>。</p>
+]]></content>
+      <categories>
+        <category>杂项</category>
+      </categories>
   </entry>
   <entry>
     <title>Mathjax 的构建</title>
@@ -559,99 +636,22 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
       </tags>
   </entry>
   <entry>
-    <title>GAN 学习笔记</title>
-    <url>/post/gan-notes/</url>
-    <content><![CDATA[<h3 id="Network-as-Genertor"><a href="#Network-as-Genertor" class="headerlink" title="Network as Genertor"></a>Network as Genertor</h3><p>普通的 neural network 读入一个向量，输出是一个确定的向量。如果加入一个 distribution 当作参数，那么输出也会成为一个 distribution。</p>
-<p>为什么？考虑现实生活的随机性：一个事件有多种可能的结果，他们都是可能发生的，但又不会同时发生。</p>
-<h3 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h3><p>训练两个部分：generator 和 discriminator (also neural nerwork function)。图片可以被视作巨大高维向量，然后作为 network 的输入。</p>
-<blockquote>
-<p><strong>discriminator</strong> </p>
-<div class="plain-text">
-<p>输入一张图片，输出一个数值项 scaler，表示定真的程度，数值越大越好。</p>
-</div>
-</blockquote>
-
-<p>对抗的思路是，让 generator 和 discriminator 进行对抗迭代，discriminator 负责找出 gen 输出和参考值之间的差异。</p>
-<p>Discriminator 的训练可以看作分类问题，也可以看成逻辑回归（regression）等等。Generator 的训练目标很简答：使 Discriminator 的输出值越大越好。</p>
-<p>在实际处理中，将 Generator 和 Discriminator 拼接起来，视为一个更大的 network；这个network 中有一个 hidden layer，它的输出即是 Generator 的输出，不过在这里将其视为输出“维数很高”的一层。</p>
-<p>整个 network 以一个向量作为输入，并输出一个分数。向量即是某个 distribution 的采样，分数即是 discriminator 的输出。Discriminator，也就是整个神经网络的最后几层的参数是不应调整的。所有调参都应对应着 Generator 所在的层。</p>
-<h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>理论上，给定两个不同的向量，GAN 会生成两张不同的图片。如果在这两个向量对应的高维区间上做插值（interpolation），则会看到这两张图片的平滑过渡。</p>
-<h3 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h3><p>对于 Generator 的训练形式化为：</p>
-<p>$$ G^\text * &#x3D; arg\min_G Div(P_G, P_{Data})$$</p>
-<p>其中 $P_G$ 是输出的分布，$P_{data}$ 是训练集（参考值）的分布，$Div$ 表示 Divergence 即两个分布之间的距离。Divergance 的计算公式有 KL Divergence, JS Divergence 等等，但是这些并不方便计算，因为我们不知道 $P_G$ 和 $P_{data}$ 的具体分布。GAN 的解决思路是：Sample is good enough，即 $P_G,P_{data}$ 的一个采样是容易获得的；在此基础上， Discriminator 会基于这些采样给出 Divergence 的预测值。</p>
-<p>形式化地，Discriminator $D$ 的训练为：</p>
-<p>$$\begin{align}D^\text * &#x3D; arg \max_D V(D, G), \text {where }V(D, G)&#x3D;E_{y\in P_{data}}(\log D(y))+E_{y\in P_G}(\log (1-D(y))) \end{align}$$</p>
-<p>注意到 $V(D,G)$ 即是交叉熵的<strong>相反数</strong>，反比于数据的无序程度；也就是这里将其视为了一个二元逻辑回归问题，并把参考值标为 1，越接近 1 表示效果越好。</p>
-<p>GAN 的理论是：最大的交叉熵跟 JS Divergence 有很高的相关性，于是可以有：</p>
-<p>$$ G^\text * &#x3D; arg\min_G \max_D V(G,D)$$</p>
+    <title>ML Notes</title>
+    <url>/post/ml-notes/</url>
+    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
+<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
+<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
+<p>Basics:</p>
+<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
+<p>Gradient: </p>
+<p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
+<p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
 ]]></content>
       <categories>
-        <category>机器学习</category>
+        <category>Notes</category>
       </categories>
-  </entry>
-  <entry>
-    <title>template 的构建</title>
-    <url>/post/template/</url>
-    <content><![CDATA[<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h3><pre><code class="hljs yml"><span class="hljs-meta">---</span>
-<span class="hljs-attr">title:</span> <span class="hljs-string">&lt;title&gt;</span>
-<span class="hljs-attr">date:</span> <span class="hljs-number">1970-1</span><span class="hljs-number">-1</span> <span class="hljs-number">00</span><span class="hljs-string">:00:00</span>
-<span class="hljs-attr">intro:</span> <span class="hljs-string">&lt;intro&gt;</span>                   <span class="hljs-comment"># or use &quot;&lt;intro&gt;&quot; for spaced sentences</span>
-<span class="hljs-attr">featured_image:</span> <span class="hljs-string">img/69941255.png</span> <span class="hljs-comment"># or use `https://...` instead</span>
-<span class="hljs-attr">category:</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat1&gt;</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;cat2&gt;</span>
-<span class="hljs-attr">tags:</span> 
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag1&gt;</span>
-<span class="hljs-bullet">-</span> <span class="hljs-string">&lt;tag2&gt;</span>
-<span class="hljs-attr">toc:</span> <span class="hljs-literal">true</span>                        <span class="hljs-comment"># to use Table of Contents</span>
-<span class="hljs-attr">math:</span> <span class="hljs-literal">true</span>                       <span class="hljs-comment"># to use Mathjax Render for math formula</span>
-<span class="hljs-attr">no_comments:</span> <span class="hljs-literal">false</span>               <span class="hljs-comment"># to disable comment plugins</span>
-<span class="hljs-meta">---</span></code></pre>
-
-<h3 id="Markdown-Features"><a href="#Markdown-Features" class="headerlink" title="Markdown Features"></a>Markdown Features</h3><blockquote>
-<p><strong>This is title &#x2F; 这里是标题</strong></p>
-<div class="plain-text">
-<p>This is plain text. &#x2F; 这里是普通文本。<br>这里是针对于普通文本的<strong>强调</strong>。</p>
-</div>
-</blockquote>
-
-<p>使用如下的代码插入自定义引用框：</p>
-<pre><code class="hljs html">&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;
-**This is title / 这里是标题**
-&#123;% raw %&#125;<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;plain-text&quot;</span>&gt;</span>&#123;% endraw %&#125;
-This is plain text. / 这里是普通文本。
-这里是针对于普通文本的**强调**。
-&#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>&#123;% endraw %&#125;
-&#123;% raw %&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">blockquote</span>&gt;</span>&#123;% endraw %&#125;</code></pre>
-
-<p><img src="https://images.unsplash.com/photo-1679931974874-77efab50038e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=760&q=80" alt="This is a demo picture"></p>
-<ul>
-<li><input checked="" disabled="" type="checkbox"> Write the press release</li>
-<li><input disabled="" type="checkbox"> Update the website</li>
-<li><input disabled="" type="checkbox"> Contact the media</li>
-</ul>
-<ol>
-<li>First item<ul>
-<li>111</li>
-<li>222</li>
-</ul>
-</li>
-<li>Second item</li>
-</ol>
-<ul>
-<li>111</li>
-<li>222</li>
-</ul>
-<p>查机科花素询深场呀<strong>装导</strong>。 习先认取连满物备采立完，指果<em>山际海</em>6题以杏。 根参众里同府又商务容，单没管放被在再交参对，<strong>人装束政二枣今利</strong>。 切半严切入放小改边，活次称证表造革正，去面B<em>众能证4</em>。 严果周指：<a href="">非段风</a>，广样儿道备些前，品适询人A需争。 已太极前技复府维求低，习感史结完也色方，线解肃但六却的坚。</p>
-<h3 id="Math-Render"><a href="#Math-Render" class="headerlink" title="Math Render"></a>Math Render</h3><p><strong>Single Line Equations</strong></p>
-<p>$$ |X&#x2F;G|&#x3D;\dfrac{1}{|G|}\sum\limits_{g\in G}|S|^{\chi(g)} $$</p>
-<p><strong>Inline Equations</strong></p>
-<p>设 $X\subseteq \mathcal{C}$ 是某个染色集合， $G$ 是作用在 $X$ 上的置换群，我们记 $X&#x2F;G$ 为在 $G$ 作用下 $X$ 的轨道集合，即 $X&#x2F;G&#x3D;\begin{Bmatrix} gc\text{ | } c\in X, g\in G\end{Bmatrix}$。</p>
-<hr>
-<p>更多有关 LaTeX 的细节，请<a href="https://shuyumo2003.github.io/LaTeX-syntax.html">参考</a>。</p>
-]]></content>
-      <categories>
-        <category>杂项</category>
-      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
   </entry>
 </search>
