@@ -6,7 +6,7 @@
   <link href="https://ce-amtic.github.io/atom.xml" rel="self"/>
   
   <link href="https://ce-amtic.github.io/"/>
-  <updated>2023-12-10T07:20:56.421Z</updated>
+  <updated>2024-03-10T10:23:24.987Z</updated>
   <id>https://ce-amtic.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ML Notes</title>
+    <link href="https://ce-amtic.github.io/post/ml-notes/"/>
+    <id>https://ce-amtic.github.io/post/ml-notes/</id>
+    <published>2024-03-09T21:53:16.000Z</published>
+    <updated>2024-03-10T10:23:24.987Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p><p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p><p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p><p>Basics:</p><p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p><p>Gradient: </p><p>$$\begin{align}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}<em>j\newline &amp;&#x3D;-\dfrac 1 m\sum\limits</em>{i&#x3D;1}^m  x^{(i)}<em>j \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline &amp;&#x3D;-\dfrac 1 m \sum\limits</em>{i&#x3D;1}^m x^{(i)}<em>j(y^{(i)}-\hat y)\newline &amp;&#x3D; \dfrac 1 m \sum\limits</em>{i&#x3D;1}^m x^{(i)}_j(\hat y-y^{(i)})\end{align}$$</p><p>i.e. $\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$</p>]]></content>
+    
+    
+    <summary type="html">还没有简介</summary>
+    
+    
+    
+    <category term="Notes" scheme="https://ce-amtic.github.io/categories/Notes/"/>
+    
+    
+    <category term="机器学习" scheme="https://ce-amtic.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>GAN 学习笔记</title>

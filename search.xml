@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>ML Notes</title>
+    <url>/post/ml-notes/</url>
+    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
+<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
+<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
+<p>Basics:</p>
+<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
+<p>Gradient: </p>
+<p>$$\begin{align}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}<em>j\newline &amp;&#x3D;-\dfrac 1 m\sum\limits</em>{i&#x3D;1}^m  x^{(i)}<em>j \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline &amp;&#x3D;-\dfrac 1 m \sum\limits</em>{i&#x3D;1}^m x^{(i)}<em>j(y^{(i)}-\hat y)\newline &amp;&#x3D; \dfrac 1 m \sum\limits</em>{i&#x3D;1}^m x^{(i)}_j(\hat y-y^{(i)})\end{align}$$</p>
+<p>i.e. $\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$</p>
+]]></content>
+      <categories>
+        <category>Notes</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Border 的四种求法</title>
     <url>/post/four-ways-to-spell-border/</url>
     <content><![CDATA[<p>“我问你，border 有四种求法*，你知道么？”</p>
@@ -109,101 +128,6 @@
       <categories>
         <category>机器学习</category>
       </categories>
-  </entry>
-  <entry>
-    <title>ICPC 补题</title>
-    <url>/post/icpc-buti/</url>
-    <content><![CDATA[<p>我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。 </p>
-<p>我是神必，其实就是是伸臂了。那么我为什么会是沈比，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，我怎么会是沈璧呢？但事实就是这样，小编也感到非常惊讶。</p>
-<h4 id="EC-Final-西安"><a href="#EC-Final-西安" class="headerlink" title="EC Final 西安"></a>EC Final 西安</h4><p><strong>B</strong></p>
-<p>考虑一个子串的合法划分形如：$[…]A|ABC|AB[…]$。</p>
-<p>考虑枚举两道竖线的位置 $i,j$，那么 $AB$ 是 $s[i:],s[j:]$ 的公共前缀。</p>
-<p>考虑如果 $len&#x3D;|AB|$ 确定，那么 $AB$ 可以唯一确定，此时的贡献是 $\sum_{k&#x3D;1}^{len-1}[s[i:i+k-1]&#x3D;s[i-k:i-1]]$。</p>
-<p>显然 $len$ 是连续取值的，$2\le len\le LCP(s[i:], s[j:])$。</p>
-<p>任意两个后缀的 LCP 可以 $O(n^2)$ DP，或者 z 函数。</p>
-<p>定义一个 $c[i,l]&#x3D;[s[i:i+l-1]&#x3D;s[i-l:i-1]]$，那么 $i,j$ 的贡献实际上就是 $c$ 数组的二阶前缀和。</p>
-<h4 id="ICPC-杭州"><a href="#ICPC-杭州" class="headerlink" title="ICPC 杭州"></a>ICPC 杭州</h4><p><strong>A</strong></p>
-<p>给出 $H, n, m$，求一个 $s,d\in \mathbb R$ 使得 $H+ns+\frac {n(n+1)} 2d \text{ mod }m$ 最小。</p>
-<p>把 $d$ 写成 $2k+t(t&#x3D;0 \text{ or }1)$ 的形式，然后发现 $\frac {n(n+1)} 2 d&#x3D;\frac {n(n+1)} 2t+ n(n+1)k$ ，后一项提一个 $(n+1)k$ 之后可以与 $s$ 合并。</p>
-<p>也就是 $d$ 只取 0 或 1。两种问题本质上没有区别，那么考虑使 $H+ns\text{ mod }m$ 最小。</p>
-<p>考虑 $ns\text{ mod }m$ 的所有取值是 $k(n,m),0\le k&lt; m&#x2F;(n,m)$。</p>
-<p>记 $B &#x3D; m-H$，显然 $ns\ge B$ 才是有效的，且我们要找到最小的 $ns$ 使得 $ns&#x3D;k(n,m)\ge B$。</p>
-<p>显然 $k&#x3D;\lceil B&#x2F;(n,m)\rceil$，剩下的问题是解同余方程 $ns\equiv (n,m)k\text{ (mod }m)$，exgcd 即可。</p>
-<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;y)</span></span>&#123;
-    <span class="hljs-keyword">if</span>(!b) <span class="hljs-keyword">return</span> x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>, a;
-    <span class="hljs-type">int</span> g = <span class="hljs-built_in">exgcd</span>(b, y, a % b, x);
-    <span class="hljs-keyword">return</span> y -= (a / b) * x, g;
-&#125;</code></pre>
-
-<h4 id="CCPC-绵阳"><a href="#CCPC-绵阳" class="headerlink" title="CCPC 绵阳"></a>CCPC 绵阳</h4><p><strong>A</strong></p>
-<p>博弈 DP，有待复盘：</p>
-<p><a href="https://codeforces.com/gym/104065/problem/A">https://codeforces.com/gym/104065/problem/A</a></p>
-<p><a href="https://atcoder.jp/contests/abc195/tasks/abc195_e">https://atcoder.jp/contests/abc195/tasks/abc195_e</a></p>
-<p><a href="https://www.luogu.com.cn/problem/P2964">https://www.luogu.com.cn/problem/P2964</a></p>
-<h4 id="CCPC-广州-jly题"><a href="#CCPC-广州-jly题" class="headerlink" title="CCPC 广州 jly题"></a>CCPC 广州 jly题</h4><p><strong>M</strong></p>
-<p>设长度为 $K$ 的序列 $a$，使 $0\le a_i\le m$，且 $\sum\limits_{1\le i&lt;j\le n} a_i \text{ XOR } a_j&#x3D;n$，求 $a$ 的个数。</p>
-<p>数位 DP，首先要卡 $m$ 的限制那么从高位向低位做，设 $f[i,j,k]$ 表示考虑高 $i$ 位，现有 $j$ 个数字卡了上界，第 $0\sim i$ 位（未确定的位）两两异或的贡献之和应等于 $2^k$ 的方案数。</p>
-<p>先看一下 $k$ 的界，首先 $k\le (K&#x2F;2)^2$，因为更大的情况是无法表示的。</p>
-<p>那么看下能不能转移，考虑 $f[i,j,k]$ 应该往哪里转移。</p>
-<p>如果 $m$ 的 $i+1$ 位为 0，那么这种情况是简单的，因为高 $i$ 位卡上界的数字此时依然卡上界。枚举不卡上界的数字有 $j_1$ 个为 1（$0\le j_1\le K -j$），转移是：</p>
-<p>$$f[i,j,k]\binom{j-K}{j_1}\to f[i+1,j,2k-j_1(K-j_1)]$$</p>
-<p>注意这里 $0\le 2k-j_1(K-j_1)\le(K&#x2F;2)^2$。</p>
-<p>然后如果 $m$ 的 $i+1$ 位为 1，分别枚举 $0\le j_1\le K-j$ 和 $0\le j_2\le j$ 表示没卡上界和卡上界的数字，分别选了多少个 1，转移是：</p>
-<p>$$ f[i,j,k]\binom{K-j}{j_1}\binom{j}{j_2}\to f[i+1,j_2,2k-(j_1+j_2)(K-j_1-j_2)] $$</p>
-<p>状态数 $O(\dfrac{K^3\log n} 4)$，转移至多  $O(K^2)$，这样是 $O(\dfrac{K^5\log n} 4)$，可过。</p>
-<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
-<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; <span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL; <span class="hljs-type">const</span> <span class="hljs-type">int</span> P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
-LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number">20</span>], f[<span class="hljs-number">2</span>][<span class="hljs-number">20</span>][<span class="hljs-number">400</span>];
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getub</span><span class="hljs-params">()</span></span>&#123;
-    <span class="hljs-type">int</span> i = <span class="hljs-number">50</span>;
-    <span class="hljs-keyword">while</span>(i &amp;&amp; !(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i)) &amp;&amp; !(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i))) i--;
-    <span class="hljs-keyword">return</span> i;
-&#125;
-<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
-    <span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;_in.in&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, stdin);
-    C[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= <span class="hljs-number">18</span>; i++)&#123;
-        C[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
-        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= i; j++) C[i][j] = (C[i - <span class="hljs-number">1</span>][j] + C[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) % P;
-    &#125;
-    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld%lld%lld&quot;</span>, &amp;n, &amp;m, &amp;K), ub = <span class="hljs-built_in">getub</span>();
-    f[<span class="hljs-number">0</span>][K][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>; <span class="hljs-type">int</span> B = (K / <span class="hljs-number">2</span>) * (K - K / <span class="hljs-number">2</span>), ans = <span class="hljs-number">0</span>; 
-    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= ub; i++)&#123;
-        <span class="hljs-type">int</span> u = (i &amp; <span class="hljs-number">1</span>) ^ <span class="hljs-number">1</span>, p = i &amp; <span class="hljs-number">1</span>, cb = ub - i; <span class="hljs-built_in">memset</span>(f[u], <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(f[u]));
-        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++)&#123;
-            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt;= B; k++)&#123;
-                <span class="hljs-type">int</span> sk = <span class="hljs-number">2</span> * k + !!(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb));
-                <span class="hljs-keyword">if</span>(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb))&#123;
-                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] * C[j][j2]-&gt; f[u][j2][su - (j1 + j2) * (k - j1 - j2)]</span>
-                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j2 = <span class="hljs-number">0</span>; j2 &lt;= j; j2++)&#123;
-                        <span class="hljs-type">int</span> cnt = (j1 + j2) * (K - j1 - j2); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
-                        f[u][j2][sk - cnt] = ((LL)C[K - j][j1] * C[j][j2] % P * f[p][j][k] + f[u][j2][sk - cnt]) % P;
-                    &#125;
-                &#125;
-                <span class="hljs-keyword">else</span>&#123;
-                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] -&gt; f[u][j][su - j1 * (k - j1)]</span>
-                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++)&#123;
-                        <span class="hljs-type">int</span> cnt = j1 * (K - j1); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
-                        f[u][j][sk - cnt] = ((LL)C[K - j][j1] * f[p][j][k] + f[u][j][sk - cnt]) % P;
-                    &#125;
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-    ub = ub &amp; <span class="hljs-number">1</span>, ub ^= <span class="hljs-number">1</span>; <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++) ans = (ans + f[ub][j][<span class="hljs-number">0</span>]) % P;
-    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
-
-<h4 id="鹿赛-23"><a href="#鹿赛-23" class="headerlink" title="鹿赛 23"></a>鹿赛 23</h4><p><strong>HDU 6900</strong></p>
-<p>没米恰，咕了</p>
-]]></content>
-      <categories>
-        <category>CP 笔记</category>
-      </categories>
-      <tags>
-        <tag>ICPC</tag>
-      </tags>
   </entry>
   <entry>
     <title>Mathjax 的构建</title>
@@ -568,6 +492,101 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
       </categories>
       <tags>
         <tag>OI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ICPC 补题</title>
+    <url>/post/icpc-buti/</url>
+    <content><![CDATA[<p>我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。 </p>
+<p>我是神必，其实就是是伸臂了。那么我为什么会是沈比，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，我怎么会是沈璧呢？但事实就是这样，小编也感到非常惊讶。</p>
+<h4 id="EC-Final-西安"><a href="#EC-Final-西安" class="headerlink" title="EC Final 西安"></a>EC Final 西安</h4><p><strong>B</strong></p>
+<p>考虑一个子串的合法划分形如：$[…]A|ABC|AB[…]$。</p>
+<p>考虑枚举两道竖线的位置 $i,j$，那么 $AB$ 是 $s[i:],s[j:]$ 的公共前缀。</p>
+<p>考虑如果 $len&#x3D;|AB|$ 确定，那么 $AB$ 可以唯一确定，此时的贡献是 $\sum_{k&#x3D;1}^{len-1}[s[i:i+k-1]&#x3D;s[i-k:i-1]]$。</p>
+<p>显然 $len$ 是连续取值的，$2\le len\le LCP(s[i:], s[j:])$。</p>
+<p>任意两个后缀的 LCP 可以 $O(n^2)$ DP，或者 z 函数。</p>
+<p>定义一个 $c[i,l]&#x3D;[s[i:i+l-1]&#x3D;s[i-l:i-1]]$，那么 $i,j$ 的贡献实际上就是 $c$ 数组的二阶前缀和。</p>
+<h4 id="ICPC-杭州"><a href="#ICPC-杭州" class="headerlink" title="ICPC 杭州"></a>ICPC 杭州</h4><p><strong>A</strong></p>
+<p>给出 $H, n, m$，求一个 $s,d\in \mathbb R$ 使得 $H+ns+\frac {n(n+1)} 2d \text{ mod }m$ 最小。</p>
+<p>把 $d$ 写成 $2k+t(t&#x3D;0 \text{ or }1)$ 的形式，然后发现 $\frac {n(n+1)} 2 d&#x3D;\frac {n(n+1)} 2t+ n(n+1)k$ ，后一项提一个 $(n+1)k$ 之后可以与 $s$ 合并。</p>
+<p>也就是 $d$ 只取 0 或 1。两种问题本质上没有区别，那么考虑使 $H+ns\text{ mod }m$ 最小。</p>
+<p>考虑 $ns\text{ mod }m$ 的所有取值是 $k(n,m),0\le k&lt; m&#x2F;(n,m)$。</p>
+<p>记 $B &#x3D; m-H$，显然 $ns\ge B$ 才是有效的，且我们要找到最小的 $ns$ 使得 $ns&#x3D;k(n,m)\ge B$。</p>
+<p>显然 $k&#x3D;\lceil B&#x2F;(n,m)\rceil$，剩下的问题是解同余方程 $ns\equiv (n,m)k\text{ (mod }m)$，exgcd 即可。</p>
+<pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">exgcd</span><span class="hljs-params">(<span class="hljs-type">int</span> a, <span class="hljs-type">int</span> &amp;x, <span class="hljs-type">int</span> b, <span class="hljs-type">int</span> &amp;y)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(!b) <span class="hljs-keyword">return</span> x = <span class="hljs-number">1</span>, y = <span class="hljs-number">0</span>, a;
+    <span class="hljs-type">int</span> g = <span class="hljs-built_in">exgcd</span>(b, y, a % b, x);
+    <span class="hljs-keyword">return</span> y -= (a / b) * x, g;
+&#125;</code></pre>
+
+<h4 id="CCPC-绵阳"><a href="#CCPC-绵阳" class="headerlink" title="CCPC 绵阳"></a>CCPC 绵阳</h4><p><strong>A</strong></p>
+<p>博弈 DP，有待复盘：</p>
+<p><a href="https://codeforces.com/gym/104065/problem/A">https://codeforces.com/gym/104065/problem/A</a></p>
+<p><a href="https://atcoder.jp/contests/abc195/tasks/abc195_e">https://atcoder.jp/contests/abc195/tasks/abc195_e</a></p>
+<p><a href="https://www.luogu.com.cn/problem/P2964">https://www.luogu.com.cn/problem/P2964</a></p>
+<h4 id="CCPC-广州-jly题"><a href="#CCPC-广州-jly题" class="headerlink" title="CCPC 广州 jly题"></a>CCPC 广州 jly题</h4><p><strong>M</strong></p>
+<p>设长度为 $K$ 的序列 $a$，使 $0\le a_i\le m$，且 $\sum\limits_{1\le i&lt;j\le n} a_i \text{ XOR } a_j&#x3D;n$，求 $a$ 的个数。</p>
+<p>数位 DP，首先要卡 $m$ 的限制那么从高位向低位做，设 $f[i,j,k]$ 表示考虑高 $i$ 位，现有 $j$ 个数字卡了上界，第 $0\sim i$ 位（未确定的位）两两异或的贡献之和应等于 $2^k$ 的方案数。</p>
+<p>先看一下 $k$ 的界，首先 $k\le (K&#x2F;2)^2$，因为更大的情况是无法表示的。</p>
+<p>那么看下能不能转移，考虑 $f[i,j,k]$ 应该往哪里转移。</p>
+<p>如果 $m$ 的 $i+1$ 位为 0，那么这种情况是简单的，因为高 $i$ 位卡上界的数字此时依然卡上界。枚举不卡上界的数字有 $j_1$ 个为 1（$0\le j_1\le K -j$），转移是：</p>
+<p>$$f[i,j,k]\binom{j-K}{j_1}\to f[i+1,j,2k-j_1(K-j_1)]$$</p>
+<p>注意这里 $0\le 2k-j_1(K-j_1)\le(K&#x2F;2)^2$。</p>
+<p>然后如果 $m$ 的 $i+1$ 位为 1，分别枚举 $0\le j_1\le K-j$ 和 $0\le j_2\le j$ 表示没卡上界和卡上界的数字，分别选了多少个 1，转移是：</p>
+<p>$$ f[i,j,k]\binom{K-j}{j_1}\binom{j}{j_2}\to f[i+1,j_2,2k-(j_1+j_2)(K-j_1-j_2)] $$</p>
+<p>状态数 $O(\dfrac{K^3\log n} 4)$，转移至多  $O(K^2)$，这样是 $O(\dfrac{K^5\log n} 4)$，可过。</p>
+<pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;bits/stdc++.h&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; <span class="hljs-keyword">typedef</span> <span class="hljs-type">long</span> <span class="hljs-type">long</span> LL; <span class="hljs-type">const</span> <span class="hljs-type">int</span> P = <span class="hljs-number">1e9</span> + <span class="hljs-number">7</span>;
+LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number">20</span>], f[<span class="hljs-number">2</span>][<span class="hljs-number">20</span>][<span class="hljs-number">400</span>];
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">getub</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-type">int</span> i = <span class="hljs-number">50</span>;
+    <span class="hljs-keyword">while</span>(i &amp;&amp; !(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i)) &amp;&amp; !(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; i))) i--;
+    <span class="hljs-keyword">return</span> i;
+&#125;
+<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-built_in">freopen</span>(<span class="hljs-string">&quot;_in.in&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>, stdin);
+    C[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = C[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">2</span>; i &lt;= <span class="hljs-number">18</span>; i++)&#123;
+        C[i][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">1</span>; j &lt;= i; j++) C[i][j] = (C[i - <span class="hljs-number">1</span>][j] + C[i - <span class="hljs-number">1</span>][j - <span class="hljs-number">1</span>]) % P;
+    &#125;
+    <span class="hljs-built_in">scanf</span>(<span class="hljs-string">&quot;%lld%lld%lld&quot;</span>, &amp;n, &amp;m, &amp;K), ub = <span class="hljs-built_in">getub</span>();
+    f[<span class="hljs-number">0</span>][K][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>; <span class="hljs-type">int</span> B = (K / <span class="hljs-number">2</span>) * (K - K / <span class="hljs-number">2</span>), ans = <span class="hljs-number">0</span>; 
+    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt;= ub; i++)&#123;
+        <span class="hljs-type">int</span> u = (i &amp; <span class="hljs-number">1</span>) ^ <span class="hljs-number">1</span>, p = i &amp; <span class="hljs-number">1</span>, cb = ub - i; <span class="hljs-built_in">memset</span>(f[u], <span class="hljs-number">0</span>, <span class="hljs-built_in">sizeof</span>(f[u]));
+        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++)&#123;
+            <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> k = <span class="hljs-number">0</span>; k &lt;= B; k++)&#123;
+                <span class="hljs-type">int</span> sk = <span class="hljs-number">2</span> * k + !!(n &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb));
+                <span class="hljs-keyword">if</span>(m &amp; (<span class="hljs-number">1ll</span> &lt;&lt; cb))&#123;
+                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] * C[j][j2]-&gt; f[u][j2][su - (j1 + j2) * (k - j1 - j2)]</span>
+                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++) <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j2 = <span class="hljs-number">0</span>; j2 &lt;= j; j2++)&#123;
+                        <span class="hljs-type">int</span> cnt = (j1 + j2) * (K - j1 - j2); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
+                        f[u][j2][sk - cnt] = ((LL)C[K - j][j1] * C[j][j2] % P * f[p][j][k] + f[u][j2][sk - cnt]) % P;
+                    &#125;
+                &#125;
+                <span class="hljs-keyword">else</span>&#123;
+                    <span class="hljs-comment">// f[p][j][u] * C[k - j][j1] -&gt; f[u][j][su - j1 * (k - j1)]</span>
+                    <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j1 = <span class="hljs-number">0</span>; j1 &lt;= K - j; j1++)&#123;
+                        <span class="hljs-type">int</span> cnt = j1 * (K - j1); <span class="hljs-keyword">if</span>(sk &lt; cnt || sk - cnt &gt; B) <span class="hljs-keyword">continue</span>;
+                        f[u][j][sk - cnt] = ((LL)C[K - j][j1] * f[p][j][k] + f[u][j][sk - cnt]) % P;
+                    &#125;
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+    ub = ub &amp; <span class="hljs-number">1</span>, ub ^= <span class="hljs-number">1</span>; <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> j = <span class="hljs-number">0</span>; j &lt;= K; j++) ans = (ans + f[ub][j][<span class="hljs-number">0</span>]) % P;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>, ans);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre>
+
+<h4 id="鹿赛-23"><a href="#鹿赛-23" class="headerlink" title="鹿赛 23"></a>鹿赛 23</h4><p><strong>HDU 6900</strong></p>
+<p>没米恰，咕了</p>
+]]></content>
+      <categories>
+        <category>CP 笔记</category>
+      </categories>
+      <tags>
+        <tag>ICPC</tag>
       </tags>
   </entry>
   <entry>
