@@ -6,7 +6,7 @@
   <link href="https://ce-amtic.github.io/atom.xml" rel="self"/>
   
   <link href="https://ce-amtic.github.io/"/>
-  <updated>2024-06-08T15:05:32.013Z</updated>
+  <updated>2024-06-08T15:07:52.065Z</updated>
   <id>https://ce-amtic.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://ce-amtic.github.io/post/annotated-sysy/"/>
     <id>https://ce-amtic.github.io/post/annotated-sysy/</id>
     <published>2024-06-08T09:23:00.000Z</published>
-    <updated>2024-06-08T15:05:32.013Z</updated>
+    <updated>2024-06-08T15:07:52.065Z</updated>
     
     <content type="html"><![CDATA[<p>我要成为bison高手.jpg</p><p>本文是对C++实现的SysY语言编译器的解析，仓库地址<a href="https://github.com/ce-amtic/sysy-compiler/tree/master">ce-amtic&#x2F;sysy-compiler</a>。编译器不分前后端，直接产生汇编语言。</p><h3 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h3><p>工程目录如下：</p><pre><code class="hljs plain">.├── assembly.hpp├── ast_node.hpp├── compiler.hpp├── symbols.hpp├── sysy.l├── sysy.y├── plot/│   └── tree.py├── out/                # outputs└── tests/              # testcase</code></pre><p>其中<code>sysy.l</code>为词法分析器；<code>sysy.y</code>是语义分析的主程序，其中定义了语法规则和动作；<code>ast_node.hpp</code>定义了语法树节点的抽象类型；<code>assembly.hpp</code>定义了Assembly类，用于实现汇编代码的生成；<code>symbols.hpp</code>定义了符号类Symbol和符号表Symbols；<code>compiler.hpp</code>定义了CompileState, RuntimeStack类，用于维护编译时状态。</p><p>根据bison的相关原理，<code>sysy.y</code>会在语义分析时，按定义的产生式规则递归语法树，但是并不会将其显示存储。语法树可视化的相关代码被放在了<code>plot/tree.py</code>中，这个脚本会根据<code>detail.txt</code>中的内容绘制语法树，后者按递归顺序记录了归约过程中的每条产生式。</p><p>详细信息请阅读GitHub上的<a href="https://github.com/ce-amtic/sysy-compiler/blob/master/README.md">指南文档</a>。</p><h3 id="分部解析"><a href="#分部解析" class="headerlink" title="分部解析"></a>分部解析</h3><h4 id="栈空间管理"><a href="#栈空间管理" class="headerlink" title="栈空间管理"></a>栈空间管理</h4><p>每个过程栈空间会在进入过程之后立刻确定，以便满足16字节对齐的要求。这一过程通过在CompileState类中维护一个offset变量来实现，它记录了当前用到的栈空间相对于基址的偏移。在编译器完成对过程的解析时，会计算offset峰值并对齐到16字节，回填到过程开始的位置。</p><p>本程序中，函数的参数是通过栈来传递的，对于callee来说，它的第一个参数在<code>8(%rbp)</code>的位置，第二个在<code>16(%rbp)</code>，以此类推。对于caller而言，编译器会记录其函数调用传参的情况，并提前预留出栈空间，相关逻辑实现在CompileState中。</p><h4 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h4><p>对于一个符号，会记录它的类别，数值（或偏移量），以及数组维度之类的附加信息，它们被抽象为Symbol类。</p><p>符号表是一个<code>vector&lt;map&lt;string, Symbol&gt; &gt;</code>类型的映射，其中第一层<code>vector</code>用于维护代码中的层级关系，第二层<code>map</code>用于按名称查找。</p><h4 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h4><p>表达式被定义为Exp类，它可能是函数调用，算式或它们的组合。本程序根据如下的规则简化代码编写：</p><blockquote><p><strong>针对表达式的规则</strong></p><div class="plain-text"><p>如果一个表达式有计算结果，这个结果要么是一个可以编译时计算的常数，要么对应到栈上的一个临时变量。对于前者，类中记录这个常数；对于后者，类中记录这个变量相对于栈基的偏移。</p></div></blockquote><p>在这一规则下，完成表达式计算的相关逻辑就会变得十分简单，代码在<code>sysy.y</code>里Exp相关的语义动作中。</p><h4 id="条件分支和循环"><a href="#条件分支和循环" class="headerlink" title="条件分支和循环"></a>条件分支和循环</h4><p>通过预生成跳转指令和回填的方式完成条件语句，代码在Cond和Stmt相关的语义动作中。</p><p>循环可以视为加入了回跳的条件语句，代码为While相关的语义动作。对于break, continue等影响控制流的语句，使用RuntimeStack类来维护运行状态，并完成跳转回填相关逻辑。</p><h4 id="初始化数组展平"><a href="#初始化数组展平" class="headerlink" title="初始化数组展平"></a>初始化数组展平</h4><p>针对<code>int a[4][3][2] = &#123;0, &#123;0&#125;, &#123;&#123;0&#125;&#125;&#125;</code>等等初始化方式，我将后面的每个大括号抽象为一个ExpList类，其中定义了<code>vector</code>容器用于维护嵌套大括号的情况，并在语法动作中记录层级信息。</p><p>在解析数组初始化时，我在ExpList类中定义了dfsArray方法，用于递归地解析这种层级信息，将初始值展平为一维数组。</p><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>更细节的实现，请直接参考<a href="https://github.com/ce-amtic/sysy-compiler/tree/master">代码</a>中的注释。</p>]]></content>
     
