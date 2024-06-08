@@ -22,7 +22,7 @@
     
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?78144428">
+<link rel="stylesheet" href="/css/journal.css?32763839">
 
 <link rel="icon" href="/img/favicon.ico">
 
@@ -232,7 +232,7 @@
                         
                         <i class="material-icons no-hover" style="">folder</i>
                         
-                        <a href='/categories/Notes/'>Notes</a>
+                        <a href='/categories/笔记/'>笔记</a>
                         
                         
     
@@ -249,7 +249,7 @@
     
             <div class="post-body-wrapper">
                 <div class="post-body">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Logistic-Regression"><span class="toc-number">1.</span> <span class="toc-text">Logistic Regression</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Logistic-Regression"><span class="toc-number">1.</span> <span class="toc-text">Logistic Regression</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Simple-RNN"><span class="toc-number">2.</span> <span class="toc-text">Simple RNN</span></a></li></ol>
                     <h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
 <p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
 <p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
@@ -258,12 +258,16 @@
 <p>Gradient: </p>
 <p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
 <p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
-
+<h3 id="Simple-RNN"><a href="#Simple-RNN" class="headerlink" title="Simple RNN"></a>Simple RNN</h3>
                 </div>
             </div>
     
             
 <nav class="post-pagination">
+    
+    <a class="newer-posts" href="/post/annotated-sysy/">
+        Previous post<br>语义实验解析
+    </a>
     
     <span class="page-number"></span>
     
@@ -308,7 +312,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/14.2.1/smooth-scroll.min.js" crossorigin="anonymous"></script>
-<script src="/js/journal.min.js?46226708"></script>
+<script src="/js/journal.min.js?3226761"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="/js/clipboard.js"></script>
 <script src="/js/darkmode.js"></script>

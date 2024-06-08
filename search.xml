@@ -1,35 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>GAN 学习笔记</title>
-    <url>/post/gan-notes/</url>
-    <content><![CDATA[<h3 id="Network-as-Genertor"><a href="#Network-as-Genertor" class="headerlink" title="Network as Genertor"></a>Network as Genertor</h3><p>普通的 neural network 读入一个向量，输出是一个确定的向量。如果加入一个 distribution 当作参数，那么输出也会成为一个 distribution。</p>
-<p>为什么？考虑现实生活的随机性：一个事件有多种可能的结果，他们都是可能发生的，但又不会同时发生。</p>
-<h3 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h3><p>训练两个部分：generator 和 discriminator (also neural nerwork function)。图片可以被视作巨大高维向量，然后作为 network 的输入。</p>
+    <title>语义实验解析</title>
+    <url>/post/annotated-sysy/</url>
+    <content><![CDATA[<p>我要成为bison高手.jpg</p>
+<p>本文是对C++实现的SysY语言编译器的解析，仓库地址<a href="https://github.com/ce-amtic/sysy-compiler/tree/master">ce-amtic&#x2F;sysy-compiler</a>。编译器不分前后端，直接产生汇编语言。</p>
+<h3 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h3><p>工程目录如下：</p>
+<pre><code class="hljs plain">.
+├── assembly.hpp
+├── ast_node.hpp
+├── compiler.hpp
+├── symbols.hpp
+├── sysy.l
+├── sysy.y
+├── plot/
+│   └── tree.py
+├── out/                # outputs
+└── tests/              # testcase</code></pre>
+
+<p>其中<code>sysy.l</code>为词法分析器；<code>sysy.y</code>是语义分析的主程序，其中定义了语法规则和动作；<code>ast_node.hpp</code>定义了语法树节点的抽象类型；<code>assembly.hpp</code>定义了Assembly类，用于实现汇编代码的生成；<code>symbols.hpp</code>定义了符号类Symbol和符号表Symbols；<code>compiler.hpp</code>定义了CompileState, RuntimeStack类，用于维护编译时状态。</p>
+<p>根据bison的相关原理，<code>sysy.y</code>会在语义分析时，按定义的产生式规则递归语法树，但是并不会将其显示存储。语法树可视化的相关代码被放在了<code>plot/tree.py</code>中，这个脚本会根据<code>detail.txt</code>中的内容绘制语法树，后者按递归顺序记录了归约过程中的每条产生式。</p>
+<p>详细信息请阅读GitHub上的<a href="https://github.com/ce-amtic/sysy-compiler/blob/master/README.md">指南文档</a>。</p>
+<h3 id="分部解析"><a href="#分部解析" class="headerlink" title="分部解析"></a>分部解析</h3><h4 id="栈空间管理"><a href="#栈空间管理" class="headerlink" title="栈空间管理"></a>栈空间管理</h4><p>每个过程栈空间会在进入过程之后立刻确定，以便满足16字节对齐的要求。这一过程通过在CompileState类中维护一个offset变量来实现，它记录了当前用到的栈空间相对于基址的偏移。在编译器完成对过程的解析时，会计算offset峰值并对齐到16字节，回填到过程开始的位置。</p>
+<p>本程序中，函数的参数是通过栈来传递的，对于callee来说，它的第一个参数在<code>8(%rbp)</code>的位置，第二个在<code>16(%rbp)</code>，以此类推。对于caller而言，编译器会记录其函数调用传参的情况，并提前预留出栈空间，相关逻辑实现在CompileState中。</p>
+<h4 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h4><p>对于一个符号，会记录它的类别，数值（或偏移量），以及数组维度之类的附加信息，它们被抽象为Symbol类。</p>
+<p>符号表是一个<code>vector&lt;map&lt;string, Symbol&gt; &gt;</code>类型的映射，其中第一层<code>vector</code>用于维护代码中的层级关系，第二层<code>map</code>用于按名称查找。</p>
+<h4 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h4><p>表达式被定义为Exp类，它可能是函数调用，算式或它们的组合。本程序根据如下的规则简化代码编写：</p>
 <blockquote>
-<p><strong>discriminator</strong> </p>
+<p><strong>针对表达式的规则</strong></p>
 <div class="plain-text">
-<p>输入一张图片，输出一个数值项 scaler，表示定真的程度，数值越大越好。</p>
+<p>如果一个表达式有计算结果，这个结果要么是一个可以编译时计算的常数，要么对应到栈上的一个临时变量。对于前者，类中记录这个常数；对于后者，类中记录这个变量相对于栈基的偏移。</p>
 </div>
 </blockquote>
 
-<p>对抗的思路是，让 generator 和 discriminator 进行对抗迭代，discriminator 负责找出 gen 输出和参考值之间的差异。</p>
-<p>Discriminator 的训练可以看作分类问题，也可以看成逻辑回归（regression）等等。Generator 的训练目标很简答：使 Discriminator 的输出值越大越好。</p>
-<p>在实际处理中，将 Generator 和 Discriminator 拼接起来，视为一个更大的 network；这个network 中有一个 hidden layer，它的输出即是 Generator 的输出，不过在这里将其视为输出“维数很高”的一层。</p>
-<p>整个 network 以一个向量作为输入，并输出一个分数。向量即是某个 distribution 的采样，分数即是 discriminator 的输出。Discriminator，也就是整个神经网络的最后几层的参数是不应调整的。所有调参都应对应着 Generator 所在的层。</p>
-<h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>理论上，给定两个不同的向量，GAN 会生成两张不同的图片。如果在这两个向量对应的高维区间上做插值（interpolation），则会看到这两张图片的平滑过渡。</p>
-<h3 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h3><p>对于 Generator 的训练形式化为：</p>
-<p>$$ G^\text * &#x3D; arg\min_G Div(P_G, P_{Data})$$</p>
-<p>其中 $P_G$ 是输出的分布，$P_{data}$ 是训练集（参考值）的分布，$Div$ 表示 Divergence 即两个分布之间的距离。Divergance 的计算公式有 KL Divergence, JS Divergence 等等，但是这些并不方便计算，因为我们不知道 $P_G$ 和 $P_{data}$ 的具体分布。GAN 的解决思路是：Sample is good enough，即 $P_G,P_{data}$ 的一个采样是容易获得的；在此基础上， Discriminator 会基于这些采样给出 Divergence 的预测值。</p>
-<p>形式化地，Discriminator $D$ 的训练为：</p>
-<p>$$\begin{align}D^\text * &#x3D; arg \max_D V(D, G), \text {where }V(D, G)&#x3D;E_{y\in P_{data}}(\log D(y))+E_{y\in P_G}(\log (1-D(y))) \end{align}$$</p>
-<p>注意到 $V(D,G)$ 即是交叉熵的<strong>相反数</strong>，反比于数据的无序程度；也就是这里将其视为了一个二元逻辑回归问题，并把参考值标为 1，越接近 1 表示效果越好。</p>
-<p>GAN 的理论是：最大的交叉熵跟 JS Divergence 有很高的相关性，于是可以有：</p>
-<p>$$ G^\text * &#x3D; arg\min_G \max_D V(G,D)$$</p>
+<p>在这一规则下，完成表达式计算的相关逻辑就会变得十分简单，代码在<code>sysy.y</code>里Exp相关的语义动作中。</p>
+<h4 id="条件分支和循环"><a href="#条件分支和循环" class="headerlink" title="条件分支和循环"></a>条件分支和循环</h4><p>通过预生成跳转指令和回填的方式完成条件语句，代码在Cond和Stmt相关的语义动作中。</p>
+<p>循环可以视为加入了回跳的条件语句，代码为While相关的语义动作。对于break, continue等影响控制流的语句，使用RuntimeStack类来维护运行状态，并完成跳转回填相关逻辑。</p>
+<h4 id="初始化数组展平"><a href="#初始化数组展平" class="headerlink" title="初始化数组展平"></a>初始化数组展平</h4><p>针对<code>int a[4][3][2] = &#123;0, &#123;0&#125;, &#123;&#123;0&#125;&#125;&#125;</code>等等初始化方式，我将后面的每个大括号抽象为一个ExpList类，其中定义了<code>vector</code>容器用于维护嵌套大括号的情况，并在语法动作中记录层级信息。</p>
+<p>在解析数组初始化时，我在ExpList类中定义了dfsArray方法，用于递归地解析这种层级信息，将初始值展平为一维数组。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>更细节的实现，请直接参考<a href="https://github.com/ce-amtic/sysy-compiler/tree/master">代码</a>中的注释。</p>
 ]]></content>
       <categories>
-        <category>机器学习</category>
+        <category>笔记</category>
       </categories>
+      <tags>
+        <tag>编译原理</tag>
+      </tags>
   </entry>
   <entry>
     <title>Border 的四种求法</title>
@@ -104,26 +120,42 @@
 </ol>
 ]]></content>
       <categories>
-        <category>CP 笔记</category>
+        <category>笔记</category>
       </categories>
       <tags>
         <tag>OI</tag>
+        <tag>字符串</tag>
       </tags>
   </entry>
   <entry>
-    <title>ML Notes</title>
-    <url>/post/ml-notes/</url>
-    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
-<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
-<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
-<p>Basics:</p>
-<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
-<p>Gradient: </p>
-<p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
-<p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
+    <title>GAN 学习笔记</title>
+    <url>/post/gan-notes/</url>
+    <content><![CDATA[<h3 id="Network-as-Genertor"><a href="#Network-as-Genertor" class="headerlink" title="Network as Genertor"></a>Network as Genertor</h3><p>普通的 neural network 读入一个向量，输出是一个确定的向量。如果加入一个 distribution 当作参数，那么输出也会成为一个 distribution。</p>
+<p>为什么？考虑现实生活的随机性：一个事件有多种可能的结果，他们都是可能发生的，但又不会同时发生。</p>
+<h3 id="Ideas"><a href="#Ideas" class="headerlink" title="Ideas"></a>Ideas</h3><p>训练两个部分：generator 和 discriminator (also neural nerwork function)。图片可以被视作巨大高维向量，然后作为 network 的输入。</p>
+<blockquote>
+<p><strong>discriminator</strong> </p>
+<div class="plain-text">
+<p>输入一张图片，输出一个数值项 scaler，表示定真的程度，数值越大越好。</p>
+</div>
+</blockquote>
+
+<p>对抗的思路是，让 generator 和 discriminator 进行对抗迭代，discriminator 负责找出 gen 输出和参考值之间的差异。</p>
+<p>Discriminator 的训练可以看作分类问题，也可以看成逻辑回归（regression）等等。Generator 的训练目标很简答：使 Discriminator 的输出值越大越好。</p>
+<p>在实际处理中，将 Generator 和 Discriminator 拼接起来，视为一个更大的 network；这个network 中有一个 hidden layer，它的输出即是 Generator 的输出，不过在这里将其视为输出“维数很高”的一层。</p>
+<p>整个 network 以一个向量作为输入，并输出一个分数。向量即是某个 distribution 的采样，分数即是 discriminator 的输出。Discriminator，也就是整个神经网络的最后几层的参数是不应调整的。所有调参都应对应着 Generator 所在的层。</p>
+<h3 id="Features"><a href="#Features" class="headerlink" title="Features"></a>Features</h3><p>理论上，给定两个不同的向量，GAN 会生成两张不同的图片。如果在这两个向量对应的高维区间上做插值（interpolation），则会看到这两张图片的平滑过渡。</p>
+<h3 id="Theory"><a href="#Theory" class="headerlink" title="Theory"></a>Theory</h3><p>对于 Generator 的训练形式化为：</p>
+<p>$$ G^\text * &#x3D; arg\min_G Div(P_G, P_{Data})$$</p>
+<p>其中 $P_G$ 是输出的分布，$P_{data}$ 是训练集（参考值）的分布，$Div$ 表示 Divergence 即两个分布之间的距离。Divergance 的计算公式有 KL Divergence, JS Divergence 等等，但是这些并不方便计算，因为我们不知道 $P_G$ 和 $P_{data}$ 的具体分布。GAN 的解决思路是：Sample is good enough，即 $P_G,P_{data}$ 的一个采样是容易获得的；在此基础上， Discriminator 会基于这些采样给出 Divergence 的预测值。</p>
+<p>形式化地，Discriminator $D$ 的训练为：</p>
+<p>$$\begin{align}D^\text * &#x3D; arg \max_D V(D, G), \text {where }V(D, G)&#x3D;E_{y\in P_{data}}(\log D(y))+E_{y\in P_G}(\log (1-D(y))) \end{align}$$</p>
+<p>注意到 $V(D,G)$ 即是交叉熵的<strong>相反数</strong>，反比于数据的无序程度；也就是这里将其视为了一个二元逻辑回归问题，并把参考值标为 1，越接近 1 表示效果越好。</p>
+<p>GAN 的理论是：最大的交叉熵跟 JS Divergence 有很高的相关性，于是可以有：</p>
+<p>$$ G^\text * &#x3D; arg\min_G \max_D V(G,D)$$</p>
 ]]></content>
       <categories>
-        <category>Notes</category>
+        <category>笔记</category>
       </categories>
       <tags>
         <tag>机器学习</tag>
@@ -218,10 +250,29 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
 <p>没米恰，咕了</p>
 ]]></content>
       <categories>
-        <category>CP 笔记</category>
+        <category>笔记</category>
       </categories>
       <tags>
         <tag>ICPC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ML Notes</title>
+    <url>/post/ml-notes/</url>
+    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
+<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
+<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
+<p>Basics:</p>
+<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
+<p>Gradient: </p>
+<p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
+<p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
+<h3 id="Simple-RNN"><a href="#Simple-RNN" class="headerlink" title="Simple RNN"></a>Simple RNN</h3>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
       </tags>
   </entry>
   <entry>
@@ -583,10 +634,11 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
 </ol>
 ]]></content>
       <categories>
-        <category>CP 笔记</category>
+        <category>笔记</category>
       </categories>
       <tags>
         <tag>OI</tag>
+        <tag>多项式</tag>
       </tags>
   </entry>
   <entry>

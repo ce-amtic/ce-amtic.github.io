@@ -4,11 +4,11 @@
 <html lang="en">
 
 <head>
-    <title>ce_amtic&#39;s</title>
+    <title>语义实验解析 - ce_amtic&#39;s</title>
 <meta charset="utf-8">
 <meta name="X-UA-Compatible" content="IE=edge">
 <meta name="author" content="ce_amtic">
-<meta name="description" content="A Blog Powered By Hexo">
+<meta name="description" content="词法分析只要把关键字，终结符和非终结符等等区分开就好，而语义分析的任务就复杂的多了。">
 <meta name="keywords" content="">
 
 <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml">
@@ -22,7 +22,7 @@
     
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="/css/journal.css?89752122">
+<link rel="stylesheet" href="/css/journal.css?37388782">
 
 <link rel="icon" href="/img/favicon.ico">
 
@@ -46,7 +46,7 @@
      v-bind:class="{ 'single-column-drawer-container-active': isDrawerOpen }">
     <div class="drawer-content">
         <div class="drawer-menu">
-            <a class="a-block drawer-menu-item active" href="/">
+            <a class="a-block drawer-menu-item false" href="/">
                 Home
             </a>
 
@@ -106,7 +106,7 @@
 </div>
 
 <div ref="sideContainer" class="side-container">
-    <a class="a-block nav-head active" href="/">
+    <a class="a-block nav-head false" href="/">
         <div class="nav-title">
             ce-amtic's.
         </div>
@@ -171,27 +171,10 @@
         </a>
 
         
-        
-        <div class="pagination-indicator">
-            <span style="text-align: center">
-                1<br><div style="display: inline-block; transform: rotate(-28deg)">-</div><br>2
-            </span>
-        </div>
-        
-
-        
-
-        
-        <a class="pagination-action" href="/page/2/">
-            <i class="material-icons pagination-action-icon">
-                chevron_right
-            </i>
-        </a>
-        
-        
     </div>
 </div>
-<!-- <script type="text/x-mathjax-config">
+
+    <!-- <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
         showProcessingMessages: false,
         messageStyle: "none",
@@ -233,139 +216,100 @@
 
 
 
+
 <div ref="streamContainer" class="stream-container">
-    <div class="post-list-container post-list-container-no-background">
-        
-        <a href="/post/annotated-sysy/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            语义实验解析
-                        </div>
-                        <div class="post-item-summary">
-                            词法分析只要把关键字，终结符和非终结符等等区分开就好，而语义分析的任务就复杂的多了。
-                        </div>
-                        <div class="post-item-meta">
-                            2024-06-08
-                        </div>
-                    </div>
-                    
-                    <div class="post-item-image-wrapper">
-                        <div class="post-item-image"
-                             style="background-image: url('https://s2.loli.net/2024/06/08/L2fiacduehZCIDv.png')"></div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/post/ml-notes/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            ML Notes
-                        </div>
-                        <div class="post-item-summary">
-                            还没有简介
-                        </div>
-                        <div class="post-item-meta">
-                            2024-03-10
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/post/gan-notes/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            GAN 学习笔记
-                        </div>
-                        <div class="post-item-summary">
-                            欢迎来到 GAN 世界动物园！
-                        </div>
-                        <div class="post-item-meta">
-                            2023-12-09
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/post/icpc-buti/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            ICPC 补题
-                        </div>
-                        <div class="post-item-summary">
-                            我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。 我是神必，其实就是是伸臂了。那么我为什么会是沈比，相信大家都很好奇是怎么回事。大家可能会感到很惊讶，我怎么会是沈璧呢？但事实就是这样，小编也感到非常惊讶。
-                        </div>
-                        <div class="post-item-meta">
-                            2022-11-09
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
-        <a href="/post/four-ways-to-spell-border/" class="a-block">
-            <div class="post-item-wrapper">
-                <div class="post-item post-item-no-divider">
-                    <div class="post-item-info-wrapper">
-                        <div class="post-item-title">
-                            Border 的四种求法
-                        </div>
-                        <div class="post-item-summary">
-                            “我问你，border 有四种求法*，你知道么？”   *Border 的四种求法：指毛估，哈希，KMP 和 runs，其中最后一种求法极其罕见。
-                        </div>
-                        <div class="post-item-meta">
-                            2021-03-10
-                        </div>
-                    </div>
-                    
-                    <div class="post-item-image-wrapper">
-                        <div class="post-item-image"
-                             style="background-image: url('https://s2.loli.net/2023/04/20/e71JzUNcDdOxhMC.png')"></div>
-                    </div>
-                    
-                </div>
-            </div>
-        </a>
-        
+    <div class="post-list-container post-list-container-shadow">
+        <div class="post">
+            <div class="post-head-wrapper"
+                 style="background-image: url('https://s2.loli.net/2024/06/08/L2fiacduehZCIDv.png')">
+                <div class="post-title">
+                    语义实验解析
+                    <div class="post-meta">
+                        <time datetime="2024-06-08T09:23:00.000Z" itemprop="datePublished">
+                            2024-06-08 17:23
+                        </time>&nbsp;
+                        
+                        
+                        <i class="material-icons no-hover" style="">folder</i>
+                        
+                        <a href='/categories/笔记/'>笔记</a>
+                        
+                        
     
-        
-<div class="pagination index-page">
+                        
+                        
+                        <i class="material-icons no-hover" style="">label</i>
+                        
+                        <a href='/tags/编译原理/'>编译原理</a>
+                        
+                        
+                    </div>
+                </div>
+            </div>
     
-        <a class="pagination-action" style="opacity: 0">
-            
-            <i class="material-icons pagination-action-icon">
-                chevron_left
-            </i>
-        </a>
+            <div class="post-body-wrapper">
+                <div class="post-body">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">整体设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E9%83%A8%E8%A7%A3%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">分部解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%88%E7%A9%BA%E9%97%B4%E7%AE%A1%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">栈空间管理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E8%A1%A8"><span class="toc-number">2.2.</span> <span class="toc-text">符号表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.3.</span> <span class="toc-text">表达式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E5%88%86%E6%94%AF%E5%92%8C%E5%BE%AA%E7%8E%AF"><span class="toc-number">2.4.</span> <span class="toc-text">条件分支和循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E7%BB%84%E5%B1%95%E5%B9%B3"><span class="toc-number">2.5.</span> <span class="toc-text">初始化数组展平</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+                    <p>我要成为bison高手.jpg</p>
+<p>本文是对C++实现的SysY语言编译器的解析，仓库地址<a target="_blank" rel="noopener" href="https://github.com/ce-amtic/sysy-compiler/tree/master">ce-amtic&#x2F;sysy-compiler</a>。编译器不分前后端，直接产生汇编语言。</p>
+<h3 id="整体设计"><a href="#整体设计" class="headerlink" title="整体设计"></a>整体设计</h3><p>工程目录如下：</p>
+<pre><code class="hljs plain">.
+├── assembly.hpp
+├── ast_node.hpp
+├── compiler.hpp
+├── symbols.hpp
+├── sysy.l
+├── sysy.y
+├── plot/
+│   └── tree.py
+├── out/                # outputs
+└── tests/              # testcase</code></pre>
 
-        <div class="pagination-indicator">
-            <span>1/2</span>
-        </div>
-
-        
-        <a class="pagination-action" href="/page/2/"
-           style="opacity: 1">
-            
-                <i class="material-icons pagination-action-icon">
-                    chevron_right
-                </i>
-            </a>
+<p>其中<code>sysy.l</code>为词法分析器；<code>sysy.y</code>是语义分析的主程序，其中定义了语法规则和动作；<code>ast_node.hpp</code>定义了语法树节点的抽象类型；<code>assembly.hpp</code>定义了Assembly类，用于实现汇编代码的生成；<code>symbols.hpp</code>定义了符号类Symbol和符号表Symbols；<code>compiler.hpp</code>定义了CompileState, RuntimeStack类，用于维护编译时状态。</p>
+<p>根据bison的相关原理，<code>sysy.y</code>会在语义分析时，按定义的产生式规则递归语法树，但是并不会将其显示存储。语法树可视化的相关代码被放在了<code>plot/tree.py</code>中，这个脚本会根据<code>detail.txt</code>中的内容绘制语法树，后者按递归顺序记录了归约过程中的每条产生式。</p>
+<p>详细信息请阅读GitHub上的<a target="_blank" rel="noopener" href="https://github.com/ce-amtic/sysy-compiler/blob/master/README.md">指南文档</a>。</p>
+<h3 id="分部解析"><a href="#分部解析" class="headerlink" title="分部解析"></a>分部解析</h3><h4 id="栈空间管理"><a href="#栈空间管理" class="headerlink" title="栈空间管理"></a>栈空间管理</h4><p>每个过程栈空间会在进入过程之后立刻确定，以便满足16字节对齐的要求。这一过程通过在CompileState类中维护一个offset变量来实现，它记录了当前用到的栈空间相对于基址的偏移。在编译器完成对过程的解析时，会计算offset峰值并对齐到16字节，回填到过程开始的位置。</p>
+<p>本程序中，函数的参数是通过栈来传递的，对于callee来说，它的第一个参数在<code>8(%rbp)</code>的位置，第二个在<code>16(%rbp)</code>，以此类推。对于caller而言，编译器会记录其函数调用传参的情况，并提前预留出栈空间，相关逻辑实现在CompileState中。</p>
+<h4 id="符号表"><a href="#符号表" class="headerlink" title="符号表"></a>符号表</h4><p>对于一个符号，会记录它的类别，数值（或偏移量），以及数组维度之类的附加信息，它们被抽象为Symbol类。</p>
+<p>符号表是一个<code>vector&lt;map&lt;string, Symbol&gt; &gt;</code>类型的映射，其中第一层<code>vector</code>用于维护代码中的层级关系，第二层<code>map</code>用于按名称查找。</p>
+<h4 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h4><p>表达式被定义为Exp类，它可能是函数调用，算式或它们的组合。本程序根据如下的规则简化代码编写：</p>
+<blockquote>
+<p><strong>针对表达式的规则</strong></p>
+<div class="plain-text">
+<p>如果一个表达式有计算结果，这个结果要么是一个可以编译时计算的常数，要么对应到栈上的一个临时变量。对于前者，类中记录这个常数；对于后者，类中记录这个变量相对于栈基的偏移。</p>
 </div>
+</blockquote>
 
+<p>在这一规则下，完成表达式计算的相关逻辑就会变得十分简单，代码在<code>sysy.y</code>里Exp相关的语义动作中。</p>
+<h4 id="条件分支和循环"><a href="#条件分支和循环" class="headerlink" title="条件分支和循环"></a>条件分支和循环</h4><p>通过预生成跳转指令和回填的方式完成条件语句，代码在Cond和Stmt相关的语义动作中。</p>
+<p>循环可以视为加入了回跳的条件语句，代码为While相关的语义动作。对于break, continue等影响控制流的语句，使用RuntimeStack类来维护运行状态，并完成跳转回填相关逻辑。</p>
+<h4 id="初始化数组展平"><a href="#初始化数组展平" class="headerlink" title="初始化数组展平"></a>初始化数组展平</h4><p>针对<code>int a[4][3][2] = &#123;0, &#123;0&#125;, &#123;&#123;0&#125;&#125;&#125;</code>等等初始化方式，我将后面的每个大括号抽象为一个ExpList类，其中定义了<code>vector</code>容器用于维护嵌套大括号的情况，并在语法动作中记录层级信息。</p>
+<p>在解析数组初始化时，我在ExpList类中定义了dfsArray方法，用于递归地解析这种层级信息，将初始值展平为一维数组。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>更细节的实现，请直接参考<a target="_blank" rel="noopener" href="https://github.com/ce-amtic/sysy-compiler/tree/master">代码</a>中的注释。</p>
+
+                </div>
+            </div>
+    
+            
+<nav class="post-pagination">
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="/post/ml-notes/">
+        Next post<br>ML Notes
+    </a>
+    
+</nav>
+
+
+    
+            
+<p style="opacity: 0.6; padding: 30px 15px" align="center">
+    <small>Comments have been disabled for this content</small>
+</p>
+
+
+        </div>
     </div>
     <div class="single-column-footer">
     <!--button class="nav-footer-button" type="button" v-if="localStorage.theme === 'dark'" v-on:click="toggleDark">
@@ -390,10 +334,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scroll/14.2.1/smooth-scroll.min.js" crossorigin="anonymous"></script>
-<script src="/js/journal.min.js?9532948"></script>
+<script src="/js/journal.min.js?3255942"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
 <script src="/js/clipboard.js"></script>
 <script src="/js/darkmode.js"></script>
+
 
 
 </body>
