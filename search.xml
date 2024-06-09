@@ -162,25 +162,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ML Notes</title>
-    <url>/post/ml-notes/</url>
-    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
-<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
-<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
-<p>Basics:</p>
-<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
-<p>Gradient: </p>
-<p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
-<p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
-<h3 id="Simple-RNN"><a href="#Simple-RNN" class="headerlink" title="Simple RNN"></a>Simple RNN</h3>]]></content>
-      <categories>
-        <category>笔记</category>
-      </categories>
-      <tags>
-        <tag>机器学习</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>ICPC 补题</title>
     <url>/post/icpc-buti/</url>
     <content><![CDATA[<p>我是申必是怎么回事呢？神笔相信大家都很熟悉，但是为什么我是沈璧呢？下面就让小编带大家一起了解吧。 </p>
@@ -273,6 +254,25 @@ LL n, m, K, ub, C[<span class="hljs-number">20</span>][<span class="hljs-number"
       </categories>
       <tags>
         <tag>ICPC</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ML Notes</title>
+    <url>/post/ml-notes/</url>
+    <content><![CDATA[<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Loss Function: Cross Entropy</p>
+<p>$$L(\mathbb w, \mathbb X, \mathbb Y)&#x3D; -\dfrac {1} {m}\sum\limits_{t&#x3D;1}^m y_t\log (\hat y_t)+(1-y^t)\log{(1-\hat y_t)} $$</p>
+<p>其思想等价于最大化似然。为什么不用MSE呢，因为MSE具有非凸性。</p>
+<p>Basics:</p>
+<p>$$\mathbb x&#x3D;\begin{pmatrix} x_1\newline  x_2 \end{pmatrix},\mathbb X&#x3D;\begin{vmatrix}\mathbb x^{(1)}\dots\mathbb x^{(m)}\end{vmatrix},\mathbb w&#x3D;\begin{pmatrix}w_1\newline w_2\end{pmatrix},\mathbb {\hat Y}&#x3D;\begin{vmatrix}\hat y^{(1)}\dots\hat y^{(m)} \end{vmatrix}$$</p>
+<p>Gradient: </p>
+<p>$$\begin{aligned}\dfrac {\partial}{\partial w_j}J(\mathbb w)&amp;&#x3D;-\dfrac 1 m \sum\limits_{i&#x3D;1}^m y^{(i)}\dfrac{\sigma(\mathbb w^T\mathbb x^{(i)}+b)(1-\sigma(\mathbb w^T\mathbb x^{(i)}+b))}{h(\mathbb x^{(i)})}x^{(i)}_j+(1-y^{(i)})\dfrac{-h(\mathbb x^{(i)})(1-h(\mathbb x^{(i)}))}{1-h(\mathbb x^{(i)})}x^{(i)}_j\newline &amp;&#x3D;-\dfrac 1 m\sum_i \begin{pmatrix}y^{(i)}\dfrac {\hat y(1-\hat y)}{\hat y}+(1-y^{(i)})\dfrac {-\hat y(1-\hat y)}{1-\hat y}\end{pmatrix}\newline&amp;&#x3D;-\dfrac 1 m \sum_i x^{(i)}_j(y^{(i)}-\hat y)\newline&amp;&#x3D; \dfrac 1 m \sum_i x^{(i)}_j(\hat y-y^{(i)})  x^{(i)}_j\end{aligned}$$</p>
+<p>i.e. $$\dfrac \partial {\partial \mathbb w}J(\mathbb w)&#x3D;\dfrac 1 m \mathbb X(\hat {\mathbb Y}-\mathbb Y)^T$$</p>
+<h3 id="Simple-RNN"><a href="#Simple-RNN" class="headerlink" title="Simple RNN"></a>Simple RNN</h3>]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
       </tags>
   </entry>
   <entry>
